@@ -21,3 +21,35 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Répartition des tâches
+
+- Fichiers Markdown (GAUTIER VRAIMENT LE PLUS BO)
+  - CRUD 
+  - Drag and drop
+  - Interface d'écriture
+  - Système de preview
+  - Liste de tous les fichiers md
+  - popup/modale pour nouvel 'objet'
+- Custom Blocks (Jérémy l'indécis)  
+  - IndexDB ou LocalStorage 
+  - CRUD
+  - Interface d'écriture (réutiliser celle des .md)
+  - extensions en '.mdlc'
+  - association des raccourcis
+  - popup/modale pour nouvel 'objet'
+- Gallery (Mickaël l'éternel absent)
+  - IndexDB 
+  - CRUD
+  - preview sur la liste de toutes les images
+  - preview dans l'interface d'écriture
+  - popup/modale pour nouvel 'objet'
+  - export en '.mdlc'
+- Leftdrawer => (Solène qui n'ose pas)
+  - Router 
+  - preview des images
+  - utilisation des custom blocks
+  - drag and drop des fichiers/dossiers
+  - creation de nouveau fichiers dossier
+  - import d'image
+  - import de custom blocks
