@@ -1,0 +1,207 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { useDropzone } from 'react-dropzone'
+import { addFile } from '../../store/slices/markdownSlice'
+import { addImage } from '../../store/slices/gallerySlice'
+import { importBlock } from '../../store/slices/customBlockSlice'
+import { useState, useEffect } from 'react'
+import { convertFileToBase64, convertFileToText } from '../../hooks/useFileConversion.js'
+
+export default function ImportModal({
+  isOpen,
+  onClose,
+  mode,
+  selectedFolderId: initialFolderId,
+}) {
+  const dispatch = useDispatch()
+  const { folders } = useSelector((state) => state.markdown)
+  const [selectedFolderId, setSelectedFolderId] = useState(
+    initialFolderId || null
+  )
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedFolderId(initialFolderId || null)
+      setError(null)
+    }
+  }, [isOpen, initialFolderId])
+
+  const getAcceptTypes = () => {
+    const types = {
+      image: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] },
+      markdown: { 'text/markdown': ['.md'] },
+      customBlock: {
+        'application/json': ['.part.mdlc', '.parts.mdlc', '.json'],
+      },
+    }
+    return types[mode] || types.customBlock
+  }
+
+  const acceptTypes = getAcceptTypes()
+
+  const processImages = async (files) => {
+    for (const file of files) {
+      const base64 = await convertFileToBase64(file)
+      dispatch(
+        addImage({
+          name: file.name,
+          data: base64,
+          size: file.size,
+          type: file.type,
+        })
+      )
+    }
+  }
+
+  const processMarkdownFiles = async (files) => {
+    for (const file of files) {
+      const content = await convertFileToText(file)
+      dispatch(
+        addFile({
+          name: file.name.replace('.md', ''),
+          content,
+          folderId: selectedFolderId,
+        })
+      )
+    }
+  }
+
+  const processCustomBlocks = async (files) => {
+    for (const file of files) {
+      const content = await convertFileToText(file)
+      try {
+        const data = JSON.parse(content)
+        dispatch(importBlock(Array.isArray(data) ? data : [data]))
+      } catch (error) {
+        console.error('Error importing block:', error)
+      }
+    }
+  }
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: acceptTypes,
+    onDrop: async (acceptedFiles, rejectedFiles) => {
+      if (rejectedFiles && rejectedFiles.length > 0) {
+        setError("Mauvais type d'extension. Veuillez réessayer.")
+        return
+      }
+      setError(null)
+      if (mode === 'image') {
+        await processImages(acceptedFiles)
+      } else if (mode === 'markdown') {
+        await processMarkdownFiles(acceptedFiles)
+      } else {
+        await processCustomBlocks(acceptedFiles)
+      }
+      onClose()
+    },
+  })
+
+
+  const getTitle = () => {
+    const titles = {
+      image: 'Import Images',
+      markdown: 'Import Markdown Files',
+      customBlock: 'Import Custom Blocks',
+    }
+    return titles[mode] || titles.customBlock
+  }
+
+  const getIcon = () => {
+    const icons = {
+      image: 'image',
+      markdown: 'description',
+      customBlock: 'widgets',
+    }
+    return icons[mode] || icons.customBlock
+  }
+
+  const getFileTypes = () => {
+    const types = {
+      image: 'PNG, JPG, WebP',
+      markdown: '.md files',
+      customBlock: '.part.mdlc, .parts.mdlc',
+    }
+    return types[mode] || types.customBlock
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-2xl">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">{getTitle()}</h2>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-full"
+          >
+            <span className="material-icons">close</span>
+          </button>
+        </div>
+
+        {mode === 'markdown' && (
+          <div className="mb-4">
+            <label
+              htmlFor="folder-select"
+              className="block text-sm font-medium mb-2"
+            >
+              Select Folder
+            </label>
+            <select
+              id="folder-select"
+              value={selectedFolderId || ''}
+              onChange={(e) => setSelectedFolderId(e.target.value || null)}
+              className="w-full px-3 py-2 border rounded-lg"
+            >
+              <option value="">Root</option>
+              {folders.map((folder) => {
+                const getFolderPath = (f) => {
+                  if (!f.parentId) return f.name
+                  const parent = folders.find((p) => p.id === f.parentId)
+                  if (!parent) return f.name
+                  return `${getFolderPath(parent)}/${f.name}`
+                }
+                return (
+                  <option key={folder.id} value={folder.id}>
+                    {getFolderPath(folder)}
+                  </option>
+                )
+              })}
+            </select>
+          </div>
+        )}
+
+        <div
+          {...getRootProps()}
+          className={`p-8 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${
+            isDragActive
+              ? 'border-blue-500 bg-blue-50'
+              : 'border-gray-300 hover:border-gray-400'
+          }`}
+        >
+          <input {...getInputProps()} />
+          <span className="mx-auto mb-4 text-gray-400">
+            <span className="material-icons text-5xl">{getIcon()}</span>
+          </span>
+          {isDragActive ? (
+            <p className="text-blue-600">Drop the files here...</p>
+          ) : (
+            <div>
+              <p className="text-gray-600 mb-2">
+                Drag & drop files here, or click to select
+              </p>
+              <p className="text-sm text-gray-400">{getFileTypes()}</p>
+            </div>
+          )}
+        </div>
+
+        {error && (
+          <div className="mt-4 p-3 bg-red-100 border border-red-600 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
