@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import ImageCard from '../card/ImageCard'
 
 const FAKE_IMAGES = [
@@ -34,14 +35,25 @@ const FAKE_IMAGES = [
 ]
 
 export default function List() {
+  const [openModalId, setOpenModalId] = useState(null)
+
+  const handleToggleModal = (id) => {
+    setOpenModalId(openModalId === id ? null : id)
+  }
+
   return (
     <div>
       <h1>Hello</h1>
       <ul className="flex items-center gap-4 flex-wrap max-w-[60vw] justify-center mx-auto">
         {FAKE_IMAGES.map((image) => {
           return (
-            <li>
-              <ImageCard name={image.name} src={image.src} />
+            <li key={image.id}>
+              <ImageCard
+                name={image.name}
+                src={image.src}
+                isModalOpen={openModalId === image.id}
+                onToggleModal={() => handleToggleModal(image.id)}
+              />
             </li>
           )
         })}
