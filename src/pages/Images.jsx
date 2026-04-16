@@ -48,6 +48,31 @@ export default function ImageList() {
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
+
+    if (file.name.endsWith('.imgs.mdlc')) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const images = JSON.parse(reader.result)
+        images.forEach(({ name, base64 }) =>
+          dispatch(uploadImage({ name, base64 }))
+        )
+      }
+      reader.readAsText(file)
+      e.target.value = ''
+      return
+    }
+
+    if (file.name.endsWith('.img.mdlc')) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const { name, base64 } = JSON.parse(reader.result)
+        dispatch(uploadImage({ name, base64 }))
+      }
+      reader.readAsText(file)
+      e.target.value = ''
+      return
+    }
+
     setSelectedFile(file)
     setFileName(file.name)
   }
@@ -103,7 +128,7 @@ export default function ImageList() {
           <span>Choisir un fichier</span>
           <input
             type="file"
-            accept="image/*"
+            accept="image/*,.img.mdlc,.imgs.mdlc"
             onChange={handleFileChange}
             className="hidden"
           />
