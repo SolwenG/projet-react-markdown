@@ -1,4 +1,13 @@
-export default function ActionsModal() {
+import { useDispatch } from 'react-redux'
+import { removeImage } from '../../../store/images/imagesSlice'
+
+export default function ActionsModal({ id }) {
+  const dispatch = useDispatch()
+
+  const handleDelete = () => {
+    dispatch(removeImage(id))
+  }
+
   return (
     <div className="absolute top-8 right-2 border border-black px-4 py-2 bg-black rounded-sm z-10">
       <ul className="flex flex-col items-center gap-2">
@@ -10,10 +19,7 @@ export default function ActionsModal() {
           name="Rename"
           onClick={() => alert('Not implemented yet')}
         />
-        <ActionLine
-          name="Delete"
-          onClick={() => alert('Not implemented yet')}
-        />
+        <ActionLine name="Delete" onClick={handleDelete} />
       </ul>
     </div>
   )

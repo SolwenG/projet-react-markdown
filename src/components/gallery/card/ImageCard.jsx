@@ -1,6 +1,12 @@
 import ActionsModal from '../actions-modal/ActionsModal'
 
-export default function ImageCard({ name, src, isModalOpen, onToggleModal }) {
+export default function ImageCard({
+  id,
+  name,
+  src,
+  isModalOpen,
+  onToggleModal,
+}) {
   return (
     <div className="flex flex-col justify-center gap-1 items-center shadow-sm rounded-lg">
       <div className="relative group">
@@ -15,7 +21,7 @@ export default function ImageCard({ name, src, isModalOpen, onToggleModal }) {
         {isModalOpen && (
           <>
             <div className="fixed inset-0 z-0" onClick={onToggleModal} />
-            <ActionsModal />
+            <ActionsModal id={id} />
           </>
         )}
       </div>
