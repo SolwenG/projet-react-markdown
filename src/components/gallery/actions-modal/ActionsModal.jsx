@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { removeImage, renameImage } from '../../../store/images/imagesSlice'
 import RenameForm from './RenameForm'
+import DropdownMenu from '../../global/DropdownMenu'
 
 export default function ActionsModal({ id, name, src }) {
   const dispatch = useDispatch()
@@ -30,6 +31,12 @@ export default function ActionsModal({ id, name, src }) {
     setIsRenaming(false)
   }
 
+  const actions = [
+    { label: 'Export', onClick: handleExport },
+    { label: 'Rename', onClick: () => setIsRenaming(true) },
+    { label: 'Delete', onClick: handleDelete },
+  ]
+
   return (
     <div className="absolute top-8 right-2 border border-black px-4 py-2 bg-black rounded-sm z-10">
       {isRenaming ? (
@@ -39,23 +46,8 @@ export default function ActionsModal({ id, name, src }) {
           onCancel={() => setIsRenaming(false)}
         />
       ) : (
-        <ul className="flex flex-col items-center gap-2">
-          <ActionLine name="Export" onClick={handleExport} />
-          <ActionLine name="Rename" onClick={() => setIsRenaming(true)} />
-          <ActionLine name="Delete" onClick={handleDelete} />
-        </ul>
+        <DropdownMenu actions={actions} />
       )}
     </div>
-  )
-}
-
-function ActionLine({ name, onClick }) {
-  return (
-    <li
-      className="cursor-pointer px-2 py-1 text-white rounded-sm hover:bg-gray-300 hover:text-black"
-      onClick={onClick}
-    >
-      {name}
-    </li>
   )
 }
