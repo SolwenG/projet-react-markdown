@@ -25,7 +25,7 @@ export default function ImageCard({
           </>
         )}
       </div>
-      <p className="p-1">{name}</p>
+      <p className="p-1 w-full text-center max-w-xs">{name}</p>
     </div>
   )
 }

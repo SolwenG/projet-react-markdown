@@ -47,6 +47,11 @@ export default function ImageList() {
   return (
     <div>
       <h1 className="text-3xl font-bold text-center my-6">Gallery</h1>
+      <div className="w-full flex justify-center my-6">
+        <button className="px-4 py-2 bg-green-700 rounded-lg text-white w-fit cursor-pointer">
+          Import image
+        </button>
+      </div>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col sm:flex-row items-center gap-3 max-w-xl mx-auto mb-8 px-4"
