@@ -21,7 +21,7 @@ export default function ImageCard({
         {isModalOpen && (
           <>
             <div className="fixed inset-0 z-0" onClick={onToggleModal} />
-            <ActionsModal id={id} name={name} />
+            <ActionsModal id={id} name={name} src={src} />
           </>
         )}
       </div>

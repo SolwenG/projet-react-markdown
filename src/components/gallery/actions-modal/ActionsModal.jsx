@@ -2,10 +2,20 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { removeImage, renameImage } from '../../../store/images/imagesSlice'
 
-export default function ActionsModal({ id, name }) {
+export default function ActionsModal({ id, name, src }) {
   const dispatch = useDispatch()
   const [isRenaming, setIsRenaming] = useState(false)
   const [newName, setNewName] = useState(name)
+
+  const handleExport = () => {
+    // base64 files are structured like "data:image/extension;base64,string"
+    // (ex: {name: 'image', base64: 'data:image/webp;base64,Ukldsfsghfdh...})
+    const extension = src.split(';')[0].split('/')[1]
+    const link = document.createElement('a')
+    link.href = src
+    link.download = `${name}.${extension}`
+    link.click()
+  }
 
   const handleDelete = () => {
     dispatch(removeImage(id))
@@ -51,10 +61,7 @@ export default function ActionsModal({ id, name }) {
         </form>
       ) : (
         <ul className="flex flex-col items-center gap-2">
-          <ActionLine
-            name="Export"
-            onClick={() => alert('Not implemented yet')}
-          />
+          <ActionLine name="Export" onClick={handleExport} />
           <ActionLine name="Rename" onClick={() => setIsRenaming(true)} />
           <ActionLine name="Delete" onClick={handleDelete} />
         </ul>
