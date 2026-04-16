@@ -9,6 +9,8 @@ export default function ImageList() {
   const [openModalId, setOpenModalId] = useState(null)
   const [fileName, setFileName] = useState('')
   const [selectedFile, setSelectedFile] = useState(null)
+  const [selectionMode, setSelectionMode] = useState(false)
+  const [selectedIds, setSelectedIds] = useState([])
 
   useEffect(() => {
     dispatch(fetchImages())
@@ -16,6 +18,31 @@ export default function ImageList() {
 
   const handleToggleModal = (id) => {
     setOpenModalId(openModalId === id ? null : id)
+  }
+
+  const handleToggleSelect = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    )
+  }
+
+  const handleToggleSelectionMode = () => {
+    setSelectionMode((prev) => !prev)
+    setSelectedIds([])
+  }
+
+  const handleExportSelected = () => {
+    const selected = items.filter((img) => selectedIds.includes(img.id))
+    const data = JSON.stringify(
+      selected.map(({ name, base64 }) => ({ name, base64 }))
+    )
+    const blob = new Blob([data], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'export.imgs.mdlc'
+    link.click()
+    URL.revokeObjectURL(url)
   }
 
   const handleFileChange = (e) => {
@@ -47,10 +74,26 @@ export default function ImageList() {
   return (
     <div>
       <h1 className="text-3xl font-bold text-center my-6">Gallery</h1>
-      <div className="w-full flex justify-center my-6">
+      <div className="w-full flex justify-center gap-3 my-6">
         <button className="px-4 py-2 bg-green-700 rounded-lg text-white w-fit cursor-pointer">
           Import image
         </button>
+        {!!items.length && (
+          <button
+            onClick={handleToggleSelectionMode}
+            className="px-4 py-2 bg-gray-700 rounded-lg text-white w-fit cursor-pointer"
+          >
+            {selectionMode ? 'Annuler' : 'Sélectionner des images à exporter'}
+          </button>
+        )}
+        {selectionMode && selectedIds.length > 0 && (
+          <button
+            onClick={handleExportSelected}
+            className="px-4 py-2 bg-blue-700 rounded-lg text-white w-fit cursor-pointer"
+          >
+            Exporter ({selectedIds.length})
+          </button>
+        )}
       </div>
       <form
         onSubmit={handleSubmit}
@@ -98,6 +141,9 @@ export default function ImageList() {
               src={image.base64}
               isModalOpen={openModalId === image.id}
               onToggleModal={() => handleToggleModal(image.id)}
+              selectionMode={selectionMode}
+              isSelected={selectedIds.includes(image.id)}
+              onToggleSelect={() => handleToggleSelect(image.id)}
             />
           </li>
         ))}

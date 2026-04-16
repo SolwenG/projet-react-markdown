@@ -8,13 +8,14 @@ export default function ActionsModal({ id, name, src }) {
   const [isRenaming, setIsRenaming] = useState(false)
 
   const handleExport = () => {
-    // base64 files are structured like "data:image/extension;base64,string"
-    // (ex: {name: 'image', base64: 'data:image/webp;base64,Ukldsfsghfdh...})
-    const extension = src.split(';')[0].split('/')[1]
+    const data = JSON.stringify({ name, base64: src })
+    const blob = new Blob([data], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
-    link.href = src
-    link.download = `${name}.${extension}`
+    link.href = url
+    link.download = `${name}.img.mdlc`
     link.click()
+    URL.revokeObjectURL(url)
   }
 
   const handleDelete = () => {
