@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { removeImage, renameImage } from '../../../store/images/imagesSlice'
+import RenameForm from './RenameForm'
 
 export default function ActionsModal({ id, name, src }) {
   const dispatch = useDispatch()
   const [isRenaming, setIsRenaming] = useState(false)
-  const [newName, setNewName] = useState(name)
 
   const handleExport = () => {
     // base64 files are structured like "data:image/extension;base64,string"
@@ -21,8 +21,7 @@ export default function ActionsModal({ id, name, src }) {
     dispatch(removeImage(id))
   }
 
-  const handleRenameSubmit = (e) => {
-    e.preventDefault()
+  const handleRenameSubmit = (newName) => {
     const trimmed = newName.trim()
     if (trimmed && trimmed !== name) {
       dispatch(renameImage({ id, name: trimmed }))
@@ -33,32 +32,11 @@ export default function ActionsModal({ id, name, src }) {
   return (
     <div className="absolute top-8 right-2 border border-black px-4 py-2 bg-black rounded-sm z-10">
       {isRenaming ? (
-        <form onSubmit={handleRenameSubmit} className="flex flex-col gap-2">
-          <input
-            autoFocus
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-            className="px-2 py-1 rounded-sm text-white text-sm"
-          />
-          <div className="flex gap-2 justify-center">
-            <button
-              type="submit"
-              className="cursor-pointer px-2 py-1 text-white text-sm rounded-sm hover:bg-gray-300 hover:text-black"
-            >
-              OK
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setIsRenaming(false)
-                setNewName(name)
-              }}
-              className="cursor-pointer px-2 py-1 text-white text-sm rounded-sm hover:bg-gray-300 hover:text-black"
-            >
-              Annuler
-            </button>
-          </div>
-        </form>
+        <RenameForm
+          name={name}
+          onSubmit={handleRenameSubmit}
+          onCancel={() => setIsRenaming(false)}
+        />
       ) : (
         <ul className="flex flex-col items-center gap-2">
           <ActionLine name="Export" onClick={handleExport} />
