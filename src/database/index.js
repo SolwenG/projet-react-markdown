@@ -9,7 +9,7 @@ export const database = await openDB('MarkdownInterface', 1, {
       // If it isn't explicitly set, create a value by auto incrementing.
       autoIncrement: true,
     })
-    // Create an index on the 'date' property of the objects.
-    markdownStore.createIndex('date', 'date')
+    // Create an index on the 'name' property of the objects.
+    markdownStore.createIndex('name', 'name')
   },
 })

@@ -1,50 +1,67 @@
 import { useEffect, useState } from 'react'
-import { markdownDatabase } from '../../db'
+import { createMdFile, deleteFileById, getAllFiles } from '../../database/markdown-files'
 
 function Markdown() {
   // States
-  const [files, getFiles] = useState([])
+  const [files, setFiles] = useState([])
+  const [computedFiles, setComputedFiles] = useState([])
 
   // Function
-  async function createMdFile() {
-    const newId = await markdownDatabase.add('files', {
-      title: 'AGENT 1',
-      date: Date.now(),
-      body: 'Test',
-    })
-    console.log(`File added with id: ${newId}`)
-    const newFile = await markdownDatabase.get('files', newId)
-    console.log('Retrieved file:', newFile)
+  async function createFile() {
+    await createMdFile({ })
+    // After creating, we refetch the files to update the list.
+    const allFiles = await getAllFiles()
+    setAllFiles(allFiles)
   }
 
   async function deleteFile(id) {
-    
+    await deleteFileById(id)
+    // After deleting, we refetch the files to update the list.
+    const allFiles = await getAllFiles()
+    setAllFiles(allFiles)
   }
+
+  function setAllFiles(newObject) {
+    setFiles(newObject)
+    const computedFiles = []
+    for (let i = 0; i < 10; i++) {
+      computedFiles.push(newObject[i])
+    }
+    setComputedFiles(computedFiles)
+  }
+
 
   // Effects
   useEffect(() => {
-    const fetchFiles = async () => {
-      const newObject = await markdownDatabase.getAllFromIndex('files', 'date')
-      getFiles(newObject)
-
-      console.log(await markdownDatabase.getAllFromIndex('files', 'date'))
-      console.log('Montage du composant')
+    async function fetchFiles() {
+      const allFiles = await getAllFiles()
+      setAllFiles(allFiles)
     }
 
     fetchFiles()
+    console.log('Montage du composant')
   }, [])
 
   // Render
   return (
     <div>
-      <h1>Files:</h1>
-      {/* <ul>
-        {files.map((file) => (
-          <li key={file.id}>{file.title}</li>
-        ))}
-      </ul> */}
+
+      <h1>Files: { files.length } </h1>
+
+      <ul>
+        {
+          computedFiles.map((file) => (
+            <li key={file.id}>{file.title}
+              {file.name} - {new Date(file.date).toLocaleString()}
+              <button type="button" onClick={() => deleteFile(file.id)}>Delete</button>
+            </li>
+          ))
+        }
+      </ul>
+
       <textarea name="markdownArea" id="input"></textarea>
-      <button type="button" onClick={createMdFile}>
+
+      <button type="button" onClick={createFile}>
         Créer
       </button>
     </div>
