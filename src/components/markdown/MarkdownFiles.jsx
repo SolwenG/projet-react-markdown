@@ -1,33 +1,52 @@
-import { useEffect, useState } from "react"
-import { test } from "../../db"
+import { useEffect, useState } from 'react'
+import { markdownDatabase } from '../../db'
 
 function Markdown() {
   // States
-  const [width, handleWidth] = useState(window.innerWidth)
-  const [height, handleHeight] = useState(window.innerHeight)
+  const [files, getFiles] = useState([])
 
   // Function
-  function updateSizes() {
-    handleHeight(window.innerHeight)
-    handleWidth(window.innerWidth)
-    console.log('coucou')
+  async function createMdFile() {
+    const newId = await markdownDatabase.add('files', {
+      title: 'AGENT 1',
+      date: Date.now(),
+      body: 'Test',
+    })
+    console.log(`File added with id: ${newId}`)
+    const newFile = await markdownDatabase.get('files', newId)
+    console.log('Retrieved file:', newFile)
+  }
+
+  async function deleteFile(id) {
+    
   }
 
   // Effects
   useEffect(() => {
-    window.addEventListener('resize', async () => {
-      updateSizes()
-      await test()
-    })
+    const fetchFiles = async () => {
+      const newObject = await markdownDatabase.getAllFromIndex('files', 'date')
+      getFiles(newObject)
 
-    return () => { window.removeEventListener('resize', updateSizes) }
-  }, []);
+      console.log(await markdownDatabase.getAllFromIndex('files', 'date'))
+      console.log('Montage du composant')
+    }
+
+    fetchFiles()
+  }, [])
 
   // Render
   return (
     <div>
-      <h1>Widht: { width }</h1>
-      <h1>Height: { height }</h1>
+      <h1>Files:</h1>
+      {/* <ul>
+        {files.map((file) => (
+          <li key={file.id}>{file.title}</li>
+        ))}
+      </ul> */}
+      <textarea name="markdownArea" id="input"></textarea>
+      <button type="button" onClick={createMdFile}>
+        Créer
+      </button>
     </div>
   )
 }
