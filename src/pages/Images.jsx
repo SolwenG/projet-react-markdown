@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchImages, uploadImage } from '../../../store/images/imagesSlice.js'
-import ImageCard from '../card/ImageCard'
+import { fetchImages, uploadImage } from '../store/images/imagesSlice.js'
+import ImageCard from '../components/gallery/card/ImageCard.jsx'
 
 export default function ImageList() {
   const dispatch = useDispatch()
