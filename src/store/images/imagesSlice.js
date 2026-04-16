@@ -3,6 +3,7 @@ import {
   addImage,
   getAllImages,
   deleteImage,
+  renameImage as renameImageDB,
 } from '../../database/images/index.js'
 
 export const fetchImages = createAsyncThunk('images/fetchAll', async () => {
@@ -20,6 +21,13 @@ export const removeImage = createAsyncThunk('images/remove', async (id) => {
   await deleteImage(id)
   return id
 })
+
+export const renameImage = createAsyncThunk(
+  'images/rename',
+  async ({ id, name }) => {
+    return renameImageDB(id, name)
+  }
+)
 
 const imagesSlice = createSlice({
   name: 'images',
@@ -49,6 +57,11 @@ const imagesSlice = createSlice({
 
       .addCase(removeImage.fulfilled, (state, action) => {
         state.items = state.items.filter((img) => img.id !== action.payload)
+      })
+
+      .addCase(renameImage.fulfilled, (state, action) => {
+        const index = state.items.findIndex((img) => img.id === action.payload.id)
+        if (index !== -1) state.items[index] = action.payload
       })
   },
 })

@@ -12,3 +12,10 @@ export const getAllImages = async () => {
 export const deleteImage = async (id) => {
   return database.delete('images', id)
 }
+
+export const renameImage = async (id, newName) => {
+  const image = await database.get('images', id)
+  const updated = { ...image, name: newName }
+  await database.put('images', updated)
+  return updated
+}
