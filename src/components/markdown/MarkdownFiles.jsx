@@ -1,35 +1,32 @@
-import { useEffect, useState, useCallback } from 'react'
+//#region
+import { useEffect, useState } from 'react'
 import {
   createMdFile,
   deleteAllFiles,
   deleteFileById,
   getAllFiles,
 } from '../../database/markdown-files'
-import styles from './style.module.css'
+import styles from './css/style.module.css'
+//#endregion
 
 function Markdown() {
-  // States
+
+  //#region States
   const [files, setFiles] = useState([])
-  const [computedFiles, setComputedFiles] = useState([])
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [body, setBody] = useState('')
 
+  // Derived State: No need to store this in state, just calculate it on render.
+  const computedFiles = files.slice(0, 10)
+  //#endregion
+
+  //#region Functions
   // Function
-
-  const setAllFiles = useCallback((newObject) => {
-    setFiles(newObject)
-    const computedFiles = []
-    for (let i = 0; i < 10; i++) {
-      if (newObject[i]) computedFiles.push(newObject[i])
-    }
-    setComputedFiles(computedFiles)
-  }, [])
-
-  const fetchFiles = useCallback(async () => {
+  async function fetchFiles() {
     const allFiles = await getAllFiles()
-    setAllFiles(allFiles.reverse()) // Show newest first
-  }, [setAllFiles])
+    setFiles(allFiles.reverse()) // Show newest first
+  }
 
   async function handleCreateFile(event) {
     event.preventDefault()
@@ -53,18 +50,30 @@ function Markdown() {
     await deleteAllFiles()
     await fetchFiles()
   }
+  //#endregion
 
-  // Effects
+  //#region Effects
   useEffect(() => {
-    fetchFiles()
-    console.log('Montage du composant')
-  }, [fetchFiles])
+    let isMounted = true
 
-  // Render
+    getAllFiles().then((allFiles) => {
+      if (isMounted) {
+        setFiles(allFiles.reverse())
+      }
+    })
+
+    console.log('Montage du composant')
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+  //#endregion
+
+  //Render
   return (
     <div className={styles.container}>
       <form onSubmit={handleCreateFile} className={styles.form}>
-        <h2>Create a new file</h2>
         <div className={styles.formGroup}>
           <label htmlFor="name" className={styles.label}>
             Name:
@@ -108,7 +117,11 @@ function Markdown() {
       <div className={styles.fileListContainer}>
         <details open>
           <summary className={styles.summary}>Files: {files.length}</summary>
-          <button type="button" onClick={handleDeleteAll} className={styles.deleteAllButton}>
+          <button
+            type="button"
+            onClick={handleDeleteAll}
+            className={styles.deleteAllButton}
+          >
             Delete All Files
           </button>
           <ul className={styles.list}>
@@ -117,7 +130,11 @@ function Markdown() {
                 <span>
                   {file.name} - {new Date(file.date).toLocaleString()}
                 </span>
-                <button type="button" onClick={() => deleteFile(file.id)} className={styles.deleteButton}>
+                <button
+                  type="button"
+                  onClick={() => deleteFile(file.id)}
+                  className={styles.deleteButton}
+                >
                   Delete
                 </button>
               </li>
