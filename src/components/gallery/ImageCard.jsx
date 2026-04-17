@@ -1,4 +1,4 @@
-import ActionsModal from '../actions-modal/ActionsModal'
+import ActionsModal from './actions-modal/ActionsModal'
 
 export default function ImageCard({
   id,
@@ -38,7 +38,7 @@ export default function ImageCard({
           </>
         )}
       </div>
-      <p className="p-1 w-full text-center max-w-xs">{name}</p>
+      <p className="p-1 w-full text-center max-w-3xs break-all">{name}</p>
     </div>
   )
 }
