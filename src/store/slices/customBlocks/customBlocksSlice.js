@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit'
 import { getAllBlocks, addBlock, addBlocks, updateBlock, deleteBlock } from '../../../database/custom-blocks'
 
 export const fetchBlocks = createAsyncThunk('customBlocks/fetchAll', async () => {
@@ -98,13 +98,14 @@ const customBlocksSlice = createSlice({
 
 export const { setSortBy } = customBlocksSlice.actions
 
-export const selectSortedBlocks = (state) => {
-  const { blocks, sortBy } = state.customBlocks
-  return [...blocks].sort((a, b) => {
+export const selectSortedBlocks = createSelector(
+  (state) => state.customBlocks.blocks,
+  (state) => state.customBlocks.sortBy,
+  (blocks, sortBy) => [...blocks].sort((a, b) => {
     if (sortBy === 'name') return a.name.localeCompare(b.name)
     if (sortBy === 'date') return new Date(b.date) - new Date(a.date)
     return 0
   })
-}
+)
 
 export default customBlocksSlice.reducer

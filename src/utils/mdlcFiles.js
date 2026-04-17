@@ -1,20 +1,20 @@
 import { saveAs } from 'file-saver'
 
-export function exportBlock(block) { 
-    const json = JSON.stringify(block)
-    const blob = new Blob([json], { type: 'application/json' })
-    saveAs(blob, `${block.name}.part.mdlc`)
+export function exportBlock(block) {
+  const json = JSON.stringify(block)
+  const blob = new Blob([json], { type: 'application/json' })
+  saveAs(blob, `${block.name}.part.mdlc`)
 }
 
 export function exportAllBlocks(blocks) {
   const json = JSON.stringify(blocks, null, 2)
   const blob = new Blob([json], { type: 'application/json' })
-  saveAs(blob, 'blocks.parts.mdlc')
+  saveAs(blob, `blocks-${Date.now()}.parts.mdlc`)
 }
 
 export function validateMdlcFile(file) {
   if (!file.name.endsWith('.mdlc')) {
-    throw new Error('Le fichier doit avoir l\'extension .mdlc')
+    throw new Error("Le fichier doit avoir l'extension .mdlc")
   }
 }
 
@@ -38,7 +38,9 @@ export function importBlocksFromFile(content, existingBlocks) {
   const importedBlocks = parseMdlcFile(content)
 
   const existingIds = new Set(existingBlocks.map((b) => b.id))
-  const existingShortcuts = new Set(existingBlocks.map((b) => b.shortcut).filter(Boolean))
+  const existingShortcuts = new Set(
+    existingBlocks.map((b) => b.shortcut).filter(Boolean)
+  )
 
   const newBlocks = importedBlocks
     .filter((b) => !existingIds.has(b.id))

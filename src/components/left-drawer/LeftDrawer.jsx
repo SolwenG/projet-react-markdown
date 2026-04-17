@@ -35,6 +35,7 @@ export default function LeftDrawer() {
         <ImportModal
           onClose={importModal.close}
           mode={importMode}
+          isOpen={importModal.isOpen}
         />
       )}
     </aside>
