@@ -1,7 +1,11 @@
-import DropdownMenu, { DropdownItem } from '../global/DropdownMenu.jsx'
+import DropdownMenu, { DropdownItem } from '../global/DropDownMenuOld.jsx'
 import { useTranslation } from 'react-i18next'
 
-export default function LeftDrawerHeader({ navigate, setImportMode, openImportModal }) {
+export default function LeftDrawerHeader({
+  navigate,
+  setImportMode,
+  openImportModal,
+}) {
   const { t } = useTranslation()
   const handleImportImage = () => {
     setImportMode('image')
@@ -29,7 +33,8 @@ export default function LeftDrawerHeader({ navigate, setImportMode, openImportMo
       <DropdownMenu
         trigger={
           <button className="p-2 bg-gray-600 hover:bg-gray-700 font-semibold text-white rounded-xl flex items-center gap-2">
-            {t('leftDrawer.import')}<span className="material-icons text-white">add</span>
+            {t('leftDrawer.import')}
+            <span className="material-icons text-white">add</span>
           </button>
         }
       >
@@ -39,7 +44,9 @@ export default function LeftDrawerHeader({ navigate, setImportMode, openImportMo
         <DropdownItem onClick={handleImportCustomBlock}>
           {t('leftDrawer.importCustomBlock')}
         </DropdownItem>
-        <DropdownItem onClick={handleImportImage}>{t('leftDrawer.importImage')}</DropdownItem>
+        <DropdownItem onClick={handleImportImage}>
+          {t('leftDrawer.importImage')}
+        </DropdownItem>
       </DropdownMenu>
     </div>
   )
