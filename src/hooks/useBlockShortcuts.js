@@ -1,21 +1,25 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
+/**
+ * Hook personnalisé pour gérer les raccourcis clavier des blocs de texte.
+ * Écoute les combinaisons de touches et insère le texte correspondant.
+ */
 
 export function useBlockShortcuts(onInsert) {
   const blocks = useSelector((state) => state.customBlocks.blocks)
 
   useEffect(() => {
     function handleKeyDown(e) {
-      const parts = []
-      if (e.ctrlKey) parts.push('ctrl')
-      if (e.altKey) parts.push('alt')
-      if (e.shiftKey) parts.push('shift')
+      const pressedKeys = []
+      if (e.ctrlKey) pressedKeys.push('ctrl')
+      if (e.altKey) pressedKeys.push('alt')
+      if (e.shiftKey) pressedKeys.push('shift')
       if (!['Control', 'Alt', 'Shift'].includes(e.key)) {
-        parts.push(e.key.toLowerCase())
+        pressedKeys.push(e.key.toLowerCase())
       }
 
-      const combo = parts.join(' + ')
+      const combo = pressedKeys.join(' + ')
       const block = blocks.find((b) => b.shortcut === combo)
 
       if (block) {

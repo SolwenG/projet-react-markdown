@@ -1,180 +1,110 @@
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState, useRef } from 'react'
 import {
-  createBlock,
-  fetchBlocks,
-  deleteBlockAction,
-  editBlock,
-  importBlocks,
+  fetchBlocks, createBlock, editBlock, deleteBlockAction,
+  importBlocks, setSortBy, selectSortedBlocks,
 } from '../store/slices/customBlocks/customBlocksSlice'
-import {
-  exportBlock,
-  exportAllBlocks,
-  validateMdlcFile,
-  readMdlcFile,
-  importBlocksFromFile,
-} from '../utils/mdlcFiles'
-import { useBlockShortcuts } from '../hooks/useBlockShortcuts'
-
-const RESERVED_SHORTCUTS = [
-  'ctrl + t', 'ctrl + w', 'ctrl + r', 'ctrl + n', 'ctrl + l',
-  'ctrl + d', 'ctrl + h', 'ctrl + j', 'ctrl + p', 'ctrl + s',
-  'ctrl + f', 'ctrl + u', 'ctrl + shift + t', 'ctrl + shift + n', 'alt + f4',
-]
-
-function captureShortcut(e, onCapture, onWarning) {
-  e.preventDefault()
-  const parts = []
-  if (e.ctrlKey) parts.push('ctrl')
-  if (e.altKey) parts.push('alt')
-  if (e.shiftKey) parts.push('shift')
-  if (!['Control', 'Alt', 'Shift'].includes(e.key)) {
-    parts.push(e.key.toLowerCase())
-  }
-  if (parts.length > 1) {
-    const combo = parts.join(' + ')
-    if (RESERVED_SHORTCUTS.includes(combo)) {
-      onWarning('⚠️ Ce raccourci est réservé par le navigateur')
-      onCapture('')
-    } else {
-      onWarning('')
-      onCapture(combo)
-    }
-  }
-}
+import { exportBlock, exportAllBlocks } from '../utils/mdlcFiles'
+import BlockTable from '../components/custom-block/BlockTable/BlockTable'
+import BlockCreateModal from '../components/custom-block/BlockCreateModal/BlockCreateModal'
+import BlockImportModal from '../components/custom-block/BlockImportModal/BlockImportModal'
 
 export default function CustomBlocks() {
   const dispatch = useDispatch()
-  const blocks = useSelector((state) => state.customBlocks.blocks)
+  const blocks = useSelector(selectSortedBlocks)
+  const sortBy = useSelector((state) => state.customBlocks.sortBy)
   const error = useSelector((state) => state.customBlocks.error)
 
-  const [text, setText] = useState('')
-  const [editingBlock, setEditingBlock] = useState(null)
-  const [shortcutWarning, setShortcutWarning] = useState('')
-  const fileInputRef = useRef()
+  const [createModalOpen, setCreateModalOpen] = useState(false)
+  const [importModalOpen, setImportModalOpen] = useState(false)
+  const [blockToEdit, setBlockToEdit] = useState(null)
 
-  useEffect(() => {
-    dispatch(fetchBlocks())
-  }, [])
+  useEffect(() => { dispatch(fetchBlocks()) }, [dispatch])
 
-  useBlockShortcuts((content) => {
-    setText((prev) => prev + content)
-  })
-
-  async function handleImport(e) {
-    const file = e.target.files[0]
-    if (!file) return
-    try {
-      validateMdlcFile(file)
-      const content = await readMdlcFile(file)
-      const newBlocks = importBlocksFromFile(content, blocks)
-      if (newBlocks.length === 0) {
-        alert('Aucun nouveau bloc à importer (doublons détectés)')
-        return
+  function handleSubmitSuccess(block) {
+    const action = block.id ? editBlock(block) : createBlock(block)
+    dispatch(action).then((result) => {
+      if (result.meta.requestStatus === 'fulfilled') {
+        setCreateModalOpen(false)
+        setBlockToEdit(null)
       }
-      await dispatch(importBlocks(newBlocks))
-      dispatch(fetchBlocks())
-      alert(`${newBlocks.length} bloc(s) importé(s) avec succès`)
-    } catch (err) {
-      alert(err.message)
-    }
+    })
   }
 
-  async function handleSaveEdit() {
-    const result = await dispatch(editBlock(editingBlock))
-    if (!result.error) {
-      await dispatch(fetchBlocks())
-      setEditingBlock(null)
-      setShortcutWarning('')
-    }
+  function handleEdit(block) {
+    setBlockToEdit(block)
+    setCreateModalOpen(true)
   }
 
-  
+  function handleCloseCreateModal() {
+    setCreateModalOpen(false)
+    setBlockToEdit(null)
+  }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      <div className="max-w-4xl mx-auto px-6 py-10">
 
-      <h2>Tests CRUD</h2>
-      <button onClick={() => dispatch(createBlock({ name: 'Test', description: 'Contenu test', shortcut: 'ctrl + i' }))}>
-        Créer un bloc test
-      </button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <p>{blocks.length} bloc(s) dans la BDD</p>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-bold text-gray-900">Blocs personnalisés</h1>
 
-      {blocks.map((block) => (
-        <div key={block.id} style={{ marginBottom: '8px' }}>
-          <span>{block.name} — {block.shortcut}</span>
-          <button onClick={() => { setEditingBlock(block); setShortcutWarning('') }}>Modifier</button>
-          <button onClick={() => dispatch(deleteBlockAction(block.id))}>Supprimer</button>
-          <button onClick={() => exportBlock(block)}>Exporter</button>
+          <div className="flex items-center gap-3">
+            <select
+              value={sortBy}
+              onChange={(e) => dispatch(setSortBy(e.target.value))}
+              className="bg-white border border-gray-200 text-sm text-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-400"
+            >
+              <option value="date">Trier par date</option>
+              <option value="name">Trier par nom</option>
+            </select>
+
+            <button
+              onClick={() => setImportModalOpen(true)}
+              className="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              Importer
+            </button>
+
+            <button
+              onClick={() => exportAllBlocks(blocks)}
+              disabled={blocks.length === 0}
+              className="px-4 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              Exporter tout
+            </button>
+
+            <button
+              onClick={() => setCreateModalOpen(true)}
+              className="px-4 py-2 text-sm font-semibold bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              + Nouveau
+            </button>
+          </div>
         </div>
-      ))}
 
-      {editingBlock && (
-        <div style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>
-          <h3>Modifier le bloc</h3>
-          <div>
-            <label>Nom</label>
-            <input
-              value={editingBlock.name}
-              onChange={(e) => setEditingBlock({ ...editingBlock, name: e.target.value })}
-            />
-          </div>
-          <div>
-            <label>Description</label>
-            <textarea
-              value={editingBlock.description}
-              onChange={(e) => setEditingBlock({ ...editingBlock, description: e.target.value })}
-            />
-          </div>
-          <div>
-            <label>Raccourci</label>
-            <input
-              value={editingBlock.shortcut}
-              onKeyDown={(e) => captureShortcut(
-                e,
-                (combo) => setEditingBlock({ ...editingBlock, shortcut: combo }),
-                setShortcutWarning
-              )}
-              onChange={() => {}}
-              readOnly
-              placeholder="Appuie sur une combinaison de touches..."
-            />
-            {shortcutWarning && <p style={{ color: 'red' }}>{shortcutWarning}</p>}
-          </div>
-          <button onClick={handleSaveEdit}>Sauvegarder</button>
-          <button onClick={() => { setEditingBlock(null); setShortcutWarning('') }}>Annuler</button>
-        </div>
-      )}
+        <BlockTable
+          blocks={blocks}
+          onEdit={handleEdit}
+          onDelete={(id) => dispatch(deleteBlockAction(id))}
+          onExport={exportBlock}
+        />
 
-      <hr />
-      <h2>Tests Export</h2>
-      <button onClick={() => exportAllBlocks(blocks)} disabled={blocks.length === 0}>
-        Exporter tous (.parts.mdlc)
-      </button>
+      </div>
 
-      <hr />
-      <h2>Tests Import</h2>
-      <button onClick={() => fileInputRef.current.click()}>
-        Importer un fichier .mdlc
-      </button>
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".mdlc"
-        style={{ display: 'none' }}
-        onChange={handleImport}
+      <BlockCreateModal
+        isOpen={createModalOpen}
+        onClose={handleCloseCreateModal}
+        onSubmit={handleSubmitSuccess}
+        blockToEdit={blockToEdit}
+        error={error}
       />
 
-      <hr />
-      <h2>Test Raccourcis</h2>
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Clique ici puis tape un raccourci..."
-        style={{ width: '100%', height: '100px' }}
+      <BlockImportModal
+        isOpen={importModalOpen}
+        onClose={() => setImportModalOpen(false)}
+        onImport={(newBlocks) => dispatch(importBlocks(newBlocks))}
+        existingBlocks={blocks}
       />
-
     </div>
   )
 }

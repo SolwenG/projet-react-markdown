@@ -54,11 +54,12 @@ const customBlocksSlice = createSlice({
     blocks: [],
     status: 'idle',
     error: null,
-    sortBy: 'date',
+    sortBy: localStorage.getItem('sortBy') ?? 'date',
   },
   reducers: {
     setSortBy(state, action) {
       state.sortBy = action.payload
+      localStorage.setItem('sortBy', action.payload)
     },
   },
   extraReducers: (builder) => {
@@ -70,6 +71,15 @@ const customBlocksSlice = createSlice({
       .addCase(fetchBlocks.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message
+      })
+      .addCase(createBlock.fulfilled, (state, action) => {
+      state.blocks.push(action.payload)
+      state.error = null
+      })
+      .addCase(editBlock.fulfilled, (state, action) => {
+      const index = state.blocks.findIndex((b) => b.id === action.payload.id)
+      if (index !== -1) state.blocks[index] = action.payload
+      state.error = null
       })
       .addCase(createBlock.rejected, (state, action) => {
       state.error = action.payload
