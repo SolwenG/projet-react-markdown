@@ -6,7 +6,7 @@ import {
   deleteFileById,
   getAllFiles,
 } from '../../database/markdown-files'
-import styles from './css/style.module.css'
+import styles from './css/MarkdownFiles.module.css'
 //#endregion
 
 function Markdown() {
