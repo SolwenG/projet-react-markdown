@@ -3,7 +3,7 @@ import GalleryToolbar from '../components/gallery/GalleryToolbar.jsx'
 import ImageUploadForm from '../components/gallery/ImageUploadForm.jsx'
 import ImageGrid from '../components/gallery/ImageGrid.jsx'
 
-export default function ImageList() {
+export default function GalleryPage() {
   const {
     items,
     loading,
