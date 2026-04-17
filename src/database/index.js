@@ -20,7 +20,20 @@ export const database = await openDB('MarkdownInterface', 4, {
         autoIncrement: true,
       })
 
+    // Store des images
+    const imageStore = db.createObjectStore('images', {
+      keyPath: 'id',
+      autoIncrement: true,
+    })
+
       imageStore.createIndex('name', 'name')
+    }
+
+    if (!db.objectStoreNames.contains('customBlocks')) {
+      // Store des blocs personnalisés
+      db.createObjectStore('customBlocks', {
+        keyPath: 'id',
+      })
     }
   },
 })

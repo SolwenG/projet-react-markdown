@@ -36,6 +36,14 @@
     "shortcut": "Shortcut:",
     "noCustomBlocks": "No custom blocks yet"
   },
+  "customBlocksPage": {
+    "title": "Custom Blocks",
+    "sortByDate": "Sort by date",
+    "sortByName": "Sort by name",
+    "import": "Import",
+    "exportAll": "Export all",
+    "new": "+ New"
+  },
   "gallery": {
     "title": "Gallery",
     "viewAll": "View All",
@@ -60,10 +68,40 @@
     "root": "Root",
     "dropFiles": "Drop the files here...",
     "dragAndDrop": "Drag & drop files here, or click to select",
-    "imageTypes": "PNG, JPG, WebP",
-    "markdownTypes": ".md files",
-    "customBlockTypes": ".part.mdlc, .parts.mdlc",
-    "invalidFileType": "Invalid file extension. Please try again."
+    "imageTypes": "Files .png, .jpg, .jpeg, .webp, .img.mdlc, .imgs.mdlc",
+    "markdownTypes": "Files .md",
+    "customBlockTypes": "Files .part.mdlc, .parts.mdlc",
+    "invalidFileType": "Invalid file extension. Please try again.",
+    "noNewBlocks": "No new blocks to import (all already present)"
+  },
+  "blockCreate": {
+    "editBlock": "Edit Block",
+    "newBlock": "New Block",
+    "name": "Name",
+    "optional": "(optional)",
+    "namePlaceholder": "ex: Introduction",
+    "description": "Description",
+    "descriptionPlaceholder": "ex: Document introduction block",
+    "content": "Markdown content",
+    "contentPlaceholder": "ex: ## Introduction\nWelcome to...",
+    "shortcut": "Shortcut",
+    "shortcutHint": "(optional — press a key)",
+    "shortcutPlaceholder": "ex: ctrl+k",
+    "cancel": "Cancel",
+    "save": "Save",
+    "create": "Create"
+  },
+  "blockRow": {
+    "export": "Export",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "blockTable": {
+    "noCustomBlocks": "No custom blocks",
+    "createFirstBlock": "Create your first block with the + button",
+    "name": "Name",
+    "description": "Description",
+    "shortcut": "Shortcut"
   },
   "languageSwitcher": {
     "english": "English",

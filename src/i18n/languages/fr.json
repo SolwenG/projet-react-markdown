@@ -30,11 +30,13 @@
     "dragToRoot": "Glisser vers la racine",
     "dropToRoot": "Déposer vers la racine"
   },
-  "customBlocks": {
+  "customBlocksPage": {
     "title": "Blocs personnalisés",
-    "viewAll": "Voir tout",
-    "shortcut": "Raccourci :",
-    "noCustomBlocks": "Aucun bloc personnalisé"
+    "sortByDate": "Trier par date",
+    "sortByName": "Trier par nom",
+    "import": "Importer",
+    "exportAll": "Exporter tout",
+    "new": "+ Nouveau"
   },
   "gallery": {
     "title": "Galerie",
@@ -60,10 +62,40 @@
     "root": "Racine",
     "dropFiles": "Déposez les fichiers ici...",
     "dragAndDrop": "Glissez-déposez les fichiers ici ou cliquez pour sélectionner",
-    "imageTypes": "PNG, JPG, WebP",
+    "imageTypes": "Fichiers .png, .jpg, .jpeg, .webp, .img.mdlc, .imgs.mdlc",
     "markdownTypes": "Fichiers .md",
-    "customBlockTypes": ".part.mdlc, .parts.mdlc",
-    "invalidFileType": "Type d'extension incorrect. Veuillez réessayer."
+    "customBlockTypes": "Fichiers .part.mdlc, .parts.mdlc",
+    "invalidFileType": "Type d'extension incorrect. Veuillez réessayer.",
+    "noNewBlocks": "Aucun nouveau bloc à importer (tous déjà présents)"
+  },
+  "blockCreate": {
+    "editBlock": "Modifier le bloc",
+    "newBlock": "Nouveau bloc",
+    "name": "Nom",
+    "optional": "(optionnel)",
+    "namePlaceholder": "ex: Introduction",
+    "description": "Description",
+    "descriptionPlaceholder": "ex: Bloc d'introduction de document",
+    "content": "Contenu markdown",
+    "contentPlaceholder": "ex: ## Introduction\nBienvenue dans...",
+    "shortcut": "Raccourci",
+    "shortcutHint": "(optionnel — appuie sur une touche)",
+    "shortcutPlaceholder": "ex: ctrl+k",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "create": "Créer"
+  },
+  "blockRow": {
+    "export": "Exporter",
+    "edit": "Modifier",
+    "delete": "Supprimer"
+  },
+  "blockTable": {
+    "noCustomBlocks": "Aucun bloc personnalisé",
+    "createFirstBlock": "Crée ton premier bloc avec le bouton +",
+    "name": "Nom",
+    "description": "Description",
+    "shortcut": "Raccourci"
   },
   "languageSwitcher": {
     "english": "Anglais",
