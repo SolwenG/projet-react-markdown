@@ -1,3 +1,7 @@
+import useModal from '../../hooks/useModal.js'
+import ImportModal from '../global/ImportModal.jsx'
+import { useTranslation } from 'react-i18next'
+
 export default function GalleryToolbar({
   hasItems,
   selectionMode,
@@ -5,17 +9,23 @@ export default function GalleryToolbar({
   onToggleSelectionMode,
   onExportSelected,
 }) {
+  const importModal = useModal(false)
+  const { t } = useTranslation()
+
   return (
     <div className="w-full flex justify-center gap-3 my-6">
-      <button className="px-4 py-2 bg-green-700 rounded-lg text-white w-fit cursor-pointer">
-        Import image
+      <button
+        onClick={() => importModal.open()}
+        className="px-4 py-2 bg-green-700 rounded-lg text-white w-fit cursor-pointer"
+      >
+        {t('gallery.importImage')}
       </button>
       {hasItems && (
         <button
           onClick={onToggleSelectionMode}
           className="px-4 py-2 bg-gray-700 rounded-lg text-white w-fit cursor-pointer"
         >
-          {selectionMode ? 'Annuler' : 'Sélectionner des images à exporter'}
+          {selectionMode ? t('gallery.cancel') : t('gallery.selectImagesToExport')}
         </button>
       )}
       {selectionMode && selectedCount > 0 && (
@@ -23,9 +33,15 @@ export default function GalleryToolbar({
           onClick={onExportSelected}
           className="px-4 py-2 bg-blue-700 rounded-lg text-white w-fit cursor-pointer"
         >
-          Exporter ({selectedCount})
+          {t('gallery.export')} ({selectedCount})
         </button>
       )}
+      <ImportModal
+        isOpen={importModal.isOpen}
+        onClose={() => importModal.close()}
+        mode="image"
+        selectedFolderId={null}
+      />
     </div>
   )
 }

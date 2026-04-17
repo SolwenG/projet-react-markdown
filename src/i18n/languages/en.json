@@ -10,6 +10,7 @@
   },
   "markdownFiles": {
     "title": "Markdown Files",
+    "pageTitle": "Markdown Files",
     "viewAll": "View All",
     "newFile": "New File",
     "newFolder": "New Folder",
@@ -38,7 +39,18 @@
   "gallery": {
     "title": "Gallery",
     "viewAll": "View All",
-    "noImages": "No images yet"
+    "noImages": "No images yet",
+    "importImage": "Import image",
+    "cancel": "Cancel",
+    "selectImagesToExport": "Select images to export",
+    "export": "Export",
+    "loading": "Loading...",
+    "addFirstImage": "Let's add your first image !"
+  },
+  "galleryActions": {
+    "export": "Export",
+    "rename": "Rename",
+    "delete": "Delete"
   },
   "importModal": {
     "importImages": "Import Images",

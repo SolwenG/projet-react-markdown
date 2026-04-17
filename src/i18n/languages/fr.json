@@ -10,6 +10,7 @@
   },
   "markdownFiles": {
     "title": "Fichiers Markdown",
+    "pageTitle": "Fichiers Markdown",
     "viewAll": "Voir tout",
     "newFile": "Nouveau fichier",
     "newFolder": "Nouveau dossier",
@@ -38,7 +39,18 @@
   "gallery": {
     "title": "Galerie",
     "viewAll": "Voir tout",
-    "noImages": "Aucune image"
+    "noImages": "Aucune image",
+    "importImage": "Importer image",
+    "cancel": "Annuler",
+    "selectImagesToExport": "Sélectionner des images à exporter",
+    "export": "Exporter",
+    "loading": "Chargement...",
+    "addFirstImage": "Ajoutons votre première image !"
+  },
+  "galleryActions": {
+    "export": "Exporter",
+    "rename": "Renommer",
+    "delete": "Supprimer"
   },
   "importModal": {
     "importImages": "Importer des images",

@@ -14,6 +14,7 @@ export default function ImportModal({
   onClose,
   mode,
   selectedFolderId: initialFolderId,
+  isOpen,
 }) {
   const dispatch = useDispatch()
   const { folders } = useSelector((state) => state.markdown)
@@ -118,6 +119,8 @@ export default function ImportModal({
       onClose()
     },
   })
+
+  if (!isOpen) return null
 
   const getTitle = () => {
     const titles = {

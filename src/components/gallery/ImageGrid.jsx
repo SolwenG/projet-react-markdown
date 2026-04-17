@@ -1,4 +1,5 @@
 import ImageCard from './ImageCard.jsx'
+import { useTranslation } from 'react-i18next'
 
 export default function ImageGrid({
   items,
@@ -8,10 +9,12 @@ export default function ImageGrid({
   onToggleModal,
   onToggleSelect,
 }) {
+  const { t } = useTranslation()
+
   if (!items.length) {
     return (
       <h2 className="flex justify-center text-center items-center text-2xl">
-        Let's add your first image !
+        {t('gallery.addFirstImage')}
       </h2>
     )
   }

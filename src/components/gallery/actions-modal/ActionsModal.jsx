@@ -3,9 +3,11 @@ import { useDispatch } from 'react-redux'
 import { removeImage, renameImage } from '../../../store/slices/gallerySlice'
 import RenameForm from './RenameForm'
 import DropdownMenu from '../../global/DropdownMenu'
+import { useTranslation } from 'react-i18next'
 
 export default function ActionsModal({ id, name, src }) {
   const dispatch = useDispatch()
+  const { t } = useTranslation()
   const [isRenaming, setIsRenaming] = useState(false)
 
   const handleExport = () => {
@@ -32,9 +34,9 @@ export default function ActionsModal({ id, name, src }) {
   }
 
   const actions = [
-    { label: 'Export', onClick: handleExport },
-    { label: 'Rename', onClick: () => setIsRenaming(true) },
-    { label: 'Delete', onClick: handleDelete },
+    { label: t('galleryActions.export'), onClick: handleExport },
+    { label: t('galleryActions.rename'), onClick: () => setIsRenaming(true) },
+    { label: t('galleryActions.delete'), onClick: handleDelete },
   ]
 
   return (

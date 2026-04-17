@@ -7,13 +7,21 @@ import {
 } from '../../database/images/index.js'
 
 export const fetchImages = createAsyncThunk('images/fetchAll', async () => {
-  return getAllImages()
+  const images = await getAllImages()
+  return images.map((img) => ({
+    ...img,
+    date: img.date instanceof Date ? img.date.toISOString() : img.date,
+  }))
 })
 
 export const uploadImage = createAsyncThunk(
   'images/upload',
   async ({ name, base64 }) => {
-    return addImage(name, base64)
+    const result = await addImage(name, base64)
+    return {
+      ...result,
+      date: result.date instanceof Date ? result.date.toISOString() : result.date,
+    }
   }
 )
 
@@ -25,7 +33,11 @@ export const removeImage = createAsyncThunk('images/remove', async (id) => {
 export const renameImage = createAsyncThunk(
   'images/rename',
   async ({ id, name }) => {
-    return renameImageDB(id, name)
+    const result = await renameImageDB(id, name)
+    return {
+      ...result,
+      date: result.date instanceof Date ? result.date.toISOString() : result.date,
+    }
   }
 )
 
@@ -61,7 +73,9 @@ const gallerySlice = createSlice({
 
       .addCase(renameImage.fulfilled, (state, action) => {
         const index = state.items.findIndex((img) => img.id === action.payload.id)
-        if (index !== -1) state.items[index] = action.payload
+        if (index !== -1) {
+          state.items[index] = action.payload
+        }
       })
   },
 })
