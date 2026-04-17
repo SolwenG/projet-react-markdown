@@ -1,11 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-/**
- * Hook personnalisé pour gérer les raccourcis clavier des blocs de texte.
- * Écoute les combinaisons de touches et insère le texte correspondant.
- */
-
 export function useBlockShortcuts(onInsert) {
   const blocks = useSelector((state) => state.customBlocks.blocks)
 
@@ -24,7 +19,7 @@ export function useBlockShortcuts(onInsert) {
 
       if (block) {
         e.preventDefault()
-        onInsert(block.description)
+        onInsert(block.content)
       }
     }
 
