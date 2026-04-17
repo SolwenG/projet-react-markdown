@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useDropzone } from 'react-dropzone'
 import { addFile } from '../../store/slices/markdownSlice'
 import { uploadImage } from '../../store/slices/gallerySlice'
-import { importBlock } from '../../store/slices/customBlockSlice'
+import { importBlocks } from '../../store/slices/customBlocks/customBlocksSlice'
 import { useState } from 'react'
 import {
   convertFileToBase64,
@@ -94,7 +94,7 @@ export default function ImportModal({
       const content = await convertFileToText(file)
       try {
         const data = JSON.parse(content)
-        dispatch(importBlock(Array.isArray(data) ? data : [data]))
+        dispatch(importBlocks(Array.isArray(data) ? data : [data]))
       } catch (error) {
         console.error('Error importing block:', error)
       }

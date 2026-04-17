@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import markdownReducer from './slices/markdownSlice'
-import customBlockReducer from './slices/customBlockSlice'
+import customBlocksReducer from './slices/customBlocks/customBlocksSlice'
 import imagesReducer from './slices/gallerySlice'
 
 export const store = configureStore({
   reducer: {
     markdown: markdownReducer,
-    customBlocks: customBlockReducer,
+    customBlocks: customBlocksReducer,
     images: imagesReducer,
   },
 })
