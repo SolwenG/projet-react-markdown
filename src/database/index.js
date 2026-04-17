@@ -1,8 +1,7 @@
 import { openDB } from 'idb'
 
-export const database = await openDB('MarkdownInterface', 2, {
+export const database = await openDB('MarkdownInterface', 3, {
   upgrade(db) {
-
     // Store des fichiers Markdown
     const markdownStore = db.createObjectStore('files', {
       keyPath: 'id',
@@ -10,7 +9,7 @@ export const database = await openDB('MarkdownInterface', 2, {
     })
     markdownStore.createIndex('date', 'date')
 
-    // Store des blocs personnalisés 
+    // Store des blocs personnalisés
     db.createObjectStore('customBlocks', {
       keyPath: 'id',
     })
