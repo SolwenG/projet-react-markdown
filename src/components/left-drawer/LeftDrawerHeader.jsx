@@ -1,4 +1,4 @@
-import DropdownMenu, { DropdownItem } from '../global/DropDownMenuOld.jsx'
+import DropdownMenu from '../global/DropdownMenu.jsx'
 import { useTranslation } from 'react-i18next'
 
 export default function LeftDrawerHeader({
@@ -22,6 +22,12 @@ export default function LeftDrawerHeader({
     openImportModal()
   }
 
+  const actions = [
+    { label: t('leftDrawer.importMarkdownFile'), onClick: handleImportMarkdown },
+    { label: t('leftDrawer.importCustomBlock'), onClick: handleImportCustomBlock },
+    { label: t('leftDrawer.importImage'), onClick: handleImportImage },
+  ]
+
   return (
     <div className="p-4 border-b border-gray-300 flex justify-between items-center">
       <button
@@ -32,22 +38,13 @@ export default function LeftDrawerHeader({
       </button>
       <DropdownMenu
         trigger={
-          <button className="p-2 bg-gray-600 hover:bg-gray-700 font-semibold text-white rounded-xl flex items-center gap-2">
+          <button className="p-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg flex items-center gap-2">
             {t('leftDrawer.import')}
             <span className="material-icons text-white">add</span>
           </button>
         }
-      >
-        <DropdownItem onClick={handleImportMarkdown}>
-          {t('leftDrawer.importMarkdownFile')}
-        </DropdownItem>
-        <DropdownItem onClick={handleImportCustomBlock}>
-          {t('leftDrawer.importCustomBlock')}
-        </DropdownItem>
-        <DropdownItem onClick={handleImportImage}>
-          {t('leftDrawer.importImage')}
-        </DropdownItem>
-      </DropdownMenu>
+        actions={actions}
+      />
     </div>
   )
 }

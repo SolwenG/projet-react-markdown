@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
-import DropdownMenu, { DropdownItem } from '../global/DropDownMenuOld.jsx'
+import DropdownMenu from '../global/DropdownMenu.jsx'
 import useModal from '../../hooks/useModal.js'
 import { useTranslation } from 'react-i18next'
 import {
@@ -212,24 +212,26 @@ export default function MarkdownFilesTree() {
         <DropdownMenu
           position="right"
           trigger={
-            <button className="p-0.5 hover:bg-gray-200 rounded opacity-0 group-hover:opacity-100">
+            <button className="px-0.5 hover:bg-gray-200 rounded-full opacity-0 group-hover:opacity-100">
               <span className="material-icons text-sm">more_horiz</span>
             </button>
           }
-        >
-          <DropdownItem onClick={() => handleStartEditFile(file)}>
-            {t('markdownFiles.renameFile')}
-          </DropdownItem>
-          <DropdownItem
-            onClick={() => dispatch(deleteFile({ id: file.id }))}
-            danger
-          >
-            {t('markdownFiles.deleteFile')}
-          </DropdownItem>
-          <DropdownItem onClick={() => handleExportFile(file)}>
-            {t('markdownFiles.exportFile')}
-          </DropdownItem>
-        </DropdownMenu>
+          actions={[
+            {
+              label: t('markdownFiles.renameFile'),
+              onClick: () => handleStartEditFile(file),
+            },
+            {
+              label: t('markdownFiles.deleteFile'),
+              onClick: () => dispatch(deleteFile({ id: file.id })),
+              danger: true,
+            },
+            {
+              label: t('markdownFiles.exportFile'),
+              onClick: () => handleExportFile(file),
+            },
+          ]}
+        />
       </div>
     )
   }
@@ -308,30 +310,34 @@ export default function MarkdownFilesTree() {
           <DropdownMenu
             position="right"
             trigger={
-              <button className="p-0.5 hover:bg-gray-200 rounded opacity-0 group-hover:opacity-100">
+              <button className="px-0.5 hover:bg-gray-200 rounded-full opacity-0 group-hover:opacity-100">
                 <span className="material-icons text-sm">more_horiz</span>
               </button>
             }
-          >
-            <DropdownItem onClick={() => handleStartEditFolder(folder)}>
-              {t('markdownFiles.renameFolder')}
-            </DropdownItem>
-            <DropdownItem
-              onClick={() => dispatch(deleteFolder({ id: folder.id }))}
-              danger
-            >
-              {t('markdownFiles.deleteFolder')}
-            </DropdownItem>
-            <DropdownItem onClick={() => handleImportToFolder(folder.id)}>
-              {t('markdownFiles.importFile')}
-            </DropdownItem>
-            <DropdownItem onClick={() => handleAddFileToFolder(folder.id)}>
-              {t('markdownFiles.addNewFile')}
-            </DropdownItem>
-            <DropdownItem onClick={() => handleAddFolderToFolder(folder.id)}>
-              {t('markdownFiles.addNewFolder')}
-            </DropdownItem>
-          </DropdownMenu>
+            actions={[
+              {
+                label: t('markdownFiles.renameFolder'),
+                onClick: () => handleStartEditFolder(folder),
+              },
+              {
+                label: t('markdownFiles.deleteFolder'),
+                onClick: () => dispatch(deleteFolder({ id: folder.id })),
+                danger: true,
+              },
+              {
+                label: t('markdownFiles.importFile'),
+                onClick: () => handleImportToFolder(folder.id),
+              },
+              {
+                label: t('markdownFiles.addNewFile'),
+                onClick: () => handleAddFileToFolder(folder.id),
+              },
+              {
+                label: t('markdownFiles.addNewFolder'),
+                onClick: () => handleAddFolderToFolder(folder.id),
+              },
+            ]}
+          />
         </div>
 
         {expandedFolders[folder.id] && (
@@ -398,14 +404,17 @@ export default function MarkdownFilesTree() {
                 <span className="material-icons text-sm">add</span>
               </button>
             }
-          >
-            <DropdownItem onClick={() => handleAddFileToFolder(null)}>
-              {t('markdownFiles.newFile')}
-            </DropdownItem>
-            <DropdownItem onClick={() => setShowNewFolder(true)}>
-              {t('markdownFiles.newFolder')}
-            </DropdownItem>
-          </DropdownMenu>
+            actions={[
+              {
+                label: t('markdownFiles.newFile'),
+                onClick: () => handleAddFileToFolder(null),
+              },
+              {
+                label: t('markdownFiles.newFolder'),
+                onClick: () => setShowNewFolder(true),
+              },
+            ]}
+          />
           <button
             onClick={() => navigate('/markdown')}
             className="text-orange-600 hover:text-orange-700 text-sm"

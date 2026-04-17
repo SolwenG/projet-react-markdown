@@ -25,16 +25,21 @@ export default function ImageCard({
         ) : (
           <button
             onClick={onToggleModal}
-            className="cursor-pointer px-2 py-0 bg-black text-white rounded-full absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="cursor-pointer px-0.5 bg-white rounded-full absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
           >
-            ...
+            <span className="material-icons text-sm">more_horiz</span>
           </button>
         )}
 
         {!selectionMode && isModalOpen && (
           <>
             <div className="fixed inset-0 z-0" onClick={onToggleModal} />
-            <ActionsModal id={id} name={name} src={src} />
+            <ActionsModal
+              id={id}
+              name={name}
+              src={src}
+              onClose={onToggleModal}
+            />
           </>
         )}
       </div>
