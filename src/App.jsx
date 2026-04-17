@@ -1,15 +1,23 @@
 import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import CustomBlocks from './pages/CustomBlocks'
-import { CUSTOM_BLOCKS_ROUTE } from './routes/custom-block'
+import LeftDrawer from './components/left-drawer/LeftDrawer.jsx'
+import MarkdownPage from './pages/MarkdownPage'
+import CustomBlocksPage from './pages/CustomBlocksPage'
+import GalleryPage from './pages/GalleryPage'
+import Home from './pages/Home.jsx'
+import './i18n/config.js'
 
 export default function App() {
   return (
-    <main>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path={CUSTOM_BLOCKS_ROUTE} element={<CustomBlocks />} />
-      </Routes>
-    </main>
+    <div className="flex min-h-screen bg-white">
+      <LeftDrawer />
+      <main className="flex-1 overflow-auto">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/markdown" element={<MarkdownPage />} />
+          <Route path="/custom-blocks" element={<CustomBlocksPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+        </Routes>
+      </main>
+    </div>
   )
 }

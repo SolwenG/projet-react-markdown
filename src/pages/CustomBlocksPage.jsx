@@ -9,7 +9,7 @@ import BlockTable from '../components/custom-block/BlockTable/BlockTable'
 import BlockCreateModal from '../components/custom-block/BlockCreateModal/BlockCreateModal'
 import BlockImportModal from '../components/custom-block/BlockImportModal/BlockImportModal'
 
-export default function CustomBlocks() {
+export default function CustomBlocksPage() {
   const dispatch = useDispatch()
   const blocks = useSelector(selectSortedBlocks)
   const sortBy = useSelector((state) => state.customBlocks.sortBy)
