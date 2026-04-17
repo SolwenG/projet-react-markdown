@@ -1,9 +1,11 @@
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export default function CustomBlocksPreview() {
   const { blocks } = useSelector((state) => state.customBlocks)
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const latestBlocks = blocks.slice(-3).reverse()
 
@@ -11,13 +13,13 @@ export default function CustomBlocksPreview() {
     <div className="p-4 border-t border-gray-200">
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-semibold text-gray-700 text-sm uppercase">
-          Custom Blocks
+          {t('customBlocks.title')}
         </h3>
         <button
           onClick={() => navigate('/custom-blocks')}
           className="text-orange-600 hover:text-orange-700 text-sm"
         >
-          View All
+          {t('customBlocks.viewAll')}
         </button>
       </div>
 
@@ -36,14 +38,14 @@ export default function CustomBlocksPreview() {
             </div>
             {block.shortcut && (
               <p className="text-xs text-gray-500 ml-6 mt-1">
-                Shortcut: {block.shortcut}
+                {t('customBlocks.shortcut')} {block.shortcut}
               </p>
             )}
           </button>
         ))}
 
         {blocks.length === 0 && (
-          <p className="text-sm text-gray-500">No custom blocks yet</p>
+          <p className="text-sm text-gray-500">{t('customBlocks.noCustomBlocks')}</p>
         )}
       </div>
     </div>

@@ -6,6 +6,7 @@ import CustomBlocksPreview from './CustomBlocksPreview.jsx'
 import GalleryPreview from './GalleryPreview.jsx'
 import ImportModal from '../global/ImportModal.jsx'
 import LeftDrawerHeader from './LeftDrawerHeader.jsx'
+import SwitchLanguage from '../global/SwitchLanguage.jsx'
 
 export default function LeftDrawer() {
   const navigate = useNavigate()
@@ -13,7 +14,7 @@ export default function LeftDrawer() {
   const [importMode, setImportMode] = useState('image')
 
   return (
-    <aside className="w-64 bg-gray-100 border-r border-gray-200 min-h-screen flex flex-col">
+    <aside className="w-70 bg-gray-100 border-r border-gray-200 min-h-screen flex flex-col">
       <LeftDrawerHeader
         navigate={navigate}
         setImportMode={setImportMode}
@@ -25,6 +26,10 @@ export default function LeftDrawer() {
       <CustomBlocksPreview />
 
       <GalleryPreview />
+
+      <div className="mt-auto">
+        <SwitchLanguage />
+      </div>
 
       <ImportModal
         isOpen={importModal.isOpen}

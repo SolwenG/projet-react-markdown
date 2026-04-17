@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
 import DropdownMenu, { DropdownItem } from '../global/DropdownMenu.jsx'
 import useModal from '../../hooks/useModal.js'
+import { useTranslation } from 'react-i18next'
 import {
   addFolder,
   addFile,
@@ -16,6 +17,7 @@ import ImportModal from '../global/ImportModal.jsx'
 export default function MarkdownFilesTree() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { files, folders } = useSelector((state) => state.markdown)
   const [expandedFolders, setExpandedFolders] = useState({})
   const [editingId, setEditingId] = useState(null)
@@ -152,22 +154,22 @@ export default function MarkdownFilesTree() {
             }
           >
             <DropdownItem onClick={() => handleStartEditFolder(folder)}>
-              Rename Folder
+              {t('markdownFiles.renameFolder')}
             </DropdownItem>
             <DropdownItem
               onClick={() => dispatch(deleteFolder({ id: folder.id }))}
               danger
             >
-              Delete Folder
+              {t('markdownFiles.deleteFolder')}
             </DropdownItem>
             <DropdownItem onClick={() => handleImportToFolder(folder.id)}>
-              Import File
+              {t('markdownFiles.importFile')}
             </DropdownItem>
             <DropdownItem onClick={() => handleAddFileToFolder(folder.id)}>
-              Add New File
+              {t('markdownFiles.addNewFile')}
             </DropdownItem>
             <DropdownItem onClick={() => handleAddFolderToFolder(folder.id)}>
-              Add New Folder
+              {t('markdownFiles.addNewFolder')}
             </DropdownItem>
           </DropdownMenu>
         </div>
@@ -218,16 +220,16 @@ export default function MarkdownFilesTree() {
                   }
                 >
                   <DropdownItem onClick={() => handleStartEditFile(file)}>
-                    Rename File
+                    {t('markdownFiles.renameFile')}
                   </DropdownItem>
                   <DropdownItem
                     onClick={() => dispatch(deleteFile({ id: file.id }))}
                     danger
                   >
-                    Delete File
+                    {t('markdownFiles.deleteFile')}
                   </DropdownItem>
                   <DropdownItem onClick={() => handleExportFile(file)}>
-                    Export File as '.mdlc'
+                    {t('markdownFiles.exportFile')}
                   </DropdownItem>
                 </DropdownMenu>
               </div>
@@ -242,7 +244,7 @@ export default function MarkdownFilesTree() {
     <div className="p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-semibold text-gray-700 text-sm uppercase">
-          Markdown Files
+          {t('markdownFiles.title')}
         </h3>
         <DropdownMenu
           trigger={
@@ -252,17 +254,17 @@ export default function MarkdownFilesTree() {
           }
         >
           <DropdownItem onClick={() => handleAddFileToFolder(null)}>
-            New File
+            {t('markdownFiles.newFile')}
           </DropdownItem>
           <DropdownItem onClick={() => setShowNewFolder(true)}>
-            New Folder
+            {t('markdownFiles.newFolder')}
           </DropdownItem>
         </DropdownMenu>
         <button
           onClick={() => navigate('/markdown')}
           className="text-orange-600 hover:text-orange-700 text-sm"
         >
-          View All
+          {t('markdownFiles.viewAll')}
         </button>
       </div>
 
@@ -272,7 +274,7 @@ export default function MarkdownFilesTree() {
             type="text"
             value={newFolderName}
             onChange={(e) => setNewFolderName(e.target.value)}
-            placeholder="Folder name"
+            placeholder={t('markdownFiles.folderName')}
             className="w-full px-2 py-1 text-sm border rounded"
             autoFocus
             onKeyDown={(e) => {
@@ -284,7 +286,7 @@ export default function MarkdownFilesTree() {
               onClick={handleCreateFolder}
               className="px-2 py-1 text-xs bg-blue-600 text-white rounded"
             >
-              Create
+              {t('markdownFiles.create')}
             </button>
             <button
               onClick={() => {
@@ -293,7 +295,7 @@ export default function MarkdownFilesTree() {
               }}
               className="px-2 py-1 text-xs bg-gray-300 rounded"
             >
-              Cancel
+              {t('markdownFiles.cancel')}
             </button>
           </div>
         </div>
@@ -305,7 +307,7 @@ export default function MarkdownFilesTree() {
             type="text"
             value={newFileName}
             onChange={(e) => setNewFileName(e.target.value)}
-            placeholder="File name"
+            placeholder={t('markdownFiles.fileName')}
             className="w-full px-2 py-1 text-sm border rounded"
             autoFocus
             onKeyDown={(e) => {
@@ -317,7 +319,7 @@ export default function MarkdownFilesTree() {
               onClick={handleCreateFile}
               className="px-2 py-1 text-xs bg-green-600 text-white rounded"
             >
-              Create
+              {t('markdownFiles.create')}
             </button>
             <button
               onClick={() => {
@@ -326,7 +328,7 @@ export default function MarkdownFilesTree() {
               }}
               className="px-2 py-1 text-xs bg-gray-300 rounded"
             >
-              Cancel
+              {t('markdownFiles.cancel')}
             </button>
           </div>
         </div>
@@ -372,23 +374,23 @@ export default function MarkdownFilesTree() {
               }
             >
               <DropdownItem onClick={() => handleStartEditFile(file)}>
-                Rename File
+                {t('markdownFiles.renameFile')}
               </DropdownItem>
               <DropdownItem
                 onClick={() => dispatch(deleteFile({ id: file.id }))}
                 danger
               >
-                Delete File
+                {t('markdownFiles.deleteFile')}
               </DropdownItem>
               <DropdownItem onClick={() => handleExportFile(file)}>
-                Export File as '.mdlc'
+                {t('markdownFiles.exportFile')}
               </DropdownItem>
             </DropdownMenu>
           </div>
         ))}
 
         {folders.length === 0 && getRootFiles().length === 0 && (
-          <p className="text-sm text-gray-500 ml-2">No files or folders</p>
+          <p className="text-sm text-gray-500 ml-2">{t('markdownFiles.noFilesOrFolders')}</p>
         )}
       </div>
 

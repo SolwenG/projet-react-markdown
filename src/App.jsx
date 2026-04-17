@@ -4,6 +4,7 @@ import MarkdownPage from './pages/MarkdownPage'
 import CustomBlocksPage from './pages/CustomBlocksPage'
 import GalleryPage from './pages/GalleryPage'
 import Home from './pages/Home.jsx'
+import './i18n/config.js'
 
 export default function App() {
   return (

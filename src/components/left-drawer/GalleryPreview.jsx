@@ -1,9 +1,11 @@
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export default function GalleryPreview() {
   const { images } = useSelector((state) => state.gallery)
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const latestImages = images.slice(-4).reverse()
 
@@ -11,13 +13,13 @@ export default function GalleryPreview() {
     <div className="p-4 border-t border-gray-200">
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-semibold text-gray-700 text-sm uppercase">
-          Gallery
+          {t('gallery.title')}
         </h3>
         <button
           onClick={() => navigate('/gallery')}
           className="text-orange-600 hover:text-orange-700 text-sm"
         >
-          View All
+          {t('gallery.viewAll')}
         </button>
       </div>
 
@@ -38,7 +40,7 @@ export default function GalleryPreview() {
       </div>
 
       {images.length === 0 && (
-        <p className="text-sm text-gray-500">No images yet</p>
+        <p className="text-sm text-gray-500">{t('gallery.noImages')}</p>
       )}
     </div>
   )

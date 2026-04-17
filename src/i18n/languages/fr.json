@@ -1,0 +1,58 @@
+{
+  "app": {
+    "title": "Super App"
+  },
+  "leftDrawer": {
+    "import": "Importer",
+    "importMarkdownFile": "Importer un fichier Markdown",
+    "importCustomBlock": "Importer un bloc personnalisé",
+    "importImage": "Importer une image"
+  },
+  "markdownFiles": {
+    "title": "Fichiers Markdown",
+    "viewAll": "Voir tout",
+    "newFile": "Nouveau fichier",
+    "newFolder": "Nouveau dossier",
+    "folderName": "Nom du dossier",
+    "fileName": "Nom du fichier",
+    "create": "Créer",
+    "cancel": "Annuler",
+    "renameFolder": "Renommer le dossier",
+    "deleteFolder": "Supprimer le dossier",
+    "importFile": "Importer un fichier",
+    "addNewFile": "Ajouter un nouveau fichier",
+    "addNewFolder": "Ajouter un nouveau dossier",
+    "renameFile": "Renommer le fichier",
+    "deleteFile": "Supprimer le fichier",
+    "exportFile": "Exporter le fichier en '.mdlc'",
+    "noFilesOrFolders": "Aucun fichier ou dossier"
+  },
+  "customBlocks": {
+    "title": "Blocs personnalisés",
+    "viewAll": "Voir tout",
+    "shortcut": "Raccourci :",
+    "noCustomBlocks": "Aucun bloc personnalisé"
+  },
+  "gallery": {
+    "title": "Galerie",
+    "viewAll": "Voir tout",
+    "noImages": "Aucune image"
+  },
+  "importModal": {
+    "importImages": "Importer des images",
+    "importMarkdownFiles": "Importer des fichiers Markdown",
+    "importCustomBlocks": "Importer des blocs personnalisés",
+    "selectFolder": "Sélectionner un dossier",
+    "root": "Racine",
+    "dropFiles": "Déposez les fichiers ici...",
+    "dragAndDrop": "Glissez-déposez les fichiers ici ou cliquez pour sélectionner",
+    "imageTypes": "PNG, JPG, WebP",
+    "markdownTypes": "Fichiers .md",
+    "customBlockTypes": ".part.mdlc, .parts.mdlc",
+    "invalidFileType": "Type d'extension incorrect. Veuillez réessayer."
+  },
+  "languageSwitcher": {
+    "english": "Anglais",
+    "french": "Français"
+  }
+}

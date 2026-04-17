@@ -5,6 +5,7 @@ import { addImage } from '../../store/slices/gallerySlice'
 import { importBlock } from '../../store/slices/customBlockSlice'
 import { useState, useEffect } from 'react'
 import { convertFileToBase64, convertFileToText } from '../../hooks/useFileConversion.js'
+import { useTranslation } from 'react-i18next'
 
 export default function ImportModal({
   isOpen,
@@ -14,6 +15,7 @@ export default function ImportModal({
 }) {
   const dispatch = useDispatch()
   const { folders } = useSelector((state) => state.markdown)
+  const { t } = useTranslation()
   const [selectedFolderId, setSelectedFolderId] = useState(
     initialFolderId || null
   )
@@ -82,7 +84,7 @@ export default function ImportModal({
     accept: acceptTypes,
     onDrop: async (acceptedFiles, rejectedFiles) => {
       if (rejectedFiles && rejectedFiles.length > 0) {
-        setError("Mauvais type d'extension. Veuillez réessayer.")
+        setError(t('importModal.invalidFileType'))
         return
       }
       setError(null)
@@ -100,11 +102,11 @@ export default function ImportModal({
 
   const getTitle = () => {
     const titles = {
-      image: 'Import Images',
-      markdown: 'Import Markdown Files',
-      customBlock: 'Import Custom Blocks',
+      image: 'importModal.importImages',
+      markdown: 'importModal.importMarkdownFiles',
+      customBlock: 'importModal.importCustomBlocks',
     }
-    return titles[mode] || titles.customBlock
+    return t(titles[mode] || titles.customBlock)
   }
 
   const getIcon = () => {
@@ -118,11 +120,11 @@ export default function ImportModal({
 
   const getFileTypes = () => {
     const types = {
-      image: 'PNG, JPG, WebP',
-      markdown: '.md files',
-      customBlock: '.part.mdlc, .parts.mdlc',
+      image: 'importModal.imageTypes',
+      markdown: 'importModal.markdownTypes',
+      customBlock: 'importModal.customBlockTypes',
     }
-    return types[mode] || types.customBlock
+    return t(types[mode] || types.customBlock)
   }
 
   if (!isOpen) return null
@@ -146,7 +148,7 @@ export default function ImportModal({
               htmlFor="folder-select"
               className="block text-sm font-medium mb-2"
             >
-              Select Folder
+              {t('importModal.selectFolder')}
             </label>
             <select
               id="folder-select"
@@ -154,7 +156,7 @@ export default function ImportModal({
               onChange={(e) => setSelectedFolderId(e.target.value || null)}
               className="w-full px-3 py-2 border rounded-lg"
             >
-              <option value="">Root</option>
+              <option value="">{t('importModal.root')}</option>
               {folders.map((folder) => {
                 const getFolderPath = (f) => {
                   if (!f.parentId) return f.name
@@ -185,11 +187,11 @@ export default function ImportModal({
             <span className="material-icons text-5xl">{getIcon()}</span>
           </span>
           {isDragActive ? (
-            <p className="text-blue-600">Drop the files here...</p>
+            <p className="text-blue-600">{t('importModal.dropFiles')}</p>
           ) : (
             <div>
               <p className="text-gray-600 mb-2">
-                Drag & drop files here, or click to select
+                {t('importModal.dragAndDrop')}
               </p>
               <p className="text-sm text-gray-400">{getFileTypes()}</p>
             </div>
