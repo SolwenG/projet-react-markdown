@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function BlockRow({ block, onEdit, onDelete, onExport }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef()
+  const { t } = useTranslation()
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -32,19 +34,19 @@ export default function BlockRow({ block, onEdit, onDelete, onExport }) {
               onClick={() => { onExport(block); setMenuOpen(false) }}
               className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
             >
-              Exporter
+              {t('blockRow.export')}
             </button>
             <button
               onClick={() => { onEdit(block); setMenuOpen(false) }}
               className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
             >
-              Modifier
+              {t('blockRow.edit')}
             </button>
             <button
               onClick={() => { onDelete(block.id); setMenuOpen(false) }}
               className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-50"
             >
-              Supprimer
+              {t('blockRow.delete')}
             </button>
           </div>
         )}

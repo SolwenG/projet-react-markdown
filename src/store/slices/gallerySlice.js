@@ -20,7 +20,8 @@ export const uploadImage = createAsyncThunk(
     const result = await addImage(name, base64)
     return {
       ...result,
-      date: result.date instanceof Date ? result.date.toISOString() : result.date,
+      date:
+        result.date instanceof Date ? result.date.toISOString() : result.date,
     }
   }
 )
@@ -36,7 +37,8 @@ export const renameImage = createAsyncThunk(
     const result = await renameImageDB(id, name)
     return {
       ...result,
-      date: result.date instanceof Date ? result.date.toISOString() : result.date,
+      date:
+        result.date instanceof Date ? result.date.toISOString() : result.date,
     }
   }
 )
@@ -72,7 +74,9 @@ const gallerySlice = createSlice({
       })
 
       .addCase(renameImage.fulfilled, (state, action) => {
-        const index = state.items.findIndex((img) => img.id === action.payload.id)
+        const index = state.items.findIndex(
+          (img) => img.id === action.payload.id
+        )
         if (index !== -1) {
           state.items[index] = action.payload
         }

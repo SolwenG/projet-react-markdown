@@ -3,18 +3,25 @@ import { useDropzone } from 'react-dropzone'
 import { addFile } from '../../store/slices/markdownSlice'
 import { uploadImage } from '../../store/slices/gallerySlice'
 import { importBlocks } from '../../store/slices/customBlocks/customBlocksSlice'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   convertFileToBase64,
   convertFileToText,
 } from '../../hooks/useFileConversion.js'
 import { useTranslation } from 'react-i18next'
+import {
+  validateMdlcFile,
+  readMdlcFile,
+  importBlocksFromFile,
+} from '../../utils/mdlcFiles.js'
 
 export default function ImportModal({
   onClose,
   mode,
   selectedFolderId: initialFolderId,
   isOpen,
+  onImport,
+  existingBlocks,
 }) {
   const dispatch = useDispatch()
   const { folders } = useSelector((state) => state.markdown)
@@ -23,6 +30,13 @@ export default function ImportModal({
     initialFolderId || null
   )
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (isOpen) {
+      setError(null)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen])
 
   const getAcceptTypes = () => {
     const types = {
@@ -38,7 +52,7 @@ export default function ImportModal({
       },
       markdown: { 'text/markdown': ['.md'] },
       customBlock: {
-        'application/json': ['.part.mdlc', '.parts.mdlc', '.json'],
+        'application/json': ['.part.mdlc', '.parts.mdlc'],
       },
     }
     return types[mode] || types.customBlock
@@ -90,15 +104,32 @@ export default function ImportModal({
   }
 
   const processCustomBlocks = async (files) => {
+    let success = true
     for (const file of files) {
-      const content = await convertFileToText(file)
       try {
-        const data = JSON.parse(content)
-        dispatch(importBlocks(Array.isArray(data) ? data : [data]))
-      } catch (error) {
-        console.error('Error importing block:', error)
+        validateMdlcFile(file)
+        const content = await readMdlcFile(file)
+        const newBlocks = existingBlocks
+          ? importBlocksFromFile(content, existingBlocks)
+          : JSON.parse(content)
+        const blocksToImport = Array.isArray(newBlocks)
+          ? newBlocks
+          : [newBlocks]
+        if (blocksToImport.length === 0) {
+          setError(t('importModal.noNewBlocks'))
+          success = false
+        }
+        if (onImport) {
+          onImport(blocksToImport)
+        } else {
+          dispatch(importBlocks(blocksToImport))
+        }
+      } catch (e) {
+        setError(e.message)
+        success = false
       }
     }
+    return success
   }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -111,12 +142,16 @@ export default function ImportModal({
       setError(null)
       if (mode === 'image') {
         await processImages(acceptedFiles)
+        onClose()
       } else if (mode === 'markdown') {
         await processMarkdownFiles(acceptedFiles)
+        onClose()
       } else {
-        await processCustomBlocks(acceptedFiles)
+        const success = await processCustomBlocks(acceptedFiles)
+        if (success) {
+          onClose()
+        }
       }
-      onClose()
     },
   })
 
@@ -211,7 +246,9 @@ export default function ImportModal({
           ) : (
             <div>
               <p className="text-gray-600 mb-2">
-                {t('importModal.dragAndDrop')}
+                {mode === 'customBlock' && onImport
+                  ? t('importModal.dragAndDrop')
+                  : t('importModal.dragAndDrop')}
               </p>
               <p className="text-sm text-gray-400">{getFileTypes()}</p>
             </div>

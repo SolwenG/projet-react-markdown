@@ -13,8 +13,10 @@ export function exportAllBlocks(blocks) {
 }
 
 export function validateMdlcFile(file) {
-  if (!file.name.endsWith('.mdlc')) {
-    throw new Error("Le fichier doit avoir l'extension .mdlc")
+  if (!file.name.endsWith('.part.mdlc') && !file.name.endsWith('.parts.mdlc')) {
+    throw new Error(
+      "Le fichier doit avoir l'extension .part.mdlc ou .parts.mdlc"
+    )
   }
 }
 
