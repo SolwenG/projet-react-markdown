@@ -10,9 +10,19 @@ import {
   deleteFile,
   renameFolder,
   renameFile,
+  moveFile,
+  moveFolder,
 } from '../../store/slices/markdownSlice.js'
 import { useNavigate } from 'react-router-dom'
 import ImportModal from '../global/ImportModal.jsx'
+import {
+  DndContext,
+  closestCenter,
+  useDraggable,
+  useDroppable,
+  DragOverlay,
+} from '@dnd-kit/core'
+import { CSS } from '@dnd-kit/utilities'
 
 export default function MarkdownFilesTree() {
   const dispatch = useDispatch()
@@ -29,6 +39,7 @@ export default function MarkdownFilesTree() {
   const [currentFolderId, setCurrentFolderId] = useState(null)
   const importModal = useModal(false)
   const [importFolderId, setImportFolderId] = useState(null)
+  const [activeId, setActiveId] = useState(null)
 
   const toggleFolder = (folderId) => {
     setExpandedFolders((prev) => ({
@@ -104,22 +115,141 @@ export default function MarkdownFilesTree() {
     URL.revokeObjectURL(url)
   }
 
-  const getRootFiles = () => files.filter((f) => !f.folderId)
-  const getFolderFiles = (folderId) =>
-    files.filter((f) => f.folderId === folderId)
-  const getRootFolders = () => folders.filter((f) => !f.parentId)
-  const getChildFolders = (folderId) =>
-    folders.filter((f) => f.parentId === folderId)
+  const handleDragStart = (event) => {
+    setActiveId(event.active.id)
+  }
 
-  const FolderTree = ({ folder, level = 0 }) => {
+  const handleDragEnd = (event) => {
+    const { active, over } = event
+    setActiveId(null)
+
+    if (!over) return
+
+    const activeData = active.data.current
+    const overData = over.data.current
+
+    if (!activeData || !overData) return
+
+    if (activeData.type === 'file' && overData.type === 'folder') {
+      dispatch(moveFile({ fileId: activeData.id, targetFolderId: overData.id }))
+    } else if (activeData.type === 'folder' && overData.type === 'folder') {
+      if (activeData.id !== overData.id && !isDescendant(activeData.id, overData.id)) {
+        dispatch(moveFolder({ folderId: activeData.id, targetFolderId: overData.id }))
+      }
+    } else if (overData.type === 'root') {
+      if (activeData.type === 'file') {
+        dispatch(moveFile({ fileId: activeData.id, targetFolderId: null }))
+      } else if (activeData.type === 'folder') {
+        dispatch(moveFolder({ folderId: activeData.id, targetFolderId: null }))
+      }
+    }
+  }
+
+  const isDescendant = (folderId, potentialAncestorId) => {
+    if (!potentialAncestorId) return false
+    let currentFolder = folders.find((f) => f.id === potentialAncestorId)
+    while (currentFolder && currentFolder.parentId) {
+      if (currentFolder.parentId === folderId) return true
+      currentFolder = folders.find((f) => f.id === currentFolder.parentId)
+    }
+    return false
+  }
+
+  const DraggableFile = ({ file, level = 0, isRoot = false }) => {
+    const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+      id: file.id,
+      data: { type: 'file', id: file.id, item: file },
+    })
+
+    const style = {
+      transform: CSS.Translate.toString(transform),
+      opacity: isDragging ? 0.5 : 1,
+      marginLeft: isRoot ? 0 : `${level * 16}px`,
+    }
+
+    return (
+      <div
+        ref={setNodeRef}
+        style={style}
+        className={`flex items-center gap-1 py-1 px-2 hover:bg-gray-100 rounded group ${
+          isDragging ? 'opacity-50' : ''
+        }`}
+      >
+        <span className="w-4"></span>
+        <span className="material-icons text-blue-500 text-sm cursor-grab" {...listeners} {...attributes}>
+          description
+        </span>
+        {editingId === file.id ? (
+          <input
+            type="text"
+            value={editName}
+            onChange={(e) => setEditName(e.target.value)}
+            onBlur={() => handleRename(file.id, 'file')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleRename(file.id, 'file')
+            }}
+            className="flex-1 px-1 py-0.5 text-sm border rounded"
+            autoFocus
+          />
+        ) : (
+          <span className="flex-1 text-sm cursor-grab" {...listeners} {...attributes}>{file.name}.md</span>
+        )}
+        <DropdownMenu
+          position="right"
+          trigger={
+            <button className="p-0.5 hover:bg-gray-200 rounded opacity-0 group-hover:opacity-100">
+              <span className="material-icons text-sm">more_horiz</span>
+            </button>
+          }
+        >
+          <DropdownItem onClick={() => handleStartEditFile(file)}>
+            {t('markdownFiles.renameFile')}
+          </DropdownItem>
+          <DropdownItem
+            onClick={() => dispatch(deleteFile({ id: file.id }))}
+            danger
+          >
+            {t('markdownFiles.deleteFile')}
+          </DropdownItem>
+          <DropdownItem onClick={() => handleExportFile(file)}>
+            {t('markdownFiles.exportFile')}
+          </DropdownItem>
+        </DropdownMenu>
+      </div>
+    )
+  }
+
+  const DroppableFolder = ({ folder, level = 0 }) => {
+    const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+      id: folder.id,
+      data: { type: 'folder', id: folder.id, item: folder },
+    })
+
+    const { setNodeRef: setDroppableRef, isOver } = useDroppable({
+      id: folder.id,
+      data: { type: 'folder', id: folder.id },
+    })
+
     const childFolders = getChildFolders(folder.id)
     const folderFiles = getFolderFiles(folder.id)
+    const canDrop = !isDescendant(folder.id, activeId) && activeId !== folder.id
+
+    const style = {
+      transform: CSS.Translate.toString(transform),
+      marginLeft: `${level * 16}px`,
+    }
 
     return (
       <div key={folder.id}>
         <div
-          className="flex items-center gap-1 py-1 px-2 hover:bg-gray-100 rounded group"
-          style={{ marginLeft: `${level * 16}px` }}
+          ref={(node) => {
+            setNodeRef(node)
+            setDroppableRef(node)
+          }}
+          style={style}
+          className={`flex items-center gap-1 py-1 px-2 rounded group ${
+            isOver && canDrop ? 'bg-blue-100 border-2 border-blue-300' : 'hover:bg-gray-100'
+          } ${isDragging ? 'opacity-50' : ''}`}
         >
           <button
             onClick={() => toggleFolder(folder.id)}
@@ -129,7 +259,9 @@ export default function MarkdownFilesTree() {
               {expandedFolders[folder.id] ? 'expand_more' : 'chevron_right'}
             </span>
           </button>
-          <span className="material-icons text-yellow-500 text-sm">folder</span>
+          <span className="material-icons text-yellow-500 text-sm cursor-grab" {...listeners} {...attributes}>
+            folder
+          </span>
           {editingId === folder.id ? (
             <input
               type="text"
@@ -143,7 +275,7 @@ export default function MarkdownFilesTree() {
               autoFocus
             />
           ) : (
-            <span className="flex-1 text-sm">{folder.name}</span>
+            <span className="flex-1 text-sm cursor-grab" {...listeners} {...attributes}>{folder.name}</span>
           )}
           <DropdownMenu
             position="right"
@@ -174,65 +306,21 @@ export default function MarkdownFilesTree() {
           </DropdownMenu>
         </div>
 
-        {/* Folder contents */}
         {expandedFolders[folder.id] && (
           <div className="space-y-1">
-            {/* Nested folders */}
             {childFolders.map((childFolder) => (
-              <FolderTree
+              <DroppableFolder
                 key={childFolder.id}
                 folder={childFolder}
                 level={level + 1}
               />
             ))}
-            {/* Files in this folder */}
             {folderFiles.map((file) => (
-              <div
+              <DraggableFile
                 key={file.id}
-                className="flex items-center gap-1 py-1 px-2 hover:bg-gray-100 rounded group"
-                style={{ marginLeft: `${(level + 1) * 16}px` }}
-              >
-                <span className="w-4"></span>
-                <span className="material-icons text-blue-500 text-sm">
-                  description
-                </span>
-                {editingId === file.id ? (
-                  <input
-                    type="text"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                    onBlur={() => handleRename(file.id, 'file')}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleRename(file.id, 'file')
-                    }}
-                    className="flex-1 px-1 py-0.5 text-sm border rounded"
-                    autoFocus
-                  />
-                ) : (
-                  <span className="flex-1 text-sm">{file.name}.md</span>
-                )}
-                <DropdownMenu
-                  position="right"
-                  trigger={
-                    <button className="p-0.5 hover:bg-gray-200 rounded opacity-0 group-hover:opacity-100">
-                      <span className="material-icons text-sm">more_horiz</span>
-                    </button>
-                  }
-                >
-                  <DropdownItem onClick={() => handleStartEditFile(file)}>
-                    {t('markdownFiles.renameFile')}
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => dispatch(deleteFile({ id: file.id }))}
-                    danger
-                  >
-                    {t('markdownFiles.deleteFile')}
-                  </DropdownItem>
-                  <DropdownItem onClick={() => handleExportFile(file)}>
-                    {t('markdownFiles.exportFile')}
-                  </DropdownItem>
-                </DropdownMenu>
-              </div>
+                file={file}
+                level={level + 1}
+              />
             ))}
           </div>
         )}
@@ -240,8 +328,38 @@ export default function MarkdownFilesTree() {
     )
   }
 
+  const getRootFiles = () => files.filter((f) => !f.folderId)
+  const getFolderFiles = (folderId) =>
+    files.filter((f) => f.folderId === folderId)
+  const getRootFolders = () => folders.filter((f) => !f.parentId)
+  const getChildFolders = (folderId) =>
+    folders.filter((f) => f.parentId === folderId)
+
+  const RootDropZone = () => {
+    const { setNodeRef, isOver } = useDroppable({
+      id: 'root',
+      data: { type: 'root' },
+    })
+
+    if (!activeId) return null
+
+    return (
+      <div
+        ref={setNodeRef}
+        className={`mb-2 p-2 border-2 border-dashed rounded transition-colors ${
+          isOver ? 'border-blue-400 bg-blue-50' : 'border-gray-300 bg-gray-50'
+        }`}
+      >
+        <p className="text-xs text-gray-500 text-center">
+          {t('markdownFiles.dropToRoot')}
+        </p>
+      </div>
+    )
+  }
+
   return (
-    <div className="p-4">
+    <DndContext collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <div className="p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-semibold text-gray-700 text-sm uppercase">
           {t('markdownFiles.title')}
@@ -334,59 +452,17 @@ export default function MarkdownFilesTree() {
         </div>
       )}
 
+      <RootDropZone />
+
       <div className="space-y-1">
         {/* Folders */}
         {getRootFolders().map((folder) => (
-          <FolderTree key={folder.id} folder={folder} />
+          <DroppableFolder key={folder.id} folder={folder} />
         ))}
 
         {/* Root files */}
         {getRootFiles().map((file) => (
-          <div
-            key={file.id}
-            className="flex items-center gap-1 py-1 px-2 hover:bg-gray-100 rounded group"
-          >
-            <span className="w-4"></span>
-            <span className="material-icons text-blue-500 text-sm">
-              description
-            </span>
-            {editingId === file.id ? (
-              <input
-                type="text"
-                value={editName}
-                onChange={(e) => setEditName(e.target.value)}
-                onBlur={() => handleRename(file.id, 'file')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleRename(file.id, 'file')
-                }}
-                className="flex-1 px-1 py-0.5 text-sm border rounded"
-                autoFocus
-              />
-            ) : (
-              <span className="flex-1 text-sm">{file.name}.md</span>
-            )}
-            <DropdownMenu
-              position="right"
-              trigger={
-                <button className="p-0.5 hover:bg-gray-200 rounded opacity-0 group-hover:opacity-100">
-                  <span className="material-icons text-sm">more_horiz</span>
-                </button>
-              }
-            >
-              <DropdownItem onClick={() => handleStartEditFile(file)}>
-                {t('markdownFiles.renameFile')}
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => dispatch(deleteFile({ id: file.id }))}
-                danger
-              >
-                {t('markdownFiles.deleteFile')}
-              </DropdownItem>
-              <DropdownItem onClick={() => handleExportFile(file)}>
-                {t('markdownFiles.exportFile')}
-              </DropdownItem>
-            </DropdownMenu>
-          </div>
+          <DraggableFile key={file.id} file={file} isRoot />
         ))}
 
         {folders.length === 0 && getRootFiles().length === 0 && (
@@ -404,5 +480,6 @@ export default function MarkdownFilesTree() {
         selectedFolderId={importFolderId}
       />
     </div>
+    </DndContext>
   )
 }

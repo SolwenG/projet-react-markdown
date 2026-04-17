@@ -53,6 +53,19 @@ const markdownSlice = createSlice({
     deleteFile: (state, action) => {
       state.files = state.files.filter((f) => f.id !== action.payload.id)
     },
+    moveFile: (state, action) => {
+      const file = state.files.find((f) => f.id === action.payload.fileId)
+      if (file) {
+        file.folderId = action.payload.targetFolderId || null
+        file.updatedAt = new Date().toISOString()
+      }
+    },
+    moveFolder: (state, action) => {
+      const folder = state.folders.find((f) => f.id === action.payload.folderId)
+      if (folder) {
+        folder.parentId = action.payload.targetFolderId || null
+      }
+    },
   },
 })
 
@@ -63,6 +76,8 @@ export const {
   addFile,
   renameFile,
   deleteFile,
+  moveFile,
+  moveFolder,
 } = markdownSlice.actions
 
 export default markdownSlice.reducer

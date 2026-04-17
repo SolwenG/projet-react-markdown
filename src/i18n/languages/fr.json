@@ -25,7 +25,9 @@
     "renameFile": "Renommer le fichier",
     "deleteFile": "Supprimer le fichier",
     "exportFile": "Exporter le fichier en '.mdlc'",
-    "noFilesOrFolders": "Aucun fichier ou dossier"
+    "noFilesOrFolders": "Aucun fichier ou dossier",
+    "dragToRoot": "Glisser vers la racine",
+    "dropToRoot": "Déposer vers la racine"
   },
   "customBlocks": {
     "title": "Blocs personnalisés",
