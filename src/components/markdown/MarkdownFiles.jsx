@@ -36,7 +36,7 @@ function Markdown() {
     <div className="p-8">
       {loading && <p>Loading...</p>}
       <div
-        className="p-6 bg-white border border-gray-200 rounded-lg mb-8"
+        className="p-6 bg-white border border-gray-200 rounded-lg mb-8 prose max-w-none"
         dangerouslySetInnerHTML={{
           __html: marked.parse(
             '# Marked in Node.js\n\nRendered by **marked**.\n\n ## This is a H2. \n\n ### This is a H3'
