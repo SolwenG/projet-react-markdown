@@ -1,13 +1,20 @@
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { fetchImages } from '../../store/slices/gallerySlice'
 
 export default function GalleryPreview() {
-  const { images } = useSelector((state) => state.gallery)
+  const dispatch = useDispatch()
+  const { items } = useSelector((state) => state.images)
   const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const latestImages = images.slice(-4).reverse()
+  useEffect(() => {
+    dispatch(fetchImages())
+  }, [dispatch])
+
+  const latestImages = items.slice(-4).reverse()
 
   return (
     <div className="p-4 border-t border-gray-200">
@@ -31,7 +38,7 @@ export default function GalleryPreview() {
             onClick={() => navigate('/gallery')}
           >
             <img
-              src={image.data}
+              src={image.base64}
               alt={image.name}
               className="w-full h-full object-cover"
             />
@@ -39,7 +46,7 @@ export default function GalleryPreview() {
         ))}
       </div>
 
-      {images.length === 0 && (
+      {items.length === 0 && (
         <p className="text-sm text-gray-500">{t('gallery.noImages')}</p>
       )}
     </div>

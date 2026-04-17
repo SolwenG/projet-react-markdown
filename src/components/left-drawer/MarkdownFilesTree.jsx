@@ -501,15 +501,16 @@ export default function MarkdownFilesTree() {
           )}
         </div>
 
-        <ImportModal
-          isOpen={importModal.isOpen}
-          onClose={() => {
-            importModal.close()
-            setImportFolderId(null)
-          }}
-          mode="markdown"
-          selectedFolderId={importFolderId}
-        />
+        {importModal.isOpen && (
+          <ImportModal
+            onClose={() => {
+              importModal.close()
+              setImportFolderId(null)
+            }}
+            mode="markdown"
+            selectedFolderId={importFolderId}
+          />
+        )}
       </div>
     </DndContext>
   )

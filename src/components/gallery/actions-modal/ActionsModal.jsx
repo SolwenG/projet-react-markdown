@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { removeImage, renameImage } from '../../../store/images/imagesSlice'
+import { removeImage, renameImage } from '../../../store/slices/gallerySlice'
 import RenameForm from './RenameForm'
 import DropdownMenu from '../../global/DropdownMenu'
 

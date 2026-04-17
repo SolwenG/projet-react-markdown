@@ -31,11 +31,12 @@ export default function LeftDrawer() {
         <SwitchLanguage />
       </div>
 
-      <ImportModal
-        isOpen={importModal.isOpen}
-        onClose={importModal.close}
-        mode={importMode}
-      />
+      {importModal.isOpen && (
+        <ImportModal
+          onClose={importModal.close}
+          mode={importMode}
+        />
+      )}
     </aside>
   )
 }

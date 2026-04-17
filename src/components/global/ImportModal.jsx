@@ -1,14 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useDropzone } from 'react-dropzone'
 import { addFile } from '../../store/slices/markdownSlice'
-import { addImage } from '../../store/slices/gallerySlice'
+import { uploadImage } from '../../store/slices/gallerySlice'
 import { importBlock } from '../../store/slices/customBlockSlice'
-import { useState, useEffect } from 'react'
-import { convertFileToBase64, convertFileToText } from '../../hooks/useFileConversion.js'
+import { useState } from 'react'
+import {
+  convertFileToBase64,
+  convertFileToText,
+} from '../../hooks/useFileConversion.js'
 import { useTranslation } from 'react-i18next'
 
 export default function ImportModal({
-  isOpen,
   onClose,
   mode,
   selectedFolderId: initialFolderId,
@@ -21,16 +23,18 @@ export default function ImportModal({
   )
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    if (isOpen) {
-      setSelectedFolderId(initialFolderId || null)
-      setError(null)
-    }
-  }, [isOpen, initialFolderId])
-
   const getAcceptTypes = () => {
     const types = {
-      image: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] },
+      image: {
+        'image/*': [
+          '.png',
+          '.jpg',
+          '.jpeg',
+          '.webp',
+          '.img.mdlc',
+          '.imgs.mdlc',
+        ],
+      },
       markdown: { 'text/markdown': ['.md'] },
       customBlock: {
         'application/json': ['.part.mdlc', '.parts.mdlc', '.json'],
@@ -41,17 +45,33 @@ export default function ImportModal({
 
   const acceptTypes = getAcceptTypes()
 
+  const importFromFile = (file, onLoad) => {
+    const reader = new FileReader()
+    reader.onload = () => onLoad(reader.result)
+    reader.readAsText(file)
+  }
+
   const processImages = async (files) => {
     for (const file of files) {
-      const base64 = await convertFileToBase64(file)
-      dispatch(
-        addImage({
-          name: file.name,
-          data: base64,
-          size: file.size,
-          type: file.type,
+      if (file.name.endsWith('.imgs.mdlc')) {
+        importFromFile(file, (result) => {
+          JSON.parse(result).forEach(({ name, base64 }) =>
+            dispatch(uploadImage({ name, base64 }))
+          )
         })
-      )
+        return
+      }
+
+      if (file.name.endsWith('.img.mdlc')) {
+        importFromFile(file, (result) => {
+          const { name, base64 } = JSON.parse(result)
+          dispatch(uploadImage({ name, base64 }))
+        })
+        return
+      }
+
+      const base64 = await convertFileToBase64(file)
+      dispatch(uploadImage({ name: file.name, base64 }))
     }
   }
 
@@ -99,7 +119,6 @@ export default function ImportModal({
     },
   })
 
-
   const getTitle = () => {
     const titles = {
       image: 'importModal.importImages',
@@ -126,8 +145,6 @@ export default function ImportModal({
     }
     return t(types[mode] || types.customBlock)
   }
-
-  if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">

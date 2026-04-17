@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchImages, uploadImage } from '../../store/images/imagesSlice.js'
+import { fetchImages, uploadImage } from '../../store/slices/gallerySlice.js'
 
 export function useImageGallery() {
   const dispatch = useDispatch()
