@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useDropzone } from 'react-dropzone'
-import { addFile } from '../../store/slices/markdownSlice'
+import { addMarkdownFile } from '../../store/slices/markdownSlice'
 import { uploadImage } from '../../store/slices/gallerySlice'
 import { importBlock } from '../../store/slices/customBlockSlice'
 import { useState } from 'react'
@@ -80,9 +80,9 @@ export default function ImportModal({
     for (const file of files) {
       const content = await convertFileToText(file)
       dispatch(
-        addFile({
+        addMarkdownFile({
           name: file.name.replace('.md', ''),
-          content,
+          body: content,
           folderId: selectedFolderId,
         })
       )

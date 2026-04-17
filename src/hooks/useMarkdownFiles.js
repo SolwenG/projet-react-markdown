@@ -1,0 +1,45 @@
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  fetchMarkdownFiles,
+  addMarkdownFile,
+  removeMarkdownFile,
+  clearMarkdownFiles,
+} from '../store/slices/markdownSlice.js'
+
+export default function useMarkdownFiles() {
+  const dispatch = useDispatch()
+  const { files, folders, loading, error } = useSelector((state) => state.markdown)
+
+  // Derived State: Calculate newest first, then pick top 10
+  const computedFiles = [...files].reverse().slice(0, 10)
+
+  useEffect(() => {
+    dispatch(fetchMarkdownFiles())
+  }, [dispatch])
+
+  const handleCreate = async (fileDetails) => {
+    await dispatch(addMarkdownFile(fileDetails))
+  }
+
+  const handleDelete = async (id) => {
+    await dispatch(removeMarkdownFile(id))
+  }
+
+  const handleDeleteAll = async () => {
+    // A confirmation would be good here in a real app!
+    await dispatch(clearMarkdownFiles())
+  }
+
+  return {
+    files: computedFiles,
+    allFiles: files,
+    folders,
+    totalFiles: files.length,
+    loading,
+    error,
+    handleCreate,
+    handleDelete,
+    handleDeleteAll,
+  }
+}

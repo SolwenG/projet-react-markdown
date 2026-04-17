@@ -1,17 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import DropdownMenu from '../global/DropdownMenu.jsx'
 import useModal from '../../hooks/useModal.js'
 import { useTranslation } from 'react-i18next'
 import {
   addFolder,
-  addFile,
   deleteFolder,
-  deleteFile,
   renameFolder,
   renameFile,
   moveFile,
   moveFolder,
+  addMarkdownFile,
+  removeMarkdownFile,
+  fetchMarkdownFiles,
 } from '../../store/slices/markdownSlice.js'
 import { useNavigate } from 'react-router-dom'
 import ImportModal from '../global/ImportModal.jsx'
@@ -39,6 +40,10 @@ export default function MarkdownFilesTree() {
   const importModal = useModal(false)
   const [importFolderId, setImportFolderId] = useState(null)
   const [activeId, setActiveId] = useState(null)
+
+  useEffect(() => {
+    dispatch(fetchMarkdownFiles())
+  }, [dispatch])
 
   const toggleFolder = (folderId) => {
     setExpandedFolders((prev) => ({
@@ -71,7 +76,11 @@ export default function MarkdownFilesTree() {
   const handleCreateFile = () => {
     if (newFileName.trim()) {
       dispatch(
-        addFile({ name: newFileName, content: '', folderId: currentFolderId })
+        addMarkdownFile({
+          name: newFileName,
+          body: '',
+          folderId: currentFolderId,
+        })
       )
       setNewFileName('')
       setShowNewFile(false)
@@ -105,7 +114,7 @@ export default function MarkdownFilesTree() {
   }
 
   const handleExportFile = (file) => {
-    const blob = new Blob([file.content], { type: 'text/markdown' })
+    const blob = new Blob([file.body || ''], { type: 'text/markdown' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
@@ -223,7 +232,7 @@ export default function MarkdownFilesTree() {
             },
             {
               label: t('markdownFiles.deleteFile'),
-              onClick: () => dispatch(deleteFile({ id: file.id })),
+              onClick: () => dispatch(removeMarkdownFile(file.id)),
               danger: true,
             },
             {

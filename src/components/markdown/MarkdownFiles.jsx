@@ -1,147 +1,120 @@
 //#region Imports
-import { useEffect, useState } from 'react'
-import {
-  createMdFile,
-  deleteAllFiles,
-  deleteFileById,
-  getAllFiles,
-} from '../../database/markdown-files'
+import { useState } from 'react'
 import { marked } from 'marked'
-import styles from './css/MarkdownFiles.module.css'
+import useMarkdownFiles from '../../hooks/useMarkdownFiles.js'
 //#endregion
 
 function Markdown() {
   //#region States
-  const [files, setFiles] = useState([])
+  const {
+    files,
+    totalFiles,
+    loading,
+    handleCreate,
+    handleDelete,
+    handleDeleteAll,
+  } = useMarkdownFiles()
+
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [body, setBody] = useState('')
-
-  // Derived State: No need to store this in state, just calculate it on render.
-  const computedFiles = files.slice(0, 10)
   //#endregion
 
   //#region Functions
-  // Function
-  async function fetchFiles() {
-    const allFiles = await getAllFiles()
-    setFiles(allFiles.reverse()) // Show newest first
-  }
-
-  async function handleCreateFile(event) {
+  async function onSubmitFile(event) {
     event.preventDefault()
-    await createMdFile({ name, description, body })
+    await handleCreate({ name, description, body })
     // Clear form
     setName('')
     setDescription('')
     setBody('')
-    // After creating, we refetch the files to update the list.
-    await fetchFiles()
   }
-
-  async function deleteFile(id) {
-    await deleteFileById(id)
-    // After deleting, we refetch the files to update the list.
-    await fetchFiles()
-  }
-
-  async function handleDeleteAll() {
-    // A confirmation would be good here in a real app!
-    await deleteAllFiles()
-    await fetchFiles()
-  }
-  //#endregion
-
-  //#region Effects
-  useEffect(() => {
-    let isMounted = true
-
-    getAllFiles().then((allFiles) => {
-      if (isMounted) {
-        setFiles(allFiles.reverse())
-      }
-    })
-
-    console.log('Montage du composant')
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
   //#endregion
 
   //Render
   return (
-    <div className={styles.container}>
+    <div className="p-8">
+      {loading && <p>Loading...</p>}
       <div
-        className={styles.preview}
+        className="p-6 bg-white border border-gray-200 rounded-lg mb-8"
         dangerouslySetInnerHTML={{
           __html: marked.parse(
             '# Marked in Node.js\n\nRendered by **marked**.\n\n ## This is a H2. \n\n ### This is a H3'
           ),
         }}
       />
-      <form onSubmit={handleCreateFile} className={styles.form}>
-        <div className={styles.formGroup}>
-          <label htmlFor="name" className={styles.label}>
+      <form
+        onSubmit={onSubmitFile}
+        className="flex flex-col gap-4 mb-8 max-w-2xl"
+      >
+        <div className="flex flex-col gap-2">
+          <label htmlFor="name" className="font-semibold text-gray-700">
             Name:
           </label>
           <input
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className={styles.input}
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="description" className={styles.label}>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="description" className="font-semibold text-gray-700">
             Description:
           </label>
           <textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className={styles.textarea}
+            className="p-2 border border-gray-300 rounded min-h-[100px] focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="body" className={styles.label}>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="body" className="font-semibold text-gray-700">
             Content (Markdown):
           </label>
           <textarea
             id="body"
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            className={styles.textarea}
+            className="p-2 border border-gray-300 rounded min-h-[150px] focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
-        <button type="submit" className={styles.button}>
+        <button
+          type="submit"
+          className="self-start px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
+        >
           Create File
         </button>
       </form>
 
-      <div className={styles.fileListContainer}>
+      <div className="mt-8 pt-8 border-t border-gray-200">
         <details open>
-          <summary className={styles.summary}>Files: {files.length}</summary>
+          <summary className="cursor-pointer text-xl font-semibold mb-4 text-gray-800">
+            Files: {totalFiles}
+          </summary>
           <button
             type="button"
             onClick={handleDeleteAll}
-            className={styles.deleteAllButton}
+            className="mb-4 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600"
           >
             Delete All Files
           </button>
-          <ul className={styles.list}>
-            {computedFiles.map((file) => (
-              <li key={file.id} className={styles.listItem}>
+          <ul className="flex flex-col gap-2">
+            {files.map((file) => (
+              <li
+                key={file.id}
+                className="flex justify-between items-center p-3 bg-white border border-gray-200 rounded shadow-sm"
+              >
                 <span>
                   {file.name} - {new Date(file.date).toLocaleString()}
                 </span>
                 <button
                   type="button"
-                  onClick={() => deleteFile(file.id)}
-                  className={styles.deleteButton}
+                  onClick={() => handleDelete(file.id)}
+                  className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600"
                 >
                   Delete
                 </button>
