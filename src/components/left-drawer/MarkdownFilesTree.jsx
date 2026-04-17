@@ -20,7 +20,6 @@ import {
   closestCenter,
   useDraggable,
   useDroppable,
-  DragOverlay,
 } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 
