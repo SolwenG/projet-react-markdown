@@ -18,15 +18,17 @@ const inputClass = "bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-
 export default function BlockCreateModal({ isOpen, onClose, onSubmit, blockToEdit, error }) {
   const [name, setName] = useState(blockToEdit?.name || '')
   const [description, setDescription] = useState(blockToEdit?.description || '')
+  const [content, setContent] = useState(blockToEdit?.content || '')
   const { shortcut, shortcutWarning, handleShortcutKeyDown } = useShortcutInput(blockToEdit?.shortcut || '')
 
   function handleSubmit(e) {
     e.preventDefault()
-    if (!name.trim() || !description.trim()) return
+    if (!name.trim() || !content.trim()) return
     onSubmit({
       ...(blockToEdit && { id: blockToEdit.id, date: blockToEdit.date }),
       name: name.trim(),
       description: description.trim(),
+      content: content.trim(),
       shortcut: shortcut || null,
     })
   }
@@ -46,9 +48,14 @@ export default function BlockCreateModal({ isOpen, onClose, onSubmit, blockToEdi
               placeholder="ex: Introduction" className={inputClass} />
           </FormField>
 
-          <FormField label="Description / Contenu">
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)}
-              placeholder="ex: ## Introduction" rows={4}
+          <FormField label="Description" hint="(optionnel)">
+            <input type="text" value={description} onChange={(e) => setDescription(e.target.value)}
+              placeholder="ex: Bloc d'introduction de document" className={inputClass} />
+          </FormField>
+
+          <FormField label="Contenu markdown">
+            <textarea value={content} onChange={(e) => setContent(e.target.value)}
+              placeholder={"ex: ## Introduction\nBienvenue dans..."} rows={4}
               className={`${inputClass} resize-none`} />
           </FormField>
 
