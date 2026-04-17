@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useShortcutInput } from '../../../hooks/useShortcutInput'
 
 function FormField({ label, hint, children }) {
@@ -16,21 +16,9 @@ function FormField({ label, hint, children }) {
 const inputClass = "bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-400"
 
 export default function BlockCreateModal({ isOpen, onClose, onSubmit, blockToEdit, error }) {
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const { shortcut, shortcutWarning, handleShortcutKeyDown, resetShortcut } = useShortcutInput()
-
-  useEffect(() => {
-    if (blockToEdit) {
-      setName(blockToEdit.name)
-      setDescription(blockToEdit.description)
-      resetShortcut(blockToEdit.shortcut || '')
-    } else {
-      setName('')
-      setDescription('')
-      resetShortcut()
-    }
-  }, [blockToEdit, isOpen])
+  const [name, setName] = useState(blockToEdit?.name || '')
+  const [description, setDescription] = useState(blockToEdit?.description || '')
+  const { shortcut, shortcutWarning, handleShortcutKeyDown } = useShortcutInput(blockToEdit?.shortcut || '')
 
   function handleSubmit(e) {
     e.preventDefault()

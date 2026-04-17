@@ -12,8 +12,8 @@ const RESERVED_SHORTCUTS = isMac ? [
   'ctrl+u', 'ctrl+shift+t', 'ctrl+shift+n', 'alt+f4'
 ]
 
-export function useShortcutInput() {
-  const [shortcut, setShortcut] = useState('')
+export function useShortcutInput(initialValue = '') {
+  const [shortcut, setShortcut] = useState(initialValue)
   const [shortcutWarning, setShortcutWarning] = useState('')
 
   function handleShortcutKeyDown(e) {

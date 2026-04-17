@@ -92,6 +92,7 @@ export default function CustomBlocksPage() {
       </div>
 
       <BlockCreateModal
+        key={`${createModalOpen}-${blockToEdit?.id ?? ''}`}
         isOpen={createModalOpen}
         onClose={handleCloseCreateModal}
         onSubmit={handleSubmitSuccess}
