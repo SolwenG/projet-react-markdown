@@ -27,7 +27,6 @@ If you are developing a production application, we recommend using TypeScript wi
 
 - Fichiers Markdown (GAUTIER VRAIMENT LE PLUS BO)
   - CRUD
-  - CRUD
   - Drag and drop
   - Interface d'écriture
   - Système de preview
@@ -44,14 +43,12 @@ If you are developing a production application, we recommend using TypeScript wi
   - popup/modale pour nouvel 'objet'
 - Gallery (Mickaël l'éternel absent)
   - IndexDB
-  - IndexDB
   - CRUD
   - preview sur la liste de toutes les images
   - preview dans l'interface d'écriture
   - popup/modale pour nouvel 'objet'
   - export en '.mdlc'
 - Leftdrawer => (Solène qui n'ose pas)
-  - Router
   - Router
   - preview des images
   - utilisation des custom blocks

@@ -6,11 +6,11 @@ import {
   deleteFileById,
   getAllFiles,
 } from '../../database/markdown-files'
+import { marked } from 'marked'
 import styles from './css/MarkdownFiles.module.css'
 //#endregion
 
 function Markdown() {
-
   //#region States
   const [files, setFiles] = useState([])
   const [name, setName] = useState('')
@@ -73,6 +73,14 @@ function Markdown() {
   //Render
   return (
     <div className={styles.container}>
+      <div
+        className={styles.preview}
+        dangerouslySetInnerHTML={{
+          __html: marked.parse(
+            '# Marked in Node.js\n\nRendered by **marked**.\n\n ## This is a H2. \n\n ### This is a H3'
+          ),
+        }}
+      />
       <form onSubmit={handleCreateFile} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="name" className={styles.label}>

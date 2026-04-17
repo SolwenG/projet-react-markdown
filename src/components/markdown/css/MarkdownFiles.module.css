@@ -134,3 +134,85 @@
 .deleteAllButton:hover {
   background-color: #ef4444;
 }
+
+/* Add this to the bottom of src/components/markdown/css/MarkdownFiles.module.css */
+
+.preview {
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* Restore basic Markdown HTML styles stripped by Tailwind */
+.preview h1 {
+  font-size: 2em;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.3em;
+}
+
+.preview h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.preview h3 {
+  font-size: 1.25em;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.preview p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.preview ul {
+  list-style-type: disc;
+  padding-left: 2em;
+  margin-bottom: 1em;
+}
+
+.preview ol {
+  list-style-type: decimal;
+  padding-left: 2em;
+  margin-bottom: 1em;
+}
+
+.preview blockquote {
+  border-left: 4px solid #e5e7eb;
+  padding-left: 1em;
+  color: #6b7280;
+  margin-left: 0;
+  margin-bottom: 1em;
+}
+
+.preview code {
+  background-color: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.preview pre {
+  background-color: #f3f4f6;
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+
+.preview pre code {
+  background-color: transparent;
+  padding: 0;
+}
