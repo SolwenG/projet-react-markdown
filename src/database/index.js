@@ -1,6 +1,6 @@
 import { openDB } from 'idb'
 
-export const database = await openDB('MarkdownInterface', 1, {
+export const database = await openDB('MarkdownInterface', 2, {
   upgrade(db) {
     // Create a store of md files
     const markdownStore = db.createObjectStore('files', {
@@ -11,5 +11,12 @@ export const database = await openDB('MarkdownInterface', 1, {
     })
     // Create an index on the 'name' property of the objects.
     markdownStore.createIndex('name', 'name')
+
+    const imageStore = db.createObjectStore('images', {
+      keyPath: 'id',
+      autoIncrement: true,
+    })
+
+    imageStore.createIndex('name', 'name')
   },
 })

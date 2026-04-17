@@ -1,0 +1,72 @@
+{
+  "app": {
+    "title": "Super App"
+  },
+  "leftDrawer": {
+    "import": "Import",
+    "importMarkdownFile": "Import Markdown File",
+    "importCustomBlock": "Import Custom Block",
+    "importImage": "Import Image"
+  },
+  "markdownFiles": {
+    "title": "Markdown Files",
+    "pageTitle": "Markdown Files",
+    "viewAll": "View All",
+    "newFile": "New File",
+    "newFolder": "New Folder",
+    "folderName": "Folder name",
+    "fileName": "File name",
+    "create": "Create",
+    "cancel": "Cancel",
+    "renameFolder": "Rename Folder",
+    "deleteFolder": "Delete Folder",
+    "importFile": "Import File",
+    "addNewFile": "Add New File",
+    "addNewFolder": "Add New Folder",
+    "renameFile": "Rename File",
+    "deleteFile": "Delete File",
+    "exportFile": "Export File as '.mdlc'",
+    "noFilesOrFolders": "No files or folders",
+    "dragToRoot": "Drag to root",
+    "dropToRoot": "Drop to root"
+  },
+  "customBlocks": {
+    "title": "Custom Blocks",
+    "viewAll": "View All",
+    "shortcut": "Shortcut:",
+    "noCustomBlocks": "No custom blocks yet"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "viewAll": "View All",
+    "noImages": "No images yet",
+    "importImage": "Import image",
+    "cancel": "Cancel",
+    "selectImagesToExport": "Select images to export",
+    "export": "Export",
+    "loading": "Loading...",
+    "addFirstImage": "Let's add your first image !"
+  },
+  "galleryActions": {
+    "export": "Export",
+    "rename": "Rename",
+    "delete": "Delete"
+  },
+  "importModal": {
+    "importImages": "Import Images",
+    "importMarkdownFiles": "Import Markdown Files",
+    "importCustomBlocks": "Import Custom Blocks",
+    "selectFolder": "Select Folder",
+    "root": "Root",
+    "dropFiles": "Drop the files here...",
+    "dragAndDrop": "Drag & drop files here, or click to select",
+    "imageTypes": "PNG, JPG, WebP",
+    "markdownTypes": ".md files",
+    "customBlockTypes": ".part.mdlc, .parts.mdlc",
+    "invalidFileType": "Invalid file extension. Please try again."
+  },
+  "languageSwitcher": {
+    "english": "English",
+    "french": "French"
+  }
+}
