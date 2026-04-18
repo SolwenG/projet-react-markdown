@@ -222,17 +222,21 @@ export default function MarkdownFilesTree() {
           }
           actions={[
             {
+              label: t('markdownFiles.viewFile', 'View file'),
+              onClick: () => navigate(`/markdown/${file.id}`),
+            },
+            {
               label: t('markdownFiles.renameFile'),
               onClick: () => handleStartEditFile(file),
+            },
+            {
+              label: t('markdownFiles.exportMd', 'Export (.md)'),
+              onClick: () => handleExportFile(file),
             },
             {
               label: t('markdownFiles.deleteFile'),
               onClick: () => dispatch(removeMarkdownFile(file.id)),
               danger: true,
-            },
-            {
-              label: t('markdownFiles.exportMd', 'Export (.md)'),
-              onClick: () => handleExportFile(file),
             },
           ]}
         />
