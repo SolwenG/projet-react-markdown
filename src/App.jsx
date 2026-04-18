@@ -5,7 +5,7 @@ import CustomBlocksPage from './pages/CustomBlocksPage'
 import GalleryPage from './pages/GalleryPage'
 import './i18n/config.js'
 import Home from './pages/Home'
-import Markdown from './components/markdown/MarkdownFiles'
+import MarkdownEditor from './components/markdown/MarkdownEditor'
 
 export default function App() {
   return (
@@ -14,7 +14,8 @@ export default function App() {
       <main className="flex-1 overflow-auto">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/markdown" element={<Markdown />} />
+          <Route path="/markdown" element={<MarkdownPage />} />
+          <Route path="/markdown/:id" element={<MarkdownEditor />} />
           <Route path="/custom-blocks" element={<CustomBlocksPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
         </Routes>

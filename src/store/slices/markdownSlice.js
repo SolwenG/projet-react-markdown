@@ -5,6 +5,7 @@ import {
   deleteAllFiles,
   deleteFileById,
   getAllFiles,
+  updateMdFile,
 } from '../../database/markdown-files/index.js'
 
 export const fetchMarkdownFiles = createAsyncThunk('markdown/fetchFiles', async () => {
@@ -20,6 +21,11 @@ export const addMarkdownFile = createAsyncThunk('markdown/addFile', async (fileD
 export const removeMarkdownFile = createAsyncThunk('markdown/removeFile', async (id) => {
   await deleteFileById(id)
   return id
+})
+
+export const editMarkdownFile = createAsyncThunk('markdown/editFile', async ({ id, changes }) => {
+  const updatedFile = await updateMdFile(id, changes)
+  return updatedFile
 })
 
 export const clearMarkdownFiles = createAsyncThunk('markdown/clearFiles', async () => {
@@ -102,6 +108,12 @@ const markdownSlice = createSlice({
       })
       .addCase(clearMarkdownFiles.fulfilled, (state) => {
         state.files = []
+      })
+      .addCase(editMarkdownFile.fulfilled, (state, action) => {
+        const index = state.files.findIndex((f) => f.id === action.payload.id)
+        if (index !== -1) {
+          state.files[index] = action.payload
+        }
       })
   },
 })

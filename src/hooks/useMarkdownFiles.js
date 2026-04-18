@@ -5,6 +5,7 @@ import {
   addMarkdownFile,
   removeMarkdownFile,
   clearMarkdownFiles,
+  editMarkdownFile,
 } from '../store/slices/markdownSlice.js'
 
 export default function useMarkdownFiles() {
@@ -20,6 +21,10 @@ export default function useMarkdownFiles() {
 
   const handleCreate = async (fileDetails) => {
     await dispatch(addMarkdownFile(fileDetails))
+  }
+
+  const handleUpdate = async (id, changes) => {
+    await dispatch(editMarkdownFile({ id, changes }))
   }
 
   const handleDelete = async (id) => {
@@ -39,6 +44,7 @@ export default function useMarkdownFiles() {
     loading,
     error,
     handleCreate,
+    handleUpdate,
     handleDelete,
     handleDeleteAll,
   }

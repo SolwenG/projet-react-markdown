@@ -20,6 +20,14 @@ async function deleteFileById(id) {
   await database.delete('files', id)
 }
 
+async function updateMdFile(id, fileDetails) {
+  const existing = await database.get('files', id)
+  if (!existing) throw new Error('File not found')
+  const updated = { ...existing, ...fileDetails, date: Date.now() }
+  await database.put('files', updated)
+  return updated
+}
+
 async function getAllFiles() {
   return await database.getAllFromIndex('files', 'date')
 }
@@ -28,4 +36,4 @@ async function deleteAllFiles() {
   await database.clear('files')
 }
 
-export { getAllFiles, deleteFileById, createMdFile, deleteAllFiles }
+export { getAllFiles, deleteFileById, createMdFile, deleteAllFiles, updateMdFile }

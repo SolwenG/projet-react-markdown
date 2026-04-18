@@ -23,6 +23,7 @@ import {
   useDroppable,
 } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
+import { exportAsFile } from '../../utils/mdlcFiles.js'
 
 export default function MarkdownFilesTree() {
   const dispatch = useDispatch()
@@ -114,13 +115,7 @@ export default function MarkdownFilesTree() {
   }
 
   const handleExportFile = (file) => {
-    const blob = new Blob([file.body || ''], { type: 'text/markdown' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${file.name}.mdlc`
-    a.click()
-    URL.revokeObjectURL(url)
+    exportAsFile(file.body || '', file.name, 'md')
   }
 
   const handleDragStart = (event) => {
@@ -236,7 +231,7 @@ export default function MarkdownFilesTree() {
               danger: true,
             },
             {
-              label: t('markdownFiles.exportFile'),
+              label: t('markdownFiles.exportMd', 'Export (.md)'),
               onClick: () => handleExportFile(file),
             },
           ]}

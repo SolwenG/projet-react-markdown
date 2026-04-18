@@ -12,6 +12,11 @@ export function exportAllBlocks(blocks) {
   saveAs(blob, `blocks-${Date.now()}.parts.mdlc`)
 }
 
+export function exportAsFile(content, filename, extension = 'md') {
+  const blob = new Blob([content], { type: 'text/markdown' })
+  saveAs(blob, `${filename}.${extension}`)
+}
+
 export function validateMdlcFile(file) {
   if (!file.name.endsWith('.part.mdlc') && !file.name.endsWith('.parts.mdlc')) {
     throw new Error(

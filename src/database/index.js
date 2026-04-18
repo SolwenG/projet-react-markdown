@@ -20,12 +20,6 @@ export const database = await openDB('MarkdownInterface', 4, {
         autoIncrement: true,
       })
 
-    // Store des images
-    const imageStore = db.createObjectStore('images', {
-      keyPath: 'id',
-      autoIncrement: true,
-    })
-
       imageStore.createIndex('name', 'name')
     }
 
