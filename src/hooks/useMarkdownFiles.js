@@ -10,7 +10,9 @@ import {
 
 export default function useMarkdownFiles() {
   const dispatch = useDispatch()
-  const { files, folders, loading, error } = useSelector((state) => state.markdown)
+  const { files, folders, loading, error } = useSelector(
+    (state) => state.markdown
+  )
 
   const computedFiles = [...files].reverse().slice(0, 10)
 

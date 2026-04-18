@@ -48,6 +48,16 @@ export default function MarkdownFilesTree() {
     dispatch(fetchFolders())
   }, [dispatch])
 
+  useEffect(() => {
+    const handleImportComplete = () => {
+      dispatch(fetchMarkdownFiles())
+    }
+    window.addEventListener('markdownImportComplete', handleImportComplete)
+    return () => {
+      window.removeEventListener('markdownImportComplete', handleImportComplete)
+    }
+  }, [dispatch])
+
   const toggleFolder = (folderId) => {
     setExpandedFolders((prev) => ({
       ...prev,
@@ -101,11 +111,6 @@ export default function MarkdownFilesTree() {
     setEditName(file.name)
   }
 
-  const handleImportToFolder = (folderId) => {
-    setImportFolderId(folderId)
-    importModal.open()
-  }
-
   const handleAddFileToFolder = (folderId) => {
     setCurrentFolderId(folderId)
     setShowNewFile(true)
@@ -136,7 +141,9 @@ export default function MarkdownFilesTree() {
     if (!activeData || !overData) return
 
     if (activeData.type === 'file' && overData.type === 'folder') {
-      dispatch(moveFileThunk({ fileId: activeData.id, targetFolderId: overData.id }))
+      dispatch(
+        moveFileThunk({ fileId: activeData.id, targetFolderId: overData.id })
+      )
     } else if (activeData.type === 'folder' && overData.type === 'folder') {
       if (
         activeData.id !== overData.id &&
@@ -330,21 +337,17 @@ export default function MarkdownFilesTree() {
                 onClick: () => handleStartEditFolder(folder),
               },
               {
-                label: t('markdownFiles.deleteFolder'),
-                onClick: () => dispatch(deleteFolder({ id: folder.id })),
-                danger: true,
-              },
-              {
-                label: t('markdownFiles.importFile'),
-                onClick: () => handleImportToFolder(folder.id),
-              },
-              {
                 label: t('markdownFiles.addNewFile'),
                 onClick: () => handleAddFileToFolder(folder.id),
               },
               {
                 label: t('markdownFiles.addNewFolder'),
                 onClick: () => handleAddFolderToFolder(folder.id),
+              },
+              {
+                label: t('markdownFiles.deleteFolder'),
+                onClick: () => dispatch(deleteFolder(folder.id)),
+                danger: true,
               },
             ]}
           />

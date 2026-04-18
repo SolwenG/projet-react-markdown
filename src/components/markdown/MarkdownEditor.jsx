@@ -103,7 +103,10 @@ export default function MarkdownEditor() {
   let previewContent =
     body || `# ${t('markdownEditor.emptyPreview', 'Nothing to preview')}`
   images.forEach((img) => {
-    previewContent = previewContent.replace(`!${img.name}`, `![${img.name}](${img.base64})`)
+    previewContent = previewContent.replace(
+      `!${img.name}`,
+      `![${img.name}](${img.base64})`
+    )
   })
 
   return (
@@ -123,13 +126,6 @@ export default function MarkdownEditor() {
             {showPreview
               ? t('markdownEditor.edit')
               : t('markdownEditor.preview')}
-          </button>
-          <button
-            type="button"
-            onClick={importModal.open}
-            className="px-4 py-2 text-sm border bg-white border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            {t('importModal.importMarkdownFiles', 'Import')}
           </button>
           {id !== 'new' && (
             <button
