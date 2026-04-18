@@ -1,58 +1,119 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import useMarkdownFiles from '../hooks/useMarkdownFiles.js'
 import DropdownMenu from '../components/global/DropdownMenu.jsx'
+import ImportModal from '../components/global/ImportModal.jsx'
 import { exportAsFile } from '../utils/mdlcFiles.js'
 
 export default function MarkdownPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { allFiles, handleDelete } = useMarkdownFiles()
+  const [importModalOpen, setImportModalOpen] = useState(false)
 
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
-        <h1 className="text-3xl font-bold text-gray-800">{t('markdownFiles.pageTitle')}</h1>
-        <button
-          onClick={() => navigate('/markdown/new')}
-          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          {t('markdownFiles.newFile')}
-        </button>
+        <h1 className="text-3xl font-bold text-gray-800">
+          {t('markdownFiles.pageTitle', 'Markdown Files')}
+        </h1>
+
+        <div className="flex gap-3">
+          <button
+            onClick={() => setImportModalOpen(true)}
+            className="px-4 py-2 bg-white border border-gray-300 text-sm font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            {t('markdownFiles.import', 'Import')}
+          </button>
+          <button
+            onClick={() => navigate('/markdown/new')}
+            className="px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
+          >
+            {t('markdownFiles.newFile', 'New File')}
+          </button>
+        </div>
       </div>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {allFiles.map((file) => (
-          <li
-            key={file.id}
-            className="flex justify-between items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div
-              className="cursor-pointer font-medium text-lg text-gray-800 hover:text-blue-600 truncate flex-1"
-              onClick={() => navigate(`/markdown/${file.id}`)}
-            >
-              {file.name || 'Untitled'}
-            </div>
-            <DropdownMenu
-              position="right"
-              trigger={
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors flex items-center justify-center">
-                  <span className="material-icons text-gray-600">more_vert</span>
-                </button>
-              }
-              actions={[
-                { label: t('markdownFiles.edit'), onClick: () => navigate(`/markdown/${file.id}`) },
-                { label: t('markdownFiles.exportMd'), onClick: () => exportAsFile(file.body || '', file.name || 'Untitled', 'md') },
-                { label: t('markdownFiles.deleteFile'), onClick: () => handleDelete(file.id), danger: true },
-              ]}
-            />
-          </li>
-        ))}
-      </ul>
+      {allFiles.length === 0 ? (
+        <div className="text-center py-16 text-gray-400">
+          <p className="text-lg">
+            {t('markdownFiles.noFilesOrFolders', 'No files found.')}
+          </p>
+        </div>
+      ) : (
+        <div className="bg-white border border-gray-300 rounded-xl">
+          <div className="grid grid-cols-[2fr_3fr_1fr_40px] px-6 py-3 border-b border-gray-200 bg-gray-100 rounded-t-xl">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              {t('markdownFiles.name', 'Name')}
+            </span>
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              {t('markdownFiles.description', 'Description')}
+            </span>
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              {t('markdownFiles.date', 'Date')}
+            </span>
+            <span />
+          </div>
 
-      {allFiles.length === 0 && (
-        <p className="text-gray-500 text-center py-8">{t('markdownFiles.noFilesFound')}</p>
+          {allFiles.map((file) => (
+            <div
+              key={file.id}
+              className="grid grid-cols-[2fr_3fr_1fr_40px] items-center px-6 py-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-colors"
+            >
+              <span
+                className="text-sm text-gray-900 font-medium cursor-pointer hover:underline"
+                onClick={() => navigate(`/markdown/${file.id}`)}
+              >
+                {file.name || 'Untitled'}
+              </span>
+              <span className="text-sm text-gray-500 truncate pr-4">
+                {file.description || '—'}
+              </span>
+              <span className="text-sm text-gray-600">
+                {file.date ? new Date(file.date).toLocaleDateString() : '—'}
+              </span>
+
+              <div className="flex justify-end">
+                <DropdownMenu
+                  position="right"
+                  trigger={
+                    <button className="text-gray-400 hover:text-gray-900 px-2 py-1 rounded transition-colors flex items-center justify-center">
+                      •••
+                    </button>
+                  }
+                  actions={[
+                    {
+                      label: t('markdownFiles.edit', 'Edit'),
+                      onClick: () => navigate(`/markdown/${file.id}`),
+                    },
+                    {
+                      label: t('markdownFiles.exportMd', 'Export (.md)'),
+                      onClick: () =>
+                        exportAsFile(
+                          file.body || '',
+                          file.name || 'Untitled',
+                          'md'
+                        ),
+                    },
+                    {
+                      label: t('markdownFiles.deleteFile', 'Delete'),
+                      onClick: () => handleDelete(file.id),
+                      danger: true,
+                    },
+                  ]}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       )}
+
+      <ImportModal
+        isOpen={importModalOpen}
+        onClose={() => setImportModalOpen(false)}
+        mode="markdown"
+      />
     </div>
   )
 }

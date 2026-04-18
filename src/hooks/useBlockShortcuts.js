@@ -14,7 +14,7 @@ export function useBlockShortcuts(onInsert) {
         pressedKeys.push(e.key.toLowerCase())
       }
 
-      const combo = pressedKeys.join(' + ')
+      const combo = pressedKeys.join('+')
       const block = blocks.find((b) => b.shortcut === combo)
 
       if (block) {

@@ -12,7 +12,6 @@ export default function useMarkdownFiles() {
   const dispatch = useDispatch()
   const { files, folders, loading, error } = useSelector((state) => state.markdown)
 
-  // Derived State: Calculate newest first, then pick top 10
   const computedFiles = [...files].reverse().slice(0, 10)
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export default function useMarkdownFiles() {
   }
 
   const handleDeleteAll = async () => {
-    // A confirmation would be good here in a real app!
     await dispatch(clearMarkdownFiles())
   }
 

@@ -29,15 +29,24 @@
     "noFilesOrFolders": "Aucun fichier ou dossier",
     "dragToRoot": "Glisser vers la racine",
     "dropToRoot": "Déposer vers la racine",
+    "name": "Nom",
+    "description": "Description",
+    "date": "Date",
+    "import": "Importer",
     "edit": "Modifier",
     "exportMd": "Exporter (.md)",
+    "content": "Contenu (Markdown)",
+    "preview": "Aperçu",
+    "save": "Enregistrer",
+    "emptyPreview": "Rien à prévisualiser",
     "noFilesFound": "Aucun fichier trouvé."
   },
   "customBlocks": {
     "title": "Blocs personnalisés",
     "viewAll": "Voir tout",
     "shortcut": "Raccourci :",
-    "noCustomBlocks": "Aucun bloc personnalisé"
+    "noCustomBlocks": "Aucun bloc personnalisé",
+    "insertHint": "Cliquez pour insérer dans l'éditeur"
   },
   "customBlocksPage": {
     "title": "Blocs personnalisés",

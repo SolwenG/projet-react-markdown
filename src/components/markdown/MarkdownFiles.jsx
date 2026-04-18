@@ -26,7 +26,6 @@ function Markdown() {
   async function onSubmitFile(event) {
     event.preventDefault()
     await handleCreate({ name, description, body })
-    // Clear form
     setName('')
     setDescription('')
     setBody('')
