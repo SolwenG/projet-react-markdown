@@ -66,7 +66,8 @@
     "selectImagesToExport": "Sélectionner des images à exporter",
     "export": "Exporter",
     "loading": "Chargement...",
-    "addFirstImage": "Ajoutons votre première image !"
+    "addFirstImage": "Ajoutons votre première image !",
+    "insertHint": "Cliquez pour insérer dans l'éditeur"
   },
   "galleryActions": {
     "export": "Exporter",

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { marked } from 'marked'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import useMarkdownFiles from '../../hooks/useMarkdownFiles.js'
 import useModal from '../../hooks/useModal.js'
 import ImportModal from '../global/ImportModal.jsx'
@@ -14,6 +15,7 @@ export default function MarkdownEditor() {
   const { t } = useTranslation()
   const { allFiles, handleCreate, handleUpdate, handleDelete } =
     useMarkdownFiles()
+  const images = useSelector((state) => state.images.items)
   const importModal = useModal(false)
 
   const [name, setName] = useState('')
@@ -91,8 +93,18 @@ export default function MarkdownEditor() {
   useEffect(() => {
     const handleEvent = (e) => handleInsertBlock(e.detail)
     window.addEventListener('insertCustomBlock', handleEvent)
-    return () => window.removeEventListener('insertCustomBlock', handleEvent)
+    window.addEventListener('insertImage', handleEvent)
+    return () => {
+      window.removeEventListener('insertCustomBlock', handleEvent)
+      window.removeEventListener('insertImage', handleEvent)
+    }
   }, [handleInsertBlock])
+
+  let previewContent =
+    body || `# ${t('markdownFiles.emptyPreview', 'Nothing to preview')}`
+  images.forEach((img) => {
+    previewContent = previewContent.split(`!${img.name}`).join(`!${img.name}`)
+  })
 
   return (
     <div className="p-8 max-w-5xl mx-auto">
