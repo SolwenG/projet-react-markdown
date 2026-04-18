@@ -21,21 +21,21 @@ export default function MarkdownEditor() {
   const [body, setBody] = useState('')
   const [showPreview, setShowPreview] = useState(false)
   const textareaRef = useRef(null)
+  const [loadedId, setLoadedId] = useState(null)
 
-  useEffect(() => {
-    if (id && id !== 'new') {
-      const file = allFiles.find((f) => String(f.id) === id)
-      if (file) {
-        setName(file.name || '')
-        setDescription(file.description || '')
-        setBody(file.body || '')
-      }
-    } else {
-      setName('')
-      setDescription('')
-      setBody('')
-    }
-  }, [id, allFiles])
+  const file = id !== 'new' ? allFiles.find((f) => String(f.id) === id) : null
+
+  if (id === 'new' && loadedId !== 'new') {
+    setName('')
+    setDescription('')
+    setBody('')
+    setLoadedId('new')
+  } else if (id !== 'new' && file && loadedId !== id) {
+    setName(file.name || '')
+    setDescription(file.description || '')
+    setBody(file.body || '')
+    setLoadedId(id)
+  }
 
   const handleSave = async (e) => {
     e.preventDefault()
