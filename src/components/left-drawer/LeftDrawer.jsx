@@ -8,6 +8,7 @@ import GalleryPreview from './GalleryPreview.jsx'
 import ImportModal from '../global/ImportModal.jsx'
 import LeftDrawerHeader from './LeftDrawerHeader.jsx'
 import SwitchLanguage from '../global/SwitchLanguage.jsx'
+import ThemeToggleButton from '../global/ThemeToggleButton.jsx'
 import { fetchBlocks } from '../../store/slices/customBlocks/customBlocksSlice.js'
 
 export default function LeftDrawer() {
@@ -34,7 +35,8 @@ export default function LeftDrawer() {
 
       <GalleryPreview />
 
-      <div className="mt-auto">
+      <div className="mt-auto flex items-center justify-between px-4 py-2">
+        <ThemeToggleButton />
         <SwitchLanguage />
       </div>
 

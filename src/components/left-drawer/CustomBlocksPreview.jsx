@@ -52,7 +52,7 @@ export default function CustomBlocksPreview() {
             }
           >
             <div className="flex items-center gap-2">
-              <span className="material-icons text-purple-500 text-sm">
+              <span className="material-icons text-orange-500 text-sm">
                 widgets
               </span>
               <span className="text-sm font-medium">{block.name}</span>

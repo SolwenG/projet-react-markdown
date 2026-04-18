@@ -14,7 +14,7 @@ export default function ImageGrid({
   if (!items.length) {
     return (
       <h2 className="flex justify-center text-center items-center text-2xl">
-        {t('gallery.addFirstImage')}
+        {t('gallery.noImages')}
       </h2>
     )
   }

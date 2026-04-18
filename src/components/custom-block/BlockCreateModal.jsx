@@ -87,10 +87,7 @@ export default function BlockCreateModal({
             />
           </FormField>
 
-          <FormField
-            label={t('blockCreate.shortcut')}
-            hint={t('blockCreate.shortcutHint')}
-          >
+          <FormField label={t('blockCreate.shortcut')}>
             <input
               type="text"
               value={shortcut}

@@ -20,7 +20,7 @@ export default function ImageCard({
             type="checkbox"
             checked={isSelected}
             onChange={onToggleSelect}
-            className="absolute top-2 left-2 w-5 h-5 cursor-pointer accent-green-600"
+            className="absolute top-2 left-2 w-5 h-5 cursor-pointer accent-gray-600"
           />
         ) : (
           <button

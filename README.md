@@ -9,24 +9,24 @@
 
 Dans notre app, on peut :
 
-- changer de langue avec les trois boutons en bas du volet de gauche
+- changer de langue avec les boutons en bas du volet de gauche
+- passer l'application en theme dark ou light avec le bouton toogle en bas du volet de gauche
 
 ### Volet de gauche
 
 - importer :
   - un fichier en '.md'
-- Créer un dossier de fichiers en '.md'
-- Remanier l'arborescence de fichiers en drag and drop
+- Créer des dossiers et des fichiers en '.md'
+- Remanier l'arborescence de fichiers et dossiers en drag and drop
 - Via les 3 petits points sur chaque fichier on peut :
   - Le voir,
   - Le renommer,
   - L'exporter,
   - Le supprimer
 - Via les 3 petits points sur chaque dossier on peut :
-  - Y importer un fichier;
-  - Renommer le dossier,
+  - Le renommer,
+  - Y créer un fichier .md,
   - Y créer un dossier
-  - Y ajouter un fichier en '.md'
   - Le supprimer
 
 ### Fichiers markdown
@@ -72,18 +72,18 @@ Dans notre app, on peut :
 
 - Fichiers Markdown (Gautier)
   - CRUD indexedDB des markdown files
-  - Drag and drop
   - Interface d'écriture
-  - Système de preview
-  - Liste de tous les fichiers md
-  - popup/modale pour nouvel 'objet'
+  - Insertion des raccourcis custom blocks et des images dans l'éditeur
+  - Système de preview des fichiers markdowns
+  - Liste de tous les fichiers .md
+  - export en .md
+  - Page pour créer un nouveau fichier markdown
 
 - Custom Blocks (Jérémy)
   - CRUD indexedDB des custom blocks
-  - Interface d'écriture (réutiliser celle des .md)
-  - extensions en 'part.mdlc' et 'parts.mdlc'
+  - export en 'part.mdlc' et 'parts.mdlc'
   - association des raccourcis clavier
-  - modale pour ajout un custom block
+  - modale pour ajout d'un custom block
 
 - Gallery (Mickaël)
   - CRUD indexedDB des images
@@ -93,13 +93,12 @@ Dans notre app, on peut :
   - export en 'img.mdlc' et 'imgs.mdlc'
 
 - Left-drawer (Solène)
-  - Router
   - preview des dernières images
   - preview des derniers custom blocks
   - arborescence des fichiers/dossiers
-  - ajout/suppression/renommage des fichiers/dossiers
+  - crud des fichiers/dossiers
   - drag and drop des fichiers/dossiers
-  - import d'images
-  - import de custom blocks
-  - import de markdown files
+  - modale d'import d'images/custom blocks/markdown files
+  - setup router, prettier, tailwindcss
   - internationalisation de l'app avec i18n
+  - theme dark/light
