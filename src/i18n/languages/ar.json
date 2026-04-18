@@ -1,6 +1,11 @@
 {
   "app": {
-    "title": "تطبيق رائع"
+    "title": "تطبيق رائع",
+    "homeTooltip": "العودة إلى الرئيسية"
+  },
+  "theme": {
+    "enableDark": "تفعيل الوضع الداكن",
+    "enableLight": "تفعيل الوضع الفاتح"
   },
   "leftDrawer": {
     "import": "استيراد",
@@ -66,7 +71,6 @@
     "selectImagesToExport": "حدد الصور المراد تصديرها",
     "export": "تصدير",
     "loading": "جارٍ التحميل...",
-    "addFirstImage": "دعنا نضيف صورتك الأولى!",
     "insertHint": "انقر للإدراج في المحرر"
   },
   "galleryActions": {
@@ -99,7 +103,6 @@
     "content": "محتوى Markdown",
     "contentPlaceholder": "مثال: ## مقدمة\nمرحبا بك في...",
     "shortcut": "اختصار",
-    "shortcutHint": "(اختياري — اضغط على مفتاح)",
     "shortcutPlaceholder": "مثال: ctrl+k",
     "cancel": "إلغاء",
     "save": "حفظ",

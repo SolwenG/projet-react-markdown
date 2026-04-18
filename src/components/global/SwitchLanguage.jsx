@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function SwitchLanguage() {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng)
@@ -22,6 +22,7 @@ export default function SwitchLanguage() {
               ? 'bg-gray-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
+          title={t('languageSwitcher.english')}
         >
           EN
         </button>
@@ -32,6 +33,7 @@ export default function SwitchLanguage() {
               ? 'bg-gray-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
+          title={t('languageSwitcher.french')}
         >
           FR
         </button>
@@ -42,6 +44,7 @@ export default function SwitchLanguage() {
               ? 'bg-gray-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
+          title={t('languageSwitcher.arabic')}
         >
           AR
         </button>
