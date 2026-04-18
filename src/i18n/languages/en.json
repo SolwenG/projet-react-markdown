@@ -28,13 +28,24 @@
     "exportFile": "Export File as '.mdlc'",
     "noFilesOrFolders": "No files or folders",
     "dragToRoot": "Drag to root",
-    "dropToRoot": "Drop to root"
+    "dropToRoot": "Drop to root",
+    "name": "Name",
+    "description": "Description",
+    "date": "Date",
+    "import": "Import",
+    "edit": "Edit",
+    "exportMd": "Export (.md)",
+    "content": "Content (Markdown)",
+    "preview": "Preview",
+    "save": "Save",
+    "emptyPreview": "Nothing to preview"
   },
   "customBlocks": {
     "title": "Custom Blocks",
     "viewAll": "View All",
     "shortcut": "Shortcut:",
-    "noCustomBlocks": "No custom blocks yet"
+    "noCustomBlocks": "No custom blocks yet",
+    "insertHint": "Click to insert into editor"
   },
   "customBlocksPage": {
     "title": "Custom Blocks",

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import useModal from '../../hooks/useModal.js'
 import MarkdownFilesTree from './MarkdownFilesTree.jsx'
@@ -7,11 +8,17 @@ import GalleryPreview from './GalleryPreview.jsx'
 import ImportModal from '../global/ImportModal.jsx'
 import LeftDrawerHeader from './LeftDrawerHeader.jsx'
 import SwitchLanguage from '../global/SwitchLanguage.jsx'
+import { fetchBlocks } from '../../store/slices/customBlocks/customBlocksSlice.js'
 
 export default function LeftDrawer() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const importModal = useModal(false)
   const [importMode, setImportMode] = useState('image')
+
+  useEffect(() => {
+    dispatch(fetchBlocks())
+  }, [dispatch])
 
   return (
     <aside className="w-70 bg-gray-100 border-r border-gray-200 min-h-screen flex flex-col">

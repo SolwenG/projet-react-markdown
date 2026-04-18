@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { marked } from 'marked'
 import { useTranslation } from 'react-i18next'
@@ -6,6 +6,7 @@ import useMarkdownFiles from '../../hooks/useMarkdownFiles.js'
 import useModal from '../../hooks/useModal.js'
 import ImportModal from '../global/ImportModal.jsx'
 import { exportAsFile } from '../../utils/mdlcFiles.js'
+import { useBlockShortcuts } from '../../hooks/useBlockShortcuts.js'
 
 export default function MarkdownEditor() {
   const { id } = useParams()
@@ -19,6 +20,7 @@ export default function MarkdownEditor() {
   const [description, setDescription] = useState('')
   const [body, setBody] = useState('')
   const [showPreview, setShowPreview] = useState(false)
+  const textareaRef = useRef(null)
 
   useEffect(() => {
     if (id && id !== 'new') {
@@ -59,6 +61,39 @@ export default function MarkdownEditor() {
     }
   }
 
+  const handleInsertBlock = useCallback((contentToInsert) => {
+    if (!textareaRef.current) {
+      setBody((prev) => prev + '\n' + contentToInsert)
+      return
+    }
+    const start = textareaRef.current.selectionStart
+    const end = textareaRef.current.selectionEnd
+
+    setBody((prev) => {
+      const before = prev.substring(0, start)
+      const after = prev.substring(end, prev.length)
+      return before + contentToInsert + after
+    })
+
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus()
+        textareaRef.current.setSelectionRange(
+          start + contentToInsert.length,
+          start + contentToInsert.length
+        )
+      }
+    }, 0)
+  }, [])
+
+  useBlockShortcuts(handleInsertBlock)
+
+  useEffect(() => {
+    const handleEvent = (e) => handleInsertBlock(e.detail)
+    window.addEventListener('insertCustomBlock', handleEvent)
+    return () => window.removeEventListener('insertCustomBlock', handleEvent)
+  }, [handleInsertBlock])
+
   return (
     <div className="p-8 max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-8">
@@ -71,7 +106,7 @@ export default function MarkdownEditor() {
           <button
             type="button"
             onClick={() => setShowPreview(!showPreview)}
-            className="px-4 py-2 bg-gray-700 rounded-lg text-white cursor-pointer"
+            className="px-4 py-2 text-sm border bg-white border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
           >
             {showPreview
               ? t('markdownFiles.edit', 'Edit')
@@ -80,7 +115,7 @@ export default function MarkdownEditor() {
           <button
             type="button"
             onClick={importModal.open}
-            className="px-4 py-2 bg-green-700 rounded-lg text-white cursor-pointer"
+            className="px-4 py-2 text-sm border bg-white border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
           >
             {t('importModal.importMarkdownFiles', 'Import')}
           </button>
@@ -88,7 +123,7 @@ export default function MarkdownEditor() {
             <button
               type="button"
               onClick={onExport}
-              className="px-4 py-2 bg-blue-700 rounded-lg text-white cursor-pointer"
+              className="px-4 py-2 text-sm border bg-white border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
             >
               {t('markdownFiles.exportMd', 'Export (.md)')}
             </button>
@@ -97,7 +132,7 @@ export default function MarkdownEditor() {
             <button
               type="button"
               onClick={onDelete}
-              className="px-4 py-2 bg-red-700 rounded-lg text-white cursor-pointer"
+              className="px-4 py-2 text-sm border bg-white border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
             >
               {t('markdownFiles.deleteFile', 'Delete')}
             </button>
@@ -149,6 +184,7 @@ export default function MarkdownEditor() {
             </label>
             <textarea
               id="body"
+              ref={textareaRef}
               value={body}
               onChange={(e) => setBody(e.target.value)}
               className="p-2 border border-gray-300 rounded-lg min-h-[300px] font-mono"
@@ -159,13 +195,13 @@ export default function MarkdownEditor() {
             <button
               type="button"
               onClick={() => navigate('/markdown')}
-              className="px-4 py-2 border bg-white border-gray-300 rounded-lg cursor-pointer"
+              className="px-4 py-2 text-sm border bg-white border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
             >
               {t('markdownFiles.cancel', 'Cancel')}
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-gray-700 rounded-lg text-white cursor-pointer"
+              className="px-4 py-2 text-sm font-semibold bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
             >
               {t('markdownFiles.save', 'Save')}
             </button>
