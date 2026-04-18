@@ -1,4 +1,4 @@
-import { database } from ".."
+import { database } from '..'
 
 async function createMdFile(fileDetails) {
   const { name, body, description, folderId } = fileDetails
@@ -62,6 +62,13 @@ async function updateFolder(id, folderDetails) {
 }
 
 async function deleteFolderById(id) {
+  // Delete all files in this folder first
+  const allFiles = await database.getAll('files')
+  const filesInFolder = allFiles.filter((f) => f.folderId === id)
+  for (const file of filesInFolder) {
+    await database.delete('files', file.id)
+  }
+  // Then delete the folder
   await database.delete('folders', id)
 }
 
