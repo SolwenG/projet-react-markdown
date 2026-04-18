@@ -13,17 +13,17 @@ export default function GalleryToolbar({
   const { t } = useTranslation()
 
   return (
-    <div className="w-full flex justify-center gap-3 my-6">
+    <>
       <button
         onClick={() => importModal.open()}
-        className="px-4 py-2 bg-green-700 rounded-lg text-white w-fit cursor-pointer"
+        className="px-4 py-2 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-colors"
       >
         {t('gallery.importImage')}
       </button>
       {hasItems && (
         <button
           onClick={onToggleSelectionMode}
-          className="px-4 py-2 bg-gray-700 rounded-lg text-white w-fit cursor-pointer"
+          className="px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
         >
           {selectionMode ? t('gallery.cancel') : t('gallery.selectImagesToExport')}
         </button>
@@ -31,7 +31,7 @@ export default function GalleryToolbar({
       {selectionMode && selectedCount > 0 && (
         <button
           onClick={onExportSelected}
-          className="px-4 py-2 bg-blue-700 rounded-lg text-white w-fit cursor-pointer"
+          className="px-4 py-2 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors"
         >
           {t('gallery.export')} ({selectedCount})
         </button>
@@ -42,6 +42,6 @@ export default function GalleryToolbar({
         mode="image"
         selectedFolderId={null}
       />
-    </div>
+    </>
   )
 }

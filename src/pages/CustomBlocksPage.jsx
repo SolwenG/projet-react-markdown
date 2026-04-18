@@ -51,54 +51,52 @@ export default function CustomBlocksPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
-      <div className="max-w-4xl mx-auto px-6 py-10">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">
-            {t('customBlocksPage.title')}
-          </h1>
+    <div className="p-8">
+      <div className="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
+        <h1 className="text-3xl font-bold text-gray-800">
+          {t('customBlocksPage.title')}
+        </h1>
 
-          <div className="flex items-center gap-3">
-            <select
-              value={sortBy}
-              onChange={(e) => dispatch(setSortBy(e.target.value))}
-              className="bg-white border border-gray-300 text-sm rounded-lg px-3 py-2"
-            >
-              <option value="date">{t('customBlocksPage.sortByDate')}</option>
-              <option value="name">{t('customBlocksPage.sortByName')}</option>
-            </select>
+        <div className="flex gap-3">
+          <select
+            value={sortBy}
+            onChange={(e) => dispatch(setSortBy(e.target.value))}
+            className="bg-white border border-gray-300 text-sm rounded-lg px-3 py-2"
+          >
+            <option value="date">{t('customBlocksPage.sortByDate')}</option>
+            <option value="name">{t('customBlocksPage.sortByName')}</option>
+          </select>
 
-            <button
-              onClick={() => setImportModalOpen(true)}
-              className="px-4 py-2 text-sm border bg-white border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              {t('customBlocksPage.import')}
-            </button>
+          <button
+            onClick={() => setImportModalOpen(true)}
+            className="px-4 py-2 bg-white border border-gray-300 text-sm font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            {t('customBlocksPage.import')}
+          </button>
 
-            <button
-              onClick={() => exportAllBlocks(blocks)}
-              disabled={blocks.length === 0}
-              className="px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-            >
-              {t('customBlocksPage.exportAll')}
-            </button>
+          <button
+            onClick={() => exportAllBlocks(blocks)}
+            disabled={blocks.length === 0}
+            className="px-4 py-2 bg-white border border-gray-300 text-sm font-semibold rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            {t('customBlocksPage.exportAll')}
+          </button>
 
-            <button
-              onClick={() => setCreateModalOpen(true)}
-              className="px-4 py-2 text-sm font-semibold bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
-            >
-              {t('customBlocksPage.new')}
-            </button>
-          </div>
+          <button
+            onClick={() => setCreateModalOpen(true)}
+            className="px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
+          >
+            {t('customBlocksPage.new')}
+          </button>
         </div>
-
-        <BlockTable
-          blocks={blocks}
-          onEdit={handleEdit}
-          onDelete={(id) => dispatch(deleteBlockAction(id))}
-          onExport={exportBlock}
-        />
       </div>
+
+      <BlockTable
+        blocks={blocks}
+        onEdit={handleEdit}
+        onDelete={(id) => dispatch(deleteBlockAction(id))}
+        onExport={exportBlock}
+      />
 
       <BlockCreateModal
         key={`${createModalOpen}-${blockToEdit?.id ?? ''}`}

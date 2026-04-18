@@ -45,7 +45,7 @@
     "sortByName": "Trier par nom",
     "import": "Importer",
     "exportAll": "Exporter tout",
-    "new": "+ Nouveau"
+    "new": "Nouveau"
   },
   "gallery": {
     "title": "Galerie",
@@ -111,7 +111,8 @@
     "french": "Français"
   },
   "home": {
-    "title": "Accueil"
+    "title": "Bienvenue sur Super App !",
+    "description": "Une application pour gérer vos fichiers Markdown, créer des blocs personnalisés et organiser votre galerie d'images."
   },
   "markdownEditor": {
     "newFile": "Créer un nouveau fichier",

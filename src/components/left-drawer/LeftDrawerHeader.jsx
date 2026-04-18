@@ -23,8 +23,14 @@ export default function LeftDrawerHeader({
   }
 
   const actions = [
-    { label: t('leftDrawer.importMarkdownFile'), onClick: handleImportMarkdown },
-    { label: t('leftDrawer.importCustomBlock'), onClick: handleImportCustomBlock },
+    {
+      label: t('leftDrawer.importMarkdownFile'),
+      onClick: handleImportMarkdown,
+    },
+    {
+      label: t('leftDrawer.importCustomBlock'),
+      onClick: handleImportCustomBlock,
+    },
     { label: t('leftDrawer.importImage'), onClick: handleImportImage },
   ]
 
@@ -32,7 +38,7 @@ export default function LeftDrawerHeader({
     <div className="p-4 border-b border-gray-300 flex justify-between items-center">
       <button
         onClick={() => navigate('/')}
-        className="text-xl font-bold text-gray-700 cursor-pointer hover:text-gray-900 bg-transparent border-0 p-0"
+        className="text-xl font-bold text-gray-800 cursor-pointer hover:text-gray-900 bg-transparent border-0 p-0"
       >
         {t('app.title')}
       </button>

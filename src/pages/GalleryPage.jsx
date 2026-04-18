@@ -19,18 +19,22 @@ export default function GalleryPage() {
   const { t } = useTranslation()
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-center my-6">
-        {t('gallery.title')}
-      </h1>
+    <div className="p-8">
+      <div className="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
+        <h1 className="text-3xl font-bold text-gray-800">
+          {t('gallery.title')}
+        </h1>
 
-      <GalleryToolbar
-        hasItems={!!items.length}
-        selectionMode={selectionMode}
-        selectedCount={selectedIds.length}
-        onToggleSelectionMode={handleToggleSelectionMode}
-        onExportSelected={handleExportSelected}
-      />
+        <div className="flex gap-3">
+          <GalleryToolbar
+            hasItems={!!items.length}
+            selectionMode={selectionMode}
+            selectedCount={selectedIds.length}
+            onToggleSelectionMode={handleToggleSelectionMode}
+            onExportSelected={handleExportSelected}
+          />
+        </div>
+      </div>
 
       {loading && <p>{t('gallery.loading')}</p>}
 
