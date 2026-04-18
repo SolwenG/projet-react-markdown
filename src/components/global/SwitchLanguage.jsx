@@ -1,11 +1,16 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function SwitchLanguage() {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng)
   }
+
+  useEffect(() => {
+    document.dir = i18n.dir()
+  }, [i18n, i18n.language])
 
   return (
     <div className="p-4 border-t border-gray-200 flex justify-center">
@@ -17,6 +22,7 @@ export default function SwitchLanguage() {
               ? 'bg-gray-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
+          title={t('languageSwitcher.english')}
         >
           EN
         </button>
@@ -27,6 +33,7 @@ export default function SwitchLanguage() {
               ? 'bg-gray-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
+          title={t('languageSwitcher.french')}
         >
           FR
         </button>
