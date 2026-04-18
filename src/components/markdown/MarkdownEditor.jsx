@@ -64,8 +64,8 @@ export default function MarkdownEditor() {
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold text-gray-900">
           {id === 'new'
-            ? t('markdownFiles.newFile', 'Create New File')
-            : t('markdownFiles.editFile', 'Edit File')}
+            ? t('markdownEditor.newFile')
+            : t('markdownEditor.editFile')}
         </h1>
         <div className="flex gap-3">
           <button
@@ -74,8 +74,8 @@ export default function MarkdownEditor() {
             className="px-4 py-2 bg-gray-700 rounded-lg text-white cursor-pointer"
           >
             {showPreview
-              ? t('markdownFiles.edit', 'Edit')
-              : t('markdownFiles.preview', 'Preview')}
+              ? t('markdownEditor.edit')
+              : t('markdownEditor.preview')}
           </button>
           <button
             type="button"
@@ -90,7 +90,7 @@ export default function MarkdownEditor() {
               onClick={onExport}
               className="px-4 py-2 bg-blue-700 rounded-lg text-white cursor-pointer"
             >
-              {t('markdownFiles.exportMd', 'Export (.md)')}
+              {t('markdownEditor.exportMd')}
             </button>
           )}
           {id !== 'new' && (
@@ -99,7 +99,7 @@ export default function MarkdownEditor() {
               onClick={onDelete}
               className="px-4 py-2 bg-red-700 rounded-lg text-white cursor-pointer"
             >
-              {t('markdownFiles.deleteFile', 'Delete')}
+              {t('markdownEditor.deleteFile')}
             </button>
           )}
         </div>
@@ -111,7 +111,7 @@ export default function MarkdownEditor() {
           dangerouslySetInnerHTML={{
             __html: marked.parse(
               body ||
-                `# ${t('markdownFiles.emptyPreview', 'Nothing to preview')}`
+                `# ${t('markdownEditor.emptyPreview')}`
             ),
           }}
         />
@@ -119,7 +119,7 @@ export default function MarkdownEditor() {
         <form onSubmit={handleSave} className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <label htmlFor="name" className="font-semibold text-gray-900">
-              {t('markdownFiles.fileName', 'Name')}:
+              {t('markdownEditor.fileName')}:
             </label>
             <input
               id="name"
@@ -134,7 +134,7 @@ export default function MarkdownEditor() {
               htmlFor="description"
               className="font-semibold text-gray-900"
             >
-              {t('markdownFiles.description', 'Description')}:
+              {t('markdownEditor.description')}:
             </label>
             <textarea
               id="description"
@@ -145,7 +145,7 @@ export default function MarkdownEditor() {
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="body" className="font-semibold text-gray-900">
-              {t('markdownFiles.content', 'Content (Markdown)')}:
+              {t('markdownEditor.content')}:
             </label>
             <textarea
               id="body"
@@ -161,13 +161,13 @@ export default function MarkdownEditor() {
               onClick={() => navigate('/markdown')}
               className="px-4 py-2 border bg-white border-gray-300 rounded-lg cursor-pointer"
             >
-              {t('markdownFiles.cancel', 'Cancel')}
+              {t('markdownEditor.cancel')}
             </button>
             <button
               type="submit"
               className="px-4 py-2 bg-gray-700 rounded-lg text-white cursor-pointer"
             >
-              {t('markdownFiles.save', 'Save')}
+              {t('markdownEditor.save')}
             </button>
           </div>
         </form>

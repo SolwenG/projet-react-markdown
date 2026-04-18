@@ -12,12 +12,12 @@ export default function MarkdownPage() {
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
-        <h1 className="text-3xl font-bold text-gray-800">{t('markdownFiles.pageTitle', 'Markdown Files')}</h1>
+        <h1 className="text-3xl font-bold text-gray-800">{t('markdownFiles.pageTitle')}</h1>
         <button
           onClick={() => navigate('/markdown/new')}
           className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
         >
-          {t('markdownFiles.newFile', 'New File')}
+          {t('markdownFiles.newFile')}
         </button>
       </div>
 
@@ -41,9 +41,9 @@ export default function MarkdownPage() {
                 </button>
               }
               actions={[
-                { label: t('markdownFiles.edit', 'Edit'), onClick: () => navigate(`/markdown/${file.id}`) },
-                { label: t('markdownFiles.exportMd', 'Export (.md)'), onClick: () => exportAsFile(file.body || '', file.name || 'Untitled', 'md') },
-                { label: t('markdownFiles.deleteFile', 'Delete'), onClick: () => handleDelete(file.id), danger: true },
+                { label: t('markdownFiles.edit'), onClick: () => navigate(`/markdown/${file.id}`) },
+                { label: t('markdownFiles.exportMd'), onClick: () => exportAsFile(file.body || '', file.name || 'Untitled', 'md') },
+                { label: t('markdownFiles.deleteFile'), onClick: () => handleDelete(file.id), danger: true },
               ]}
             />
           </li>
@@ -51,7 +51,7 @@ export default function MarkdownPage() {
       </ul>
 
       {allFiles.length === 0 && (
-        <p className="text-gray-500 text-center py-8">{t('markdownFiles.noFilesOrFolders', 'No files found.')}</p>
+        <p className="text-gray-500 text-center py-8">{t('markdownFiles.noFilesFound')}</p>
       )}
     </div>
   )

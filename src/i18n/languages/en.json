@@ -28,7 +28,10 @@
     "exportFile": "Export File as '.mdlc'",
     "noFilesOrFolders": "No files or folders",
     "dragToRoot": "Drag to root",
-    "dropToRoot": "Drop to root"
+    "dropToRoot": "Drop to root",
+    "edit": "Edit",
+    "exportMd": "Export (.md)",
+    "noFilesFound": "No files found."
   },
   "customBlocks": {
     "title": "Custom Blocks",
@@ -106,5 +109,32 @@
   "languageSwitcher": {
     "english": "English",
     "french": "French"
+  },
+  "home": {
+    "title": "Home"
+  },
+  "markdownEditor": {
+    "newFile": "Create New File",
+    "editFile": "Edit File",
+    "edit": "Edit",
+    "preview": "Preview",
+    "exportMd": "Export (.md)",
+    "deleteFile": "Delete",
+    "emptyPreview": "Nothing to preview",
+    "fileName": "Name",
+    "description": "Description",
+    "content": "Content (Markdown)",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "markdownFilesOld": {
+    "loading": "Loading...",
+    "name": "Name:",
+    "description": "Description:",
+    "content": "Content (Markdown):",
+    "createFile": "Create File",
+    "files": "Files:",
+    "deleteAllFiles": "Delete All Files",
+    "delete": "Delete"
   }
 }

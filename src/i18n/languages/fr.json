@@ -28,7 +28,16 @@
     "exportFile": "Exporter le fichier en '.mdlc'",
     "noFilesOrFolders": "Aucun fichier ou dossier",
     "dragToRoot": "Glisser vers la racine",
-    "dropToRoot": "Déposer vers la racine"
+    "dropToRoot": "Déposer vers la racine",
+    "edit": "Modifier",
+    "exportMd": "Exporter (.md)",
+    "noFilesFound": "Aucun fichier trouvé."
+  },
+  "customBlocks": {
+    "title": "Blocs personnalisés",
+    "viewAll": "Voir tout",
+    "shortcut": "Raccourci :",
+    "noCustomBlocks": "Aucun bloc personnalisé"
   },
   "customBlocksPage": {
     "title": "Blocs personnalisés",
@@ -100,5 +109,32 @@
   "languageSwitcher": {
     "english": "Anglais",
     "french": "Français"
+  },
+  "home": {
+    "title": "Accueil"
+  },
+  "markdownEditor": {
+    "newFile": "Créer un nouveau fichier",
+    "editFile": "Modifier le fichier",
+    "edit": "Modifier",
+    "preview": "Aperçu",
+    "exportMd": "Exporter (.md)",
+    "deleteFile": "Supprimer",
+    "emptyPreview": "Rien à prévisualiser",
+    "fileName": "Nom",
+    "description": "Description",
+    "content": "Contenu (Markdown)",
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  },
+  "markdownFilesOld": {
+    "loading": "Chargement...",
+    "name": "Nom :",
+    "description": "Description :",
+    "content": "Contenu (Markdown) :",
+    "createFile": "Créer un fichier",
+    "files": "Fichiers :",
+    "deleteAllFiles": "Supprimer tous les fichiers",
+    "delete": "Supprimer"
   }
 }

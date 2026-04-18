@@ -2,10 +2,12 @@
 import { useState } from 'react'
 import { marked } from 'marked'
 import useMarkdownFiles from '../../hooks/useMarkdownFiles.js'
+import { useTranslation } from 'react-i18next'
 //#endregion
 
 function Markdown() {
   //#region States
+  const { t } = useTranslation()
   const {
     files,
     totalFiles,
@@ -34,7 +36,7 @@ function Markdown() {
   //Render
   return (
     <div className="p-8">
-      {loading && <p>Loading...</p>}
+      {loading && <p>{t('markdownFilesOld.loading')}</p>}
       <div
         className="p-6 bg-white border border-gray-200 rounded-lg mb-8 prose max-w-none"
         dangerouslySetInnerHTML={{
@@ -49,7 +51,7 @@ function Markdown() {
       >
         <div className="flex flex-col gap-2">
           <label htmlFor="name" className="font-semibold text-gray-700">
-            Name:
+            {t('markdownFilesOld.name')}
           </label>
           <input
             id="name"
@@ -61,7 +63,7 @@ function Markdown() {
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="description" className="font-semibold text-gray-700">
-            Description:
+            {t('markdownFilesOld.description')}
           </label>
           <textarea
             id="description"
@@ -72,7 +74,7 @@ function Markdown() {
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="body" className="font-semibold text-gray-700">
-            Content (Markdown):
+            {t('markdownFilesOld.content')}
           </label>
           <textarea
             id="body"
@@ -86,21 +88,21 @@ function Markdown() {
           type="submit"
           className="self-start px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
         >
-          Create File
+          {t('markdownFilesOld.createFile')}
         </button>
       </form>
 
       <div className="mt-8 pt-8 border-t border-gray-200">
         <details open>
           <summary className="cursor-pointer text-xl font-semibold mb-4 text-gray-800">
-            Files: {totalFiles}
+            {t('markdownFilesOld.files')} {totalFiles}
           </summary>
           <button
             type="button"
             onClick={handleDeleteAll}
             className="mb-4 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600"
           >
-            Delete All Files
+            {t('markdownFilesOld.deleteAllFiles')}
           </button>
           <ul className="flex flex-col gap-2">
             {files.map((file) => (
@@ -116,7 +118,7 @@ function Markdown() {
                   onClick={() => handleDelete(file.id)}
                   className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600"
                 >
-                  Delete
+                  {t('markdownFilesOld.delete')}
                 </button>
               </li>
             ))}
