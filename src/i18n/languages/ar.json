@@ -1,0 +1,153 @@
+{
+  "app": {
+    "title": "تطبيق رائع"
+  },
+  "leftDrawer": {
+    "import": "استيراد",
+    "importMarkdownFile": "استيراد ملف Markdown",
+    "importCustomBlock": "استيراد كتلة مخصصة",
+    "importImage": "استيراد صورة"
+  },
+  "markdownFiles": {
+    "title": "ملفات Markdown",
+    "pageTitle": "ملفات Markdown",
+    "viewAll": "عرض الكل",
+    "viewFile": "عرض الملف",
+    "newFile": "ملف جديد",
+    "newFolder": "مجلد جديد",
+    "folderName": "اسم المجلد",
+    "fileName": "اسم الملف",
+    "create": "إنشاء",
+    "cancel": "إلغاء",
+    "renameFolder": "إعادة تسمية المجلد",
+    "deleteFolder": "حذف المجلد",
+    "importFile": "استيراد ملف",
+    "addNewFile": "إضافة ملف جديد",
+    "addNewFolder": "إضافة مجلد جديد",
+    "renameFile": "إعادة تسمية الملف",
+    "deleteFile": "حذف الملف",
+    "exportFile": "تصدير الملف بصيغة '.mdlc'",
+    "noFilesOrFolders": "لا توجد ملفات أو مجلدات",
+    "dragToRoot": "اسحب إلى الجذر",
+    "dropToRoot": "أفلت في الجذر",
+    "name": "الاسم",
+    "description": "الوصف",
+    "date": "التاريخ",
+    "import": "استيراد",
+    "edit": "تعديل",
+    "exportMd": "تصدير (.md)",
+    "content": "المحتوى (Markdown)",
+    "preview": "معاينة",
+    "save": "حفظ",
+    "emptyPreview": "لا يوجد شيء لمعاينته",
+    "noFilesFound": "لم يتم العثور على ملفات."
+  },
+  "customBlocks": {
+    "title": "كتل مخصصة",
+    "viewAll": "عرض الكل",
+    "shortcut": "اختصار:",
+    "noCustomBlocks": "لا توجد كتل مخصصة بعد",
+    "insertHint": "انقر للإدراج في المحرر"
+  },
+  "customBlocksPage": {
+    "title": "كتل مخصصة",
+    "sortByDate": "فرز حسب التاريخ",
+    "sortByName": "فرز حسب الاسم",
+    "import": "استيراد",
+    "exportAll": "تصدير الكل",
+    "new": "جديد"
+  },
+  "gallery": {
+    "title": "معرض الصور",
+    "viewAll": "عرض الكل",
+    "noImages": "لا توجد صور بعد",
+    "importImage": "استيراد صورة",
+    "cancel": "إلغاء",
+    "selectImagesToExport": "حدد الصور المراد تصديرها",
+    "export": "تصدير",
+    "loading": "جارٍ التحميل...",
+    "addFirstImage": "دعنا نضيف صورتك الأولى!",
+    "insertHint": "انقر للإدراج في المحرر"
+  },
+  "galleryActions": {
+    "export": "تصدير",
+    "rename": "إعادة تسمية",
+    "delete": "حذف"
+  },
+  "importModal": {
+    "importImages": "استيراد صور",
+    "importMarkdownFiles": "استيراد ملفات Markdown",
+    "importCustomBlocks": "استيراد كتل مخصصة",
+    "selectFolder": "حدد مجلدا",
+    "root": "الجذر",
+    "dropFiles": "أفلت الملفات هنا...",
+    "dragAndDrop": "اسحب وأفلت الملفات هنا، أو انقر للتحديد",
+    "imageTypes": "ملفات .png, .jpg, .jpeg, .webp, .img.mdlc, .imgs.mdlc",
+    "markdownTypes": "ملفات .md",
+    "customBlockTypes": "ملفات .part.mdlc, .parts.mdlc",
+    "invalidFileType": "نوع ملف غير صالح. يرجى المحاولة مرة أخرى.",
+    "noNewBlocks": "لا توجد كتل جديدة لاستيرادها (جميعها موجودة بالفعل)"
+  },
+  "blockCreate": {
+    "editBlock": "تعديل الكتلة",
+    "newBlock": "كتلة جديدة",
+    "name": "الاسم",
+    "optional": "(اختياري)",
+    "namePlaceholder": "مثال: مقدمة",
+    "description": "الوصف",
+    "descriptionPlaceholder": "مثال: كتلة مقدمة المستند",
+    "content": "محتوى Markdown",
+    "contentPlaceholder": "مثال: ## مقدمة\nمرحبا بك في...",
+    "shortcut": "اختصار",
+    "shortcutHint": "(اختياري — اضغط على مفتاح)",
+    "shortcutPlaceholder": "مثال: ctrl+k",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "create": "إنشاء"
+  },
+  "blockRow": {
+    "export": "تصدير",
+    "edit": "تعديل",
+    "delete": "حذف"
+  },
+  "blockTable": {
+    "noCustomBlocks": "لا توجد كتل مخصصة",
+    "createFirstBlock": "أنشئ كتلتك الأولى باستخدام زر +",
+    "name": "الاسم",
+    "description": "الوصف",
+    "shortcut": "اختصار"
+  },
+  "languageSwitcher": {
+    "english": "الإنجليزية",
+    "french": "الفرنسية",
+    "arabic": "العربية"
+  },
+  "home": {
+    "title": "مرحبًا بك في تطبيق رائع!",
+    "description": "تطبيق لإدارة ملفات Markdown الخاصة بك، وإنشاء كتل مخصصة، وتنظيم معرض الصور الخاص بك."
+  },
+  "markdownEditor": {
+    "newFile": "إنشاء ملف جديد",
+    "editFile": "تعديل الملف",
+    "edit": "تعديل",
+    "preview": "معاينة",
+    "exportMd": "تصدير (.md)",
+    "deleteFile": "حذف",
+    "emptyPreview": "لا يوجد شيء لمعاينته",
+    "fileName": "الاسم",
+    "description": "الوصف",
+    "content": "المحتوى (Markdown)",
+    "cancel": "إلغاء",
+    "save": "حفظ"
+  },
+  "markdownFilesOld": {
+    "loading": "جارٍ التحميل...",
+    "name": "الاسم:",
+    "description": "الوصف:",
+    "content": "المحتوى (Markdown):",
+    "createFile": "إنشاء ملف",
+    "files": "الملفات:",
+    "deleteAllFiles": "حذف جميع الملفات",
+    "delete": "حذف"
+  }
+}
