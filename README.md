@@ -5,22 +5,68 @@
 - Jérémy Duflot
 - Solène Gouin
 
-## React + Vite
+## Utilisation/Fonctionnement de l'app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dans notre app, on peut :
 
-Currently, two official plugins are available:
+- changer de langue avec les trois boutons en bas du volet de gauche
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Volet de gauche
 
-## React Compiler
+- importer :
+  - un fichier en '.md'
+- Créer un dossier de fichiers en '.md'
+- Remanier l'arborescence de fichiers en drag and drop
+- Via les 3 petits points sur chaque fichier on peut :
+  - Le voir,
+  - Le renommer,
+  - L'exporter,
+  - Le supprimer
+- Via les 3 petits points sur chaque dossier on peut :
+  - Y importer un fichier;
+  - Renommer le dossier,
+  - Y créer un dossier
+  - Y ajouter un fichier en '.md'
+  - Le supprimer
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Fichiers markdown
 
-## Expanding the ESLint configuration
+- importer :
+  - un fichier en '.md'
+- Voir la liste de tous les fichiers .md de l'app
+- Via les 3 petits points sur chaque fichier on peut :
+  - Le voir,
+  - Le renommer,
+  - L'exporter,
+  - Le supprimer
+- Dans l'édition d'un fichier
+  - on peut avoir une preview de markdown
+  - on peut insérer :
+    - une image en cliquant dessus depuis le volet de gauche (ne sera visible qu'en preview)
+    - un bloc custom via le raccourci indiqué, ou en cliquant dessus, il ira se loger là où est le curseur
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Blocs customs
+
+- Importer un bloc custom en 'part.mdlc' ou plusieurs en '.parts.mdlc'
+- Voir tous les blocs customs de notre app
+- Cliquer sur un bloc, pour se rendre sur la liste de tous les blocs
+- Éditer un bloc custom en cliquant sur les 3 petits points
+- Exporter ce bloc
+- Tous les exporter en '.parts.mdlc'
+- Les trier par date de création ou nom
+- Supprimer un bloc
+- On peut en créer un depuis la liste de tous les
+
+### Galerie d'images
+
+- Importer une image en '.img.mdlc'
+- Voir toutes les images de notre app
+- Cliquer sur une image, pour se rendre sur la liste des images
+- Sélectionner la ou les images à exporter en '.img.mdlc' ou 'imgs.mdlc'
+- Depuis les 3 petits points :
+  - Renommer une image
+  - Supprimer une image
+  - Exporter une image
 
 ## Répartition des tâches
 
