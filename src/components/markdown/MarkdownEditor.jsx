@@ -101,9 +101,9 @@ export default function MarkdownEditor() {
   }, [handleInsertBlock])
 
   let previewContent =
-    body || `# ${t('markdownFiles.emptyPreview', 'Nothing to preview')}`
+    body || `# ${t('markdownEditor.emptyPreview', 'Nothing to preview')}`
   images.forEach((img) => {
-    previewContent = previewContent.split(`!${img.name}`).join(`!${img.name}`)
+    previewContent = previewContent.replace(`!${img.name}`, `![${img.name}](${img.base64})`)
   })
 
   return (
@@ -156,9 +156,7 @@ export default function MarkdownEditor() {
         <div
           className="p-8 bg-white border border-gray-200 rounded-xl shadow-sm prose max-w-none"
           dangerouslySetInnerHTML={{
-            __html: marked.parse(
-              body || `# ${t('markdownEditor.emptyPreview')}`
-            ),
+            __html: marked.parse(previewContent),
           }}
         />
       ) : (
