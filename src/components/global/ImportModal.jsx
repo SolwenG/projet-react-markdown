@@ -146,7 +146,6 @@ export default function ImportModal({
       } else if (mode === 'markdown') {
         await processMarkdownFiles(acceptedFiles)
         onClose()
-        window.dispatchEvent(new CustomEvent('markdownImportComplete'))
       } else {
         const success = await processCustomBlocks(acceptedFiles)
         if (success) {
