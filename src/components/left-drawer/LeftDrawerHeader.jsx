@@ -39,6 +39,7 @@ export default function LeftDrawerHeader({
       <button
         onClick={() => navigate('/')}
         className="text-xl font-bold text-gray-800 cursor-pointer hover:text-gray-900 bg-transparent border-0 p-0"
+        title={t('app.homeTooltip')}
       >
         {t('app.title')}
       </button>

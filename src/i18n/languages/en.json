@@ -1,6 +1,11 @@
 {
   "app": {
-    "title": "Super App"
+    "title": "Super App",
+    "homeTooltip": "Back to home"
+  },
+  "theme": {
+    "enableDark": "Enable dark theme",
+    "enableLight": "Enable light theme"
   },
   "leftDrawer": {
     "import": "Import",
@@ -66,7 +71,6 @@
     "selectImagesToExport": "Select images to export",
     "export": "Export",
     "loading": "Loading...",
-    "addFirstImage": "Let's add your first image !",
     "insertHint": "Click to insert into editor"
   },
   "galleryActions": {
@@ -99,7 +103,6 @@
     "content": "Markdown content",
     "contentPlaceholder": "ex: ## Introduction\nWelcome to...",
     "shortcut": "Shortcut",
-    "shortcutHint": "(optional — press a key)",
     "shortcutPlaceholder": "ex: ctrl+k",
     "cancel": "Cancel",
     "save": "Save",
@@ -123,7 +126,7 @@
   },
   "home": {
     "title": "Welcome to Super App!",
-    "description": "An app to manage your Markdown files, create custom blocks, and organize your image gallery."
+    "description": "A super app to manage your super Markdown files, create super custom blocks, and super organize your super image gallery."
   },
   "markdownEditor": {
     "newFile": "Create New File",

@@ -6,20 +6,23 @@ import GalleryPage from './pages/GalleryPage'
 import './i18n/config.js'
 import Home from './pages/Home'
 import MarkdownEditor from './components/markdown/MarkdownEditor'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 
 export default function App() {
   return (
-    <div className="flex min-h-screen bg-white">
-      <LeftDrawer />
-      <main className="flex-1 overflow-auto">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/markdown" element={<MarkdownPage />} />
-          <Route path="/markdown/:id" element={<MarkdownEditor />} />
-          <Route path="/custom-blocks" element={<CustomBlocksPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-        </Routes>
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="flex min-h-screen bg-white dark:bg-dark-bg">
+        <LeftDrawer />
+        <main className="flex-1 overflow-auto">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/markdown" element={<MarkdownPage />} />
+            <Route path="/markdown/:id" element={<MarkdownEditor />} />
+            <Route path="/custom-blocks" element={<CustomBlocksPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+          </Routes>
+        </main>
+      </div>
+    </ThemeProvider>
   )
 }

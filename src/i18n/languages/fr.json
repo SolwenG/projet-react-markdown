@@ -1,6 +1,11 @@
 {
   "app": {
-    "title": "Super App"
+    "title": "Super App",
+    "homeTooltip": "Retour vers l'accueil"
+  },
+  "theme": {
+    "enableDark": "Mettre en theme sombre",
+    "enableLight": "Mettre en theme clair"
   },
   "leftDrawer": {
     "import": "Importer",
@@ -66,7 +71,6 @@
     "selectImagesToExport": "Sélectionner des images à exporter",
     "export": "Exporter",
     "loading": "Chargement...",
-    "addFirstImage": "Ajoutons votre première image !",
     "insertHint": "Cliquez pour insérer dans l'éditeur"
   },
   "galleryActions": {
@@ -99,7 +103,6 @@
     "content": "Contenu markdown",
     "contentPlaceholder": "ex: ## Introduction\nBienvenue dans...",
     "shortcut": "Raccourci",
-    "shortcutHint": "(optionnel — appuie sur une touche)",
     "shortcutPlaceholder": "ex: ctrl+k",
     "cancel": "Annuler",
     "save": "Enregistrer",

@@ -14,28 +14,30 @@ export default function GalleryToolbar({
 
   return (
     <>
-      <button
-        onClick={() => importModal.open()}
-        className="px-4 py-2 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-colors"
-      >
-        {t('gallery.importImage')}
-      </button>
       {hasItems && (
         <button
           onClick={onToggleSelectionMode}
-          className="px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
+          className="px-4 py-2 bg-white border border-gray-300 text-sm font-semibold rounded-lg hover:bg-gray-100 transition-colors"
         >
-          {selectionMode ? t('gallery.cancel') : t('gallery.selectImagesToExport')}
+          {selectionMode
+            ? t('gallery.cancel')
+            : t('gallery.selectImagesToExport')}
         </button>
       )}
       {selectionMode && selectedCount > 0 && (
         <button
           onClick={onExportSelected}
-          className="px-4 py-2 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors"
+          className="px-4 py-2 bg-white border border-gray-300 text-sm font-semibold rounded-lg hover:bg-gray-100 transition-colors"
         >
           {t('gallery.export')} ({selectedCount})
         </button>
       )}
+      <button
+        onClick={() => importModal.open()}
+        className="px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
+      >
+        {t('gallery.importImage')}
+      </button>
       <ImportModal
         isOpen={importModal.isOpen}
         onClose={() => importModal.close()}

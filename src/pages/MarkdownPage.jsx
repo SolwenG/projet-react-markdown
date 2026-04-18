@@ -59,7 +59,7 @@ export default function MarkdownPage() {
           {allFiles.map((file) => (
             <div
               key={file.id}
-              className="grid grid-cols-[2fr_3fr_1fr_40px] items-center px-6 py-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-colors"
+              className="grid grid-cols-[2fr_3fr_1fr_40px] items-center px-6 py-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-100 transition-colors"
             >
               <span
                 className="text-sm text-gray-900 font-medium cursor-pointer hover:underline"

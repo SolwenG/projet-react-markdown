@@ -186,7 +186,7 @@ export default function ImportModal({
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-2xl">
+      <div className="bg-white rounded-lg p-6 w-full max-w-2xl dark:bg-gray-900 dark:text-white">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">{getTitle()}</h2>
           <button
@@ -213,7 +213,7 @@ export default function ImportModal({
                   e.target.value ? Number(e.target.value) : null
                 )
               }
-              className="w-full px-3 py-2 border rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm"
             >
               <option value="">{t('importModal.root')}</option>
               {folders.map((folder) => {
