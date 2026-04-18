@@ -29,7 +29,8 @@ async function updateMdFile(id, fileDetails) {
 }
 
 async function getAllFiles() {
-  return await database.getAllFromIndex('files', 'date')
+  const files = await database.getAll('files')
+  return files.sort((a, b) => a.date - b.date)
 }
 
 async function deleteAllFiles() {
