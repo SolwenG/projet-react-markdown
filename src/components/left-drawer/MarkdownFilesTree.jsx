@@ -44,18 +44,7 @@ export default function MarkdownFilesTree() {
   const [activeId, setActiveId] = useState(null)
 
   useEffect(() => {
-    dispatch(fetchMarkdownFiles())
     dispatch(fetchFolders())
-  }, [dispatch])
-
-  useEffect(() => {
-    const handleImportComplete = () => {
-      dispatch(fetchMarkdownFiles())
-    }
-    window.addEventListener('markdownImportComplete', handleImportComplete)
-    return () => {
-      window.removeEventListener('markdownImportComplete', handleImportComplete)
-    }
   }, [dispatch])
 
   const toggleFolder = (folderId) => {

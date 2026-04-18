@@ -7,7 +7,7 @@ async function createMdFile(fileDetails) {
     name: name || `New File ${date}`,
     body: body || '# Hello World',
     description: description || 'A new markdown file',
-    folderId: folderId || null,
+    folderId: folderId ? Number(folderId) : null,
     date: date,
   })
   console.log(`File added with id: ${newId}`)

@@ -146,7 +146,6 @@ export default function ImportModal({
       } else if (mode === 'markdown') {
         await processMarkdownFiles(acceptedFiles)
         onClose()
-        window.dispatchEvent(new CustomEvent('markdownImportComplete'))
       } else {
         const success = await processCustomBlocks(acceptedFiles)
         if (success) {
@@ -209,7 +208,11 @@ export default function ImportModal({
             <select
               id="folder-select"
               value={selectedFolderId || ''}
-              onChange={(e) => setSelectedFolderId(e.target.value || null)}
+              onChange={(e) =>
+                setSelectedFolderId(
+                  e.target.value ? Number(e.target.value) : null
+                )
+              }
               className="w-full px-3 py-2 border rounded-lg"
             >
               <option value="">{t('importModal.root')}</option>
