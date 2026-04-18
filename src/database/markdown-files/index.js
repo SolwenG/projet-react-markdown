@@ -37,4 +37,42 @@ async function deleteAllFiles() {
   await database.clear('files')
 }
 
-export { getAllFiles, deleteFileById, createMdFile, deleteAllFiles, updateMdFile }
+async function createFolder(folderDetails) {
+  const { name, parentId } = folderDetails
+  const newId = await database.add('folders', {
+    name: name || 'New Folder',
+    parentId: parentId || null,
+    createdAt: new Date().toISOString(),
+  })
+  const newFolder = await database.get('folders', newId)
+  return newFolder
+}
+
+async function getAllFolders() {
+  const folders = await database.getAll('folders')
+  return folders
+}
+
+async function updateFolder(id, folderDetails) {
+  const existing = await database.get('folders', id)
+  if (!existing) throw new Error('Folder not found')
+  const updated = { ...existing, ...folderDetails }
+  await database.put('folders', updated)
+  return updated
+}
+
+async function deleteFolderById(id) {
+  await database.delete('folders', id)
+}
+
+export {
+  getAllFiles,
+  deleteFileById,
+  createMdFile,
+  deleteAllFiles,
+  updateMdFile,
+  createFolder,
+  getAllFolders,
+  updateFolder,
+  deleteFolderById,
+}

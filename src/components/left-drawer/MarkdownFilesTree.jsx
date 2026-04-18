@@ -7,12 +7,13 @@ import {
   addFolder,
   deleteFolder,
   renameFolder,
-  renameFile,
-  moveFile,
+  renameFile as renameFileThunk,
+  moveFile as moveFileThunk,
   moveFolder,
   addMarkdownFile,
   removeMarkdownFile,
   fetchMarkdownFiles,
+  fetchFolders,
 } from '../../store/slices/markdownSlice.js'
 import { useNavigate } from 'react-router-dom'
 import ImportModal from '../global/ImportModal.jsx'
@@ -44,6 +45,7 @@ export default function MarkdownFilesTree() {
 
   useEffect(() => {
     dispatch(fetchMarkdownFiles())
+    dispatch(fetchFolders())
   }, [dispatch])
 
   const toggleFolder = (folderId) => {
@@ -58,7 +60,7 @@ export default function MarkdownFilesTree() {
       if (type === 'folder') {
         dispatch(renameFolder({ id, name: editName }))
       } else {
-        dispatch(renameFile({ id, name: editName }))
+        dispatch(renameFileThunk({ id, name: editName }))
       }
       setEditingId(null)
       setEditName('')
@@ -134,7 +136,7 @@ export default function MarkdownFilesTree() {
     if (!activeData || !overData) return
 
     if (activeData.type === 'file' && overData.type === 'folder') {
-      dispatch(moveFile({ fileId: activeData.id, targetFolderId: overData.id }))
+      dispatch(moveFileThunk({ fileId: activeData.id, targetFolderId: overData.id }))
     } else if (activeData.type === 'folder' && overData.type === 'folder') {
       if (
         activeData.id !== overData.id &&
@@ -146,7 +148,7 @@ export default function MarkdownFilesTree() {
       }
     } else if (overData.type === 'root') {
       if (activeData.type === 'file') {
-        dispatch(moveFile({ fileId: activeData.id, targetFolderId: null }))
+        dispatch(moveFileThunk({ fileId: activeData.id, targetFolderId: null }))
       } else if (activeData.type === 'folder') {
         dispatch(moveFolder({ folderId: activeData.id, targetFolderId: null }))
       }
