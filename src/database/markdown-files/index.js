@@ -44,13 +44,11 @@ async function createFolder(folderDetails) {
     parentId: parentId || null,
     createdAt: new Date().toISOString(),
   })
-  const newFolder = await database.get('folders', newId)
-  return newFolder
+  return await database.get('folders', newId)
 }
 
 async function getAllFolders() {
-  const folders = await database.getAll('folders')
-  return folders
+  return await database.getAll('folders')
 }
 
 async function updateFolder(id, folderDetails) {
