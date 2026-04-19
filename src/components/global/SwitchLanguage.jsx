@@ -37,6 +37,17 @@ export default function SwitchLanguage() {
         >
           FR
         </button>
+        <button
+          onClick={() => changeLanguage('ar')}
+          className={`px-3 py-1 text-sm rounded ${
+            i18n.language === 'ar'
+              ? 'bg-gray-600 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+          title={t('languageSwitcher.arabic')}
+        >
+          AR
+        </button>
       </div>
     </div>
   )

@@ -7,12 +7,13 @@
 
 ## Utilisation/Fonctionnement de l'app
 
-### Pour utiliser l'app : faire `npm ci` la première fois, puis `npm run dev` pour la démarrer
+### Pour utiliser l'app : faire `npm install` la première fois, puis `npm run dev` pour la démarrer
 
 ### Bonus/Clin d'oeil
 
 - changer de langue avec les boutons en bas du volet de gauche
 - passer l'application en theme dark ou light avec le bouton toggle en bas du volet de gauche
+- L'une des 3 langues est l'arabe, on trouvait ça plutôt marrant de vous faire un clin d'oeil par rapport à l'info que vous nous avez donnée en début de semaine. Si ça peut faire plaisir à votre femme que vous pratiquiez pendant la correction de notre projet (comme nous n'avions pas de professionnels en arabe dans le groupe, c'est bien entendu l'IA qui nous a proposé les traductions utilisées par I18n)
 
 Dans notre app, on peut :
 
