@@ -7,6 +7,8 @@
 
 ## Utilisation/Fonctionnement de l'app
 
+### Pour utiliser l'app : faire `npm install` la première fois, puis `npm run dev` pour la démarrer.
+
 Dans notre app, on peut :
 
 - changer de langue avec les boutons en bas du volet de gauche
