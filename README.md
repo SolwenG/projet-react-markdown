@@ -7,12 +7,14 @@
 
 ## Utilisation/Fonctionnement de l'app
 
-### Pour utiliser l'app : faire `npm install` la première fois, puis `npm run dev` pour la démarrer.
+### Pour utiliser l'app : faire `npm ci` la première fois, puis `npm run dev` pour la démarrer
 
-Dans notre app, on peut :
+### Bonus/Clin d'oeil
 
 - changer de langue avec les boutons en bas du volet de gauche
-- passer l'application en theme dark ou light avec le bouton toogle en bas du volet de gauche
+- passer l'application en theme dark ou light avec le bouton toggle en bas du volet de gauche
+
+Dans notre app, on peut :
 
 ### Volet de gauche
 
