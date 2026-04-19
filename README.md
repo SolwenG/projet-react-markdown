@@ -59,11 +59,11 @@ Dans notre app, on peut :
 - Tous les exporter en '.parts.mdlc'
 - Les trier par date de création ou nom
 - Supprimer un bloc
-- On peut en créer un depuis la liste de tous les
+- On peut en créer un depuis la liste de tous les blocs
 
 ### Galerie d'images
 
-- Importer une image en '.img.mdlc'
+- Importer une image en '.img.mdlc' ou plusieurs images en '.imgs.mdlc'
 - Voir toutes les images de notre app
 - Cliquer sur une image, pour se rendre sur la liste des images
 - Sélectionner la ou les images à exporter en '.img.mdlc' ou 'imgs.mdlc'
