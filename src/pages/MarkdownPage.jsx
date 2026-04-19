@@ -9,7 +9,7 @@ import { exportAsFile } from '../utils/mdlcFiles.js'
 export default function MarkdownPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { allFiles, handleDelete } = useMarkdownFiles()
+  const { allFiles, folders, handleDelete } = useMarkdownFiles()
   const [importModalOpen, setImportModalOpen] = useState(false)
 
   return (
@@ -51,7 +51,7 @@ export default function MarkdownPage() {
               {t('markdownFiles.description', 'Description')}
             </span>
             <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              {t('markdownFiles.date', 'Date')}
+              {t('markdownFiles.folder', 'Folder')}
             </span>
             <span />
           </div>
@@ -71,7 +71,9 @@ export default function MarkdownPage() {
                 {file.description || '—'}
               </span>
               <span className="text-sm text-gray-600">
-                {file.date ? new Date(file.date).toLocaleDateString() : '—'}
+                {file.folderId
+                  ? folders.find((f) => f.id === file.folderId)?.name || '—'
+                  : t('markdownFiles.root', 'Root')}
               </span>
 
               <div className="flex justify-end">
